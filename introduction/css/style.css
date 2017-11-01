@@ -264,7 +264,11 @@ hr {
     position:relative;
     z-index:120;
 }
-
+.showcase-section {
+	display:block;
+    position:relative;
+    z-index:120;
+}
 
 .section-heading h2 {
 	font-size: 40px;
