@@ -24,8 +24,8 @@ figure {
 
 #slideshow {
 	position: relative;
-	width: 640px;
-	height: 310px;
+	width: 800px;
+	height: 400px;
 	padding: 15px;
 	border: 1px solid #ddd;
 	margin: 0 auto 2em;
@@ -180,8 +180,8 @@ figure {
 
 #slideshow .container {
 	position:relative;
-	width: 640px;
-	height: 310px;
+	width: 800px;
+	height: 400px;
 	overflow: hidden;
 }
 /* timeline base */
@@ -233,13 +233,7 @@ figure {
 	-moz-transition: opacity 1s;
 	transition: opacity 1s;
 }
-#slideshow .c_slider {
-	position: absolute;
-	left:0; top:0;
-	width: 400%;
-	height: 310px;
-	background: url(img/dummy-640x310-1.jpg) 0 0 no-repeat, url(img/dummy-640x310-2.jpg) 640px 0 no-repeat, url(img/dummy-640x310-3.jpg) 1280px 0 no-repeat, url(img/dummy-640x310-4.jpg) 1920px 0 no-repeat;
-}
+
 .sl_i:target ~ #slideshow .c_slider {
 	-webkit-transition: background 1s;
 	-moz-transition: background 1s;
@@ -309,20 +303,6 @@ figure {
 	-moz-animation: figcaptionner 32s infinite;
 	animation: figcaptionner 32s infinite;
 }
-
-@-webkit-keyframes timeliner {
-	0%, 25%, 50%, 75%, 100%	{ width: 0;		}
-	20%, 45%, 70%, 90%		{ width: 640px;	}
-}
-@-moz-keyframes timeliner {
-	0%, 25%, 50%, 75%, 100%	{ width: 0;		}
-	20%, 45%, 70%, 90%		{ width: 640px;	}
-}
-@keyframes timeliner {
-	0%, 25%, 50%, 75%, 100%	{ width: 0;		}
-	20%, 45%, 70%, 90%		{ width: 640px;	}
-}
-
 
 /* dots styles */
 .dots_commands  {
