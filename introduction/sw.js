@@ -12,7 +12,7 @@ const cacheFile = [
   './js/jquery.scrollTo.js',
   './js/wow.min.js',
   './js/custom.js',
-  './img/*'
+  './img/bg2.jpg'
 ]
 
 const cacheKey = 'demo-app-v1'
