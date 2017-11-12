@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <meta property="og:title" content="NCKU Parking">
@@ -335,6 +335,14 @@
     <script src="js/wow.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="js/custom.js"></script>
+    <!-- slide show-->
+    <script>
+        console.log("width: ", $(window).width());
+        console.log("height: ", $(window).height());
+        if ($(window).width() < 800 || $(window).height() < 400) {
+            document.getElementById("slideshow").style.display = "none";
+        }
+    </script>
 
     <!-- app -->
     <script src="./register.js"></script>

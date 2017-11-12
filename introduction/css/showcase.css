@@ -45,8 +45,6 @@ figure {
 	position: absolute;
 	display:block;
 	bottom:16px;
-	width: 50%;
-	height: 20px;
 	content: " ";
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
