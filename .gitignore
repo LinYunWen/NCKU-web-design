@@ -1,2 +1,4 @@
 .DS_Store
 .git
+back_end/ssl
+back_end/log.txt
