@@ -1,18 +1,18 @@
 const cacheFile = [
-  '../',
-  '../index.html',
-  '../css/bootstrap.min.css',
-  '../font-awesome/css/font-awesome.min.css',
-  '../css/animate.css',
-  '../css/style.css',
-  '../css/color.css',
-  '../css/showcase.css',
-  '../js/jquery.min.js',
-  '../js/jquery.easing.min.js',
-  '../js/jquery.scrollTo.js',
-  '../js/wow.min.js',
-  '../js/custom.js',
-  '../img/bg2.jpg'
+  '',
+  'index.html',
+  'css/bootstrap.min.css',
+  'font-awesome/css/font-awesome.min.css',
+  'css/animate.css',
+  'css/style.css',
+  'css/color.css',
+  'css/showcase.css',
+  'js/jquery.min.js',
+  'js/jquery.easing.min.js',
+  'js/jquery.scrollTo.js',
+  'js/wow.min.js',
+  'js/custom.js',
+  'img/bg2.jpg'
 ]
 
 const cacheKey = 'demo-app-v1'
