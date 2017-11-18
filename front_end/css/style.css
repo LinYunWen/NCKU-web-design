@@ -258,8 +258,8 @@ hr {
 ============================ */
 
 .home-section {
-    padding-top: 110px;
-    padding-bottom: 110px;
+    padding-top: 100px;
+    
 	display:block;
     position:relative;
     z-index:120;
@@ -524,7 +524,7 @@ form#contact-form input:focus,form#contact-form select:focus,form#contact-form t
 
 footer {
 	text-align: center;
-	padding: 50px 0 ;
+	padding: 10px 0 ;
 	
 }
 
