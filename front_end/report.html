@@ -105,7 +105,7 @@
                 <div class="wow fadeInLeft" data-wow-delay="0.2s">
                 <div class="service-box">
                     <div class="service-icon">
-                        <img src="img/team/member1.jpg" height="100%" width="100%" alt="" />
+                        <img id="img" class="illegal-parking" src="img/team/member1.jpg" height="100%" width="100%" alt="" />
                     </div>
                     <div class="service-desc">
                         
@@ -121,11 +121,11 @@
                    
                     <div class="service-desc">
                         <br>
-                        <h3>location</h3>
+                        <h3 id="location">location</h3>
                         <br>
-                        <h3>car no.</h3>
+                        <h3 id="car">car no.</h3>
                         <br>
-                        <h3>time</h3>
+                        <h3 id="time">time</h3>
                 </div>
                 </div>
             </div>
@@ -138,16 +138,16 @@
             
             </div>
             <div class="col-sm-1 col-md-2 col-xs-6">
-                    <img src="img/team/member1.jpg" height="100%" width="100%" alt="" />
+                    <img class="illegal-parking" location="1.location" car="1.car" time="1.time" src="img/team/member1.jpg" height="100%" width="100%" alt="" />
             </div>
             <div class="col-sm-1 col-md-2 col-xs-6">
-                    <img src="img/team/member2.jpg" height="100%" width="100%" alt="" />
+                    <img class="illegal-parking" location="2.location" car="2.car" time="2.time" src="img/team/member2.jpg" height="100%" width="100%" alt="" />
             </div>   
             <div class="col-sm-1 col-md-2 col-xs-6">
-                    <img src="img/team/member3.jpg" height="100%" width="100%"    alt="" />
+                    <img class="illegal-parking" location="3.location" car="3.car" time="3.time"src="img/team/member3.jpg" height="100%" width="100%"    alt="" />
             </div>
             <div class="col-sm-1 col-md-2 col-xs-6">
-                    <img src="img/team/member4.jpg" height="100%" width="100%"    alt="" />
+                    <img class="illegal-parking" location="4.location" car="4.car" time="4.itme" src="img/team/member4.jpg" height="100%" width="100%"    alt="" />
             </div> 
             <div class="col-sm-6 col-md-6">
                 
@@ -206,15 +206,13 @@
                                 
                                     <p>times</p>
                                 
-                            
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-xs-4">
                             <div class="wow fadeInLeft" data-wow-delay="0.2s">
                                 
-                                    <p>times</p>
+                                    <p>car no.</p>
                                 
-                            
                             </div>
                         </div>
                         <div class="col-sm-2 col-md-2">
@@ -239,15 +237,13 @@
                                  
                                     <p>times</p>
                                 
-                            
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-xs-4">
                             <div class="wow fadeInLeft" data-wow-delay="0.2s">
                                   
-                                    <p>times</p>
+                                    <p>car no.</p>
                                 
-                            
                             </div>
                         </div>
                         <div class="col-sm-2 col-md-2">
@@ -277,11 +273,8 @@
                         </div>
                         <div class="col-sm-3 col-md-3 col-xs-4">
                             <div class="wow fadeInLeft" data-wow-delay="0.2s">
-                                                     
-                            
-                                
-                                
-                                    <p>times</p>
+                                 
+                                    <p>car no.</p>
                                 
                             
                             </div>
@@ -325,14 +318,14 @@
             <div class="container">
                     
                     <div class="row">
-                        <form>
+                        <form id="contact-form">
                         <div class="col-sm-2 col-md-2   ">
                               
                         </div>
                         <div class="col-sm-4 col-md-4">
                             <div class="wow fadeInLeft" data-wow-delay="0.2s">
                             
-                                    <img src="img/team/group.jpg" height="100%" width="100%"alt="" />
+                                <input type="file" name="filename" accept="image/jpeg, image/png">
                                 
                                 
                             </div>
@@ -346,17 +339,23 @@
                             
                                 
                                     
-                                        <br>
-                                        <input>
-                                        <br>
-                                        <br>
-                                        <input>
-                                        <br>
-                                        <br>
-                                        <input>
-                                        <br>
-                                        <br>
-                                        <button >submit</button>
+                                <div class="form-group">
+                                    <label for="name">
+                                        Name</label>
+                                    <input type="text" class="form-control" id="upload-name" placeholder="Enter name" required="required" />
+                                </div> 
+                                <div class="form-group">
+                                    <label for="location">
+                                        Location</label>
+                                    <input type="text" class="form-control" id="upload-location" placeholder="Enter location" required="required" />
+                                </div> <div class="form-group">
+                                    <label for="car">
+                                        Car License</label>
+                                    <input type="text" class="form-control" id="upload-car" placeholder="Enter car license  " required="required" />
+                                </div>
+                                
+                                <button type="submit" class="btn btn-skin pull-right" id="btnContactUs">
+                                    Send</button>
                                     
                                
                             </div>
@@ -374,7 +373,7 @@
                         </div>
                     </div>
             
-
+                  
     </section>
 	
 
