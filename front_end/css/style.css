@@ -258,8 +258,8 @@ hr {
 ============================ */
 
 .home-section {
-    padding-top: 110px;
-    padding-bottom: 110px;
+    padding-top: 100px;
+    
 	display:block;
     position:relative;
     z-index:120;
@@ -431,9 +431,36 @@ hr {
 
 .service-icon {
 	margin-bottom: 20px;
-}	
+}
+.NCKU-map {
+    margin-bottom: 20px;
+}
 
-
+/* ===========================
+--- Circle Buttons
+============================ */
+#edit-button.edit-btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 50%;
+  }
+#edit-button.edit-btn-circle.edit-btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+}
+#edit-button {
+    position: fixed;
+    bottom: 3vh;
+    right: 3vh;
+    z-index: 200;
+}
 
 /* ===========================
 --- Contact
@@ -524,7 +551,7 @@ form#contact-form input:focus,form#contact-form select:focus,form#contact-form t
 
 footer {
 	text-align: center;
-	padding: 50px 0 ;
+	padding: 10px 0 ;
 	
 }
 
