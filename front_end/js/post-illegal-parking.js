@@ -1,9 +1,13 @@
 document.getElementById("edit-button").addEventListener("click", showPostSection);
 
 function showPostSection(event) {
-    console.log("click");
     if ($(window).width() > 800) {
-        document.getElementById("post-illegal-parking").style.display = "inline";
+        var section = document.getElementById("post-illegal-parking");
+        if (section.style.display == "none") {
+            section.style.display = "inline";
+            return;
+        }
+        section.style.display = "none";
     } else {
     }
 }
