@@ -2,3 +2,4 @@
 .git
 back_end/ssl
 back_end/log.txt
+back_end/conf.json
