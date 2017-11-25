@@ -291,7 +291,6 @@
             <div class="row">
                 <div class="col-lg-2 col-lg-offset-5">
                     <hr class="marginbot-50">
-                    
                 </div>
             </div> 
     </section>
@@ -299,7 +298,6 @@
     <!-- /Section: Post illegal parking -->
     <button id="edit-button" type="button" class="edit-btn-circle edit-btn-lg"><i class="fa fa-pencil" aria-hidden="true"></i></button>
     <section id="post-illegal-parking" class="home-section text-center bg-gray">
-               
         <div class="heading-about">
                 <div class="container">
                 <div class="row">
@@ -311,7 +309,6 @@
                         By publishing the car license number, it can let the scooter<br>
                         owners know that they do cause lots of disturbance.
                         </p><br>
-                        
                         </div>
                         </div>
                     </div>
@@ -319,55 +316,48 @@
                 </div>
             </div>
             <div class="container">
-                    
                     <div class="row">
                         <form id="contact-form">
                         <div class="col-sm-2 col-md-2   ">
-                              
                         </div>
                         <div class="col-sm-4 col-md-4">
                             <div class="wow fadeInLeft" data-wow-delay="0.2s">
-                            
-                                <input type="file" name="filename" accept="image/jpeg, image/png">
-                                
-                                
+                                <div class="row">
+                                    <div id="upload-picture-div" class="col-md-12">
+                                        <img id="upload-picture-img" src="" width="100%" height="100%">
+                                    </div>
+                                    <input id="upload-picture-button" type="file" name="filename" accept="image/jpeg, image/png">
+                                </div>
                             </div>
-                            
                         </div>
-                      
-                        
-                        
                         <div class="col-sm-4 col-md-4">
                             <div class="wow fadeInUp" data-wow-delay="0.2s">
-                            
-                                
-                                    
                                 <div class="form-group">
-                                    <label for="name">
-                                        Name</label>
+                                    <label for="name">Name</label>
                                     <input type="text" class="form-control" id="upload-name" placeholder="Enter name" required="required" />
                                 </div> 
                                 <div class="form-group">
-                                    <label for="location">
-                                        Location</label>
-                                    <input type="text" class="form-control" id="upload-location" placeholder="Enter location" required="required" />
+                                    <label for="location">Location</label>
+                                    <input type="text" class="form-control" id="upload-location" list="parking-lot" placeholder="Enter location" required="required" />
+                                    <datalist id="parking-lot">
+                                        <option>光復地下停車場</option>
+                                        <option>雲平停車場</option>
+                                        <option>社科院停車場</option>
+                                        <option>資訊地下停車場</option>
+                                        <option>勝後停車場</option>
+                                        <option>其他</option>
+                                    </datalist>
                                 </div> <div class="form-group">
-                                    <label for="car">
-                                        Car License</label>
+                                    <label for="car">Car License</label>
                                     <input type="text" class="form-control" id="upload-car" placeholder="Enter car license  " required="required" />
                                 </div>
-                                
-                                <button type="submit" class="btn btn-skin pull-right" id="btnContactUs">
-                                    Send</button>
-                                    
-                               
+                                <button type="submit" class="btn btn-skin pull-right" id="btnContactUs">Send</button>
                             </div>
                         </div>
                         <div class="col-sm-2 col-md-2">
-                                
                         </div>
                         </form>
-                    </div>		
+                    </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-2 col-lg-offset-5">
@@ -375,9 +365,9 @@
                             <p class="marginbot-50"></p>
                         </div>
                     </div>
-            
-                  
     </section>
+
+
     <input id="use-camera" type="button" value="Start Camera">
     <input id="test" type="button" value="take photo">
     <video id="camera-video" autoplay></video>

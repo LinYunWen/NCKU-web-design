@@ -1,5 +1,6 @@
 const cameraButton = document.querySelector("#use-camera");
-const photoImg = document.getElementById("take-photo");
+// const photoImg = document.querySelector("#take-photo");
+const photoImg = document.querySelector("#upload-picture-img");
 const player = document.querySelector("#camera-video");
 imageCapture = undefined;
 mediaStreamTrack = undefined;
