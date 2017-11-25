@@ -25,6 +25,7 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/color.css" rel="stylesheet">
     <link href="css/post-illegal-parking.css" rel="stylesheet">
+    <link href="css/camera.css" rel="stylesheet">
 
 </head>
 
@@ -369,9 +370,10 @@
 
 
     <input id="use-camera" type="button" value="Start Camera">
-    <input id="test" type="button" value="take photo">
-    <video id="camera-video" autoplay></video>
-    <img id="take-photo" src="">
+    <div id="camera" class="camera-div">
+        <video id="camera-video" autoplay></video>
+    </div>
+    <input id="take-photo" class="take-photo" type="button" value="Take a Photo">
     <div>經度: <span id="startLon"></span></div>
     <div>緯度: <span id="startLat"></span></div>
 

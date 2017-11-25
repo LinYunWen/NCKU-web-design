@@ -14,7 +14,7 @@ function geoSuccess(position) {
     document.getElementById('startLon').textContent = startPos.coords.longitude;
 };
 
-function geoError(position) {
+function geoError(error) {
     console.log('Error occurred. Error code: ' + error.code);
     // error.code can be:
     //   0: unknown error

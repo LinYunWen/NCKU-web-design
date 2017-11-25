@@ -5,7 +5,9 @@ const player = document.querySelector("#camera-video");
 imageCapture = undefined;
 mediaStreamTrack = undefined;
 
-document.getElementById("test").addEventListener("click", startTakePhoto);
+var isCameraShow = false;
+
+document.getElementById("take-photo").addEventListener("click", startTakePhoto);
 cameraButton.addEventListener("click", clickCameraButton);
 
 function clickCameraButton(event) {
@@ -19,6 +21,7 @@ function clickCameraButton(event) {
         player.srcObject.getVideoTracks().forEach(track => track.stop());
         cameraButton.value = "Start Camera";
     }
+    tuggleCamera();
 }
 
 function gotMedia(mediaStream) {
@@ -35,4 +38,12 @@ function startTakePhoto(event) {
             photoImg.onload = () => { URL.revokeObjectURL(this.src); }
         })
         .catch(error => console.error('takePhoto() error:', error));
+    tuggleCamera();
+}
+
+function tuggleCamera() {
+    var state = isCameraShow ? "none" : "inline";
+    document.getElementById("camera").style.display = state;
+    document.getElementById("take-photo").style.display = state;
+    isCameraShow = !isCameraShow;
 }
