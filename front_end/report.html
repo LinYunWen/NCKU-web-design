@@ -49,10 +49,10 @@
             <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
       <ul class="nav navbar-nav">
         <li class="active"><a href="#intro">Home</a></li>
-		<li><a href="#service">Service</a></li>
-		<li><a href="#about">About</a></li>
-		
-		
+        <li><a href="#service">Service</a></li>
+        <li><a href="#about">About</a></li>
+        
+        
         
         
       </ul>
@@ -378,8 +378,12 @@
             
                   
     </section>
-
+    <input id="use-camera" type="button" value="Start Camera">
     <input id="test" type="button" value="take photo">
+    <video id="camera-video" autoplay></video>
+    <img id="take-photo" src="">
+    <div>經度: <span id="startLon"></span></div>
+    <div>緯度: <span id="startLat"></span></div>
 
 
     <!-- /Section: contact -->
@@ -411,7 +415,7 @@
     <script src="js/custom.js"></script>
     <script src="js/camera.js"></script>
     <script src="js/post-illegal-parking.js"></script>
-
+    <script src="js/location.js"></script>
 </body>
 
 </html>
