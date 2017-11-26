@@ -15,7 +15,7 @@ const cacheFile = [
   'img/bg2.jpg'
 ]
 
-const cacheKey = 'demo-app-v1'
+const cacheKey = 'v2.0.1'
 
 // install
 self.addEventListener('install', event => {

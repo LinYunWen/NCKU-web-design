@@ -1,12 +1,12 @@
 {
   "name": "Parking",
   "short_name": "Parking",
-  "start_url": "/",
+  "start_url": "/report.html",
   "display": "standalone",
   "orientation": "portrait",
   "icons": [{
-    "src": "../img/icons/app-icon_144.png",
-    "sizes": "144x144",
+    "src": "../img/icons/logo_192.png",
+    "sizes": "192x192",
     "type": "image/png"
   }]
 }
