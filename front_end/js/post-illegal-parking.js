@@ -16,11 +16,11 @@ function showPostSection(event) {
     isSectionShow = !isSectionShow;
 }
 
-function postSuccess() {
+function postSuccess(result,status,xhr) {
 
 }
 
-function postError() {
+function postError(xhr,status,error) {
     
 }
 
@@ -28,9 +28,11 @@ function sendPost() {
     $.ajax(
         {
             url: "",
-            location: $("#upload-location").val(),
-            name: $("#upload-name").val(),
-            picture: $("#upload-picture-img").attr("src"),
+            data: {
+                location: $("#upload-location").val(),
+                name: $("#upload-name").val(),
+                picture: $("#upload-picture-img").attr("src")
+            },
             success: postSuccess,
             error: postError
         }
