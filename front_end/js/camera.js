@@ -11,15 +11,14 @@ document.getElementById("take-photo").addEventListener("click", startTakePhoto);
 cameraButton.addEventListener("click", clickCameraButton);
 
 function clickCameraButton(event) {
-    if (cameraButton.value == "Start Camera") {
+    if (imageCapture == undefined) {
         navigator.mediaDevices.getUserMedia({video: true})
             .then(gotMedia)
             .catch(error => console.error('getUserMedia() error:', error));
-        cameraButton.value = "Stop Camera";
-    } else {
+    }
+    if (isCameraShow) {
         // Stop all video streams.
         player.srcObject.getVideoTracks().forEach(track => track.stop());
-        cameraButton.value = "Start Camera";
     }
     tuggleCamera();
 }
@@ -39,6 +38,7 @@ function startTakePhoto(event) {
         })
         .catch(error => console.error('takePhoto() error:', error));
     tuggleCamera();
+    tugglePostSection();
 }
 
 function tuggleCamera() {
