@@ -30,9 +30,11 @@ func main() {
         c.HTML(http.StatusOK, "index.html", nil);
     });
 
+    router.GET("/report_illegal", report_illegal);
+
     init_database();
 
-    http.ListenAndServeTLS(":2996", "ssl/certificate.crt", "ssl/private.key", router);
+    http.ListenAndServeTLS(":2997", "ssl/certificate.crt", "ssl/private.key", router);
 }
 
 
@@ -54,6 +56,15 @@ func init_database() {
         panic(err.Error());
     }
     defer db.Close();
+}
+
+func report_illegal(c *gin.Context) {
+    location := c.Query("location");
+    name := c.Query("name");
+    picture := c.Query("picture");
+
+    c.String(http.StatusOK, "location: %s, name: %s, picture: %s\n", location, name, picture);
+    fmt.Printf("location: %s, name: %s, picture: %s\n", location, name, picture);
 }
 
 
