@@ -1,12 +1,17 @@
-document.getElementById("edit-button").addEventListener("click", showPostSection);
+document.getElementById("edit-button").addEventListener("click", clickEditButton);
+document.getElementById("post-button").addEventListener("click", clickPostButton);
 
 var isSectionShow = false;
 
-function showPostSection(event) {
+function clickEditButton(event) {
+    document.getElementById("use-camera").click();
+    // tugglePostSection();
+}
+
+function tugglePostSection() {
     var section = document.getElementById("post-illegal-parking");
     var state = isSectionShow ? "none" : "inline";
-    if ($(window).width() > 800) {
-    } else {
+    if ($(window).width() < 800) {
         section.style.height = "100vh";
         section.style.width = "100vw";
         section.style.bottom = "0";
@@ -27,8 +32,9 @@ function postError(xhr,status,error) {
 function sendPost() {
     $.ajax(
         {
-            url: "",
+            url: "/report_illegal",
             data: {
+                method: "POST",
                 location: $("#upload-location").val(),
                 name: $("#upload-name").val(),
                 picture: $("#upload-picture-img").attr("src")
@@ -37,4 +43,10 @@ function sendPost() {
             error: postError
         }
     )
+}
+
+function clickPostButton(event) {
+    // event.preventDefault();
+    // sendPost();
+    tugglePostSection();
 }
