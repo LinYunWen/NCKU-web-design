@@ -1,0 +1,17 @@
+.camera-div {
+    display: none;
+    z-index: 300;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    position: fixed;
+}
+
+.take-photo {
+    display: none;
+    z-index: 350;
+    position: fixed;
+    bottom: 10vh;
+    left: 40vw;
+}

@@ -3,4 +3,5 @@
     bottom: 18vh;
     left: 10vw;
     z-index: 250;
+    display: none;
 }
