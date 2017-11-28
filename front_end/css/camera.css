@@ -15,3 +15,11 @@
     bottom: 10vh;
     left: 40vw;
 }
+
+.change-camera {
+    display: none;
+    z-index: 350;
+    position: fixed;
+    bottom: 10vh;
+    left: 30vw;
+}
