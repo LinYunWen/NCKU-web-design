@@ -13,7 +13,8 @@
     z-index: 350;
     position: fixed;
     bottom: 10vh;
-    left: 40vw;
+    left: 45vw;
+    margin:0 auto;
 }
 
 .change-camera {
@@ -21,5 +22,6 @@
     z-index: 350;
     position: fixed;
     bottom: 10vh;
-    left: 30vw;
+    left: 10vw;
+    margin:0 auto;
 }
