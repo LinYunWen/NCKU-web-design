@@ -21,11 +21,11 @@ function tugglePostSection() {
     isSectionShow = !isSectionShow;
 }
 
-function postSuccess(result,status,xhr) {
+function postSuccess(result, status, xhr) {
 
 }
 
-function postError(xhr,status,error) {
+function postError(xhr, status, error) {
     
 }
 
