@@ -32,9 +32,9 @@ function postError(xhr, status, error) {
 function sendPost() {
     $.ajax(
         {
+            method: "GET",
             url: "/report_illegal",
             data: {
-                method: "POST",
                 location: $("#upload-location").val(),
                 name: $("#upload-name").val(),
                 picture: $("#upload-picture-img").attr("src")
