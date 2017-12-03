@@ -48,5 +48,6 @@ function sendPost() {
 function clickPostButton(event) {
     // event.preventDefault();
     // sendPost();
+    mediaStreamTrack.stop();
     tugglePostSection();
 }

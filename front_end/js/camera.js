@@ -13,7 +13,12 @@ var deviceIds = [];
 var deviceIndex = 0;
 
 document.getElementById("take-photo").addEventListener("click", startTakePhoto);
+document.getElementById("upload-photo").addEventListener("click", uploadPhoto);
 cameraButton.addEventListener("click", clickCameraButton);
+
+function uploadPhoto(event) {
+    document.getElementById("upload-photo-input").click();
+}
 
 function clickCameraButton(event) {
     if (imageCapture == undefined) {
@@ -55,6 +60,7 @@ function tuggleCamera() {
     document.getElementById("camera").style.display = state;
     document.getElementById("take-photo").style.display = state;
     document.getElementById("change-camera").style.display = state;
+    document.getElementById("upload-photo").style.display = state;
     isCameraShow = !isCameraShow;
 }
 

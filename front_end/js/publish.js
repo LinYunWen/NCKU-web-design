@@ -2,7 +2,7 @@ Notification.requestPermission(function(status) {
     console.log('Notification permission status:', status);
 });
 
-document.getElementById("test").addEventListener("click", displayNotification);
+document.getElementById("publish-button").addEventListener("click", displayNotification);
 
 function displayNotification() {
     if (Notification.permission == 'granted') {
