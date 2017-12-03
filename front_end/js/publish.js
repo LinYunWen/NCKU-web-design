@@ -2,7 +2,27 @@ Notification.requestPermission(function(status) {
     console.log('Notification permission status:', status);
 });
 
-document.getElementById("publish-button").addEventListener("click", displayNotification);
+// document.getElementById("publish-button").addEventListener("click", displayNotification);
+
+var pubishButton = document.getElementById("publish-button");
+pubishButton.addEventListener("click", clickPublishButton);
+
+function clickPublishButton(event) {
+    var anwser = alert("Are you sure to publish?");
+    if (anwser) {
+        $.ajax({
+            method: "POST",
+            url: "",
+            data: {
+                name: "publish",
+                longitude: 312,
+                latitude: 12
+            },
+            success: publicSuccess,
+            error: publicError
+        });
+    }
+}
 
 function displayNotification() {
     if (Notification.permission == 'granted') {
@@ -25,4 +45,12 @@ function displayNotification() {
         reg.showNotification('Hello world!', options);
       });
     }
+}
+
+function pubishSuccess(result) {
+    
+}
+    
+function publishError(error) {
+    onError(error);
 }

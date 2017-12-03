@@ -4,6 +4,7 @@ const cameraButton = document.querySelector("#use-camera");
 const videoChangeButton = document.querySelector("#change-camera");
 const photoImg = document.querySelector("#upload-picture-img");
 const player = document.querySelector("#camera-video");
+var imageBlob = undefined;
 var imageCapture = undefined;
 var mediaStreamTrack = undefined;
 
@@ -47,6 +48,7 @@ function gotMedia(mediaStream) {
 function startTakePhoto(event) {
     imageCapture.takePhoto()
         .then(blob => {
+            imageBlob = blob;
             photoImg.src = URL.createObjectURL(blob);
             photoImg.onload = () => { URL.revokeObjectURL(this.src); }
         })
@@ -93,6 +95,7 @@ function start() {
   var constraints = {
     video: {deviceId: videoSource ? {exact: videoSource} : undefined}
   };
+  console.log("video: ", {deviceId: videoSource ? {exact: videoSource} : undefined});
   navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
   deviceIndex = (deviceIndex + 1) % deviceIds.length;
 }

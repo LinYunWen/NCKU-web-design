@@ -49,5 +49,6 @@ function clickPostButton(event) {
     // event.preventDefault();
     // sendPost();
     mediaStreamTrack.stop();
+    uploadImage(imageBlob);
     tugglePostSection();
 }

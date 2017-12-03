@@ -26,27 +26,6 @@ function getTopPost(index) {
     });
 }
 
-
-var pubishButton = document.getElementById("publish-button");
-pubishButton.addEventListener("click", clickPublishButton);
-
-function clickPublishButton(event) {
-    var anwser = alert("Are you sure to publish?");
-    if (anwser) {
-        $.ajax({
-            method: "POST",
-            url: "",
-            data: {
-                command: "publish",
-                longitude: 312,
-                latitude: 12
-            },
-            success: publicSuccess,
-            error: publicError
-        });
-    }
-}
-
 function getIllegalSuccess(result, status, xhr) {
 
 }
@@ -60,14 +39,6 @@ function getTopSuccess(result, status, xhr) {
 }
 
 function getTopError(xhr, status, error) {
-    onError(error);
-}
-
-function pubishSuccess(result) {
-
-}
-
-function publishError(error) {
     onError(error);
 }
 
