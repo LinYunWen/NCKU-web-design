@@ -3,7 +3,7 @@
 function getIllegalPost() {
     $.ajax({
         method: "GET",
-        url: "https://luffy.ee.ncku.edu.tw:2997/get_illegal_post",
+        url: "/get_illegal_post",
         data: {
         },
         success: getIllegalSuccess,
@@ -14,7 +14,7 @@ function getIllegalPost() {
 function getTopPost(index) {
     $.ajax({
         method: "GET",
-        url: "https://luffy.ee.ncku.edu.tw:2997/get_top_post",
+        url: "/get_top_post",
         data: {
             index: index,
         },
@@ -32,7 +32,7 @@ function clickPublishButton(event) {
     if (anwser) {
         $.ajax({
             method: "GET",
-            url: "https://luffy.ee.ncku.edu.tw:2997/publish",
+            url: "/publish",
             data: {
                 name: "publish",
                 longitude: 312,

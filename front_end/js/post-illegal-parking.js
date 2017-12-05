@@ -33,7 +33,7 @@ function sendPost() {
     $.ajax(
         {
             method: "GET",
-            url: "https://luffy.ee.ncku.edu.tw:2997/report_illegal",
+            url: "/report_illegal",
             data: {
                 location: $("#upload-location").val(),
                 name: $("#upload-name").val(),

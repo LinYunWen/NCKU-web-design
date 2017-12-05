@@ -2,31 +2,35 @@ Notification.requestPermission(function(status) {
     console.log('Notification permission status:', status);
 });
 
-// document.getElementById("publish-button").addEventListener("click", displayNotification);
+document.getElementById("publish-button").addEventListener("click", displayNotification);
 
-var pubishButton = document.getElementById("publish-button");
-pubishButton.addEventListener("click", clickPublishButton);
+// var pubishButton = document.getElementById("publish-button");
+// pubishButton.addEventListener("click", clickPublishButton);
 
 function clickPublishButton(event) {
     var anwser = alert("Are you sure to publish?");
+    /*
     if (anwser) {
         $.ajax({
-            method: "POST",
+            method: "GET",
             url: "",
             data: {
                 name: "publish",
                 longitude: 312,
                 latitude: 12
             },
-            success: publicSuccess,
-            error: publicError
+            success: publishSuccess,
+            error: publishError
         });
+        }
     }
+    */
 }
 
 function displayNotification() {
     if (Notification.permission == 'granted') {
       navigator.serviceWorker.getRegistration().then(function(reg) {
+        //reg.header("Access-Control-Allow-Origin", "*");
         var options = {
             body: 'Here is a notification body!',
             icon: 'img/icons/logo_144.png',
@@ -47,7 +51,7 @@ function displayNotification() {
     }
 }
 
-function pubishSuccess(result) {
+function publishSuccess(result) {
     
 }
     

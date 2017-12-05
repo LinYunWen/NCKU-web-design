@@ -30,7 +30,7 @@ function clickSignInButton(event) {
     event.preventDefault();
     $.ajax({
         method: "GET",
-        url: "https://luffy.ee.ncku.edu.tw:2997/signin",
+        url: "/signin",
         data: {
             account: "2woe",
             password: "wqeqw"
