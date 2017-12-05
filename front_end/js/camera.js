@@ -71,7 +71,7 @@ function gotDevices(deviceInfos) {
     var deviceInfo = deviceInfos[i];
 
     if (deviceInfo.kind === 'videoinput') {
-        deviceIds.slice(0, 0, deviceInfo.deviceId);
+        deviceIds.splice(0, 0, deviceInfo.deviceId);
     }
   }
 }
