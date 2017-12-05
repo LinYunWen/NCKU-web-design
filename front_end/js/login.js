@@ -29,11 +29,11 @@ function showSignIn(event) {
 function clickSignInButton(event) {
     event.preventDefault();
     $.ajax({
-        method: "POST",
-        url: "",
+        method: "GET",
+        url: "https://luffy.ee.ncku.edu.tw:2997/signin",
         data: {
-            account: "",
-            password: ""
+            account: "2woe",
+            password: "wqeqw"
         },
         success: signInSuccess,
         error: signInError
@@ -43,8 +43,8 @@ function clickSignInButton(event) {
 function clickSignUpButton(event) {
     event.preventDefault();
     $.ajax({
-        method: "POST",
-        url: "",
+        method: "GET",
+        url: "/signup",
         data: {
             account: "",
             password: "",
@@ -56,7 +56,7 @@ function clickSignUpButton(event) {
 }
 
 function signUpSuccess(result) {
-
+    console.log("sign up success: ", result);
 }
 
 function signUpError(error) {
@@ -64,7 +64,7 @@ function signUpError(error) {
 }
 
 function signInSuccess(result) {
-    
+    console.log("sign in success: ", result);
 }
 
 function signInError(error) {

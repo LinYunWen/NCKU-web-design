@@ -21,23 +21,26 @@ function tugglePostSection() {
     isSectionShow = !isSectionShow;
 }
 
-function postSuccess(result, status, xhr) {
-
+function postSuccess(result) {
+    console.log("post success: ", result);
 }
 
-function postError(xhr, status, error) {
-    
+function postError(error) {
+    onError("post error: ", error);
 }
 
 function sendPost() {
     $.ajax(
         {
             method: "GET",
-            url: "/report_illegal",
+            url: "https://luffy.ee.ncku.edu.tw:2997/report_illegal",
             data: {
                 location: $("#upload-location").val(),
                 name: $("#upload-name").val(),
-                picture: $("#upload-picture-img").attr("src")
+                picture: $("#upload-picture-img").attr("src"),
+                car_num: "XXXX",
+                longitude: 22.32,
+                latitude: 122.11
             },
             success: postSuccess,
             error: postError
@@ -51,4 +54,8 @@ function clickPostButton(event) {
     mediaStreamTrack.stop();
     uploadImage(imageBlob);
     tugglePostSection();
+}
+
+function onError(error) {
+    console.log(error);
 }

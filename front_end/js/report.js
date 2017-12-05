@@ -1,12 +1,10 @@
 'use strict'
 
-function getIllegalPost(index) {
+function getIllegalPost() {
     $.ajax({
         method: "GET",
-        url: "",
+        url: "https://luffy.ee.ncku.edu.tw:2997/get_illegal_post",
         data: {
-            index: index,
-            command: "get-illegal-post"
         },
         success: getIllegalSuccess,
         error: getIllegalError
@@ -16,29 +14,57 @@ function getIllegalPost(index) {
 function getTopPost(index) {
     $.ajax({
         method: "GET",
-        url: "",
+        url: "https://luffy.ee.ncku.edu.tw:2997/get_top_post",
         data: {
             index: index,
-            command: "get-top-post"
         },
         success: getTopSuccess,
         error: getTopError
     });
 }
 
-function getIllegalSuccess(result, status, xhr) {
 
+var pubishButton = document.getElementById("publish-button");
+pubishButton.addEventListener("click", clickPublishButton);
+
+function clickPublishButton(event) {
+    var anwser = alert("Are you sure to publish?");
+    if (anwser) {
+        $.ajax({
+            method: "GET",
+            url: "https://luffy.ee.ncku.edu.tw:2997/publish",
+            data: {
+                name: "publish",
+                longitude: 312,
+                latitude: 12
+            },
+            success: publishSuccess,
+            error: publishError
+        });
+    }
 }
 
-function getIllegalError(xhr,status,error) {
+function getIllegalSuccess(result) {
+    console.log("get illegal success: ", result);
+}
+
+function getIllegalError(error) {
     onError(error);
 }
 
-function getTopSuccess(result, status, xhr) {
-
+function getTopSuccess(result) {
+    console.log("get top success: ", result);
 }
 
-function getTopError(xhr, status, error) {
+function getTopError(error) {
+    onError(error);
+}
+
+function publishSuccess(result) {
+    console.log("get publish success: ", result);
+}
+
+function publishError(error) {
     onError(error);
 }
 
