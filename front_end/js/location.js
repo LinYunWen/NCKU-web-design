@@ -38,8 +38,6 @@ function geoSuccess(position) {
             if(Lat>=22.992849 && Lat<=22.993531)
                 $("#upload-location").val('5'); // selects "senpi"
     }
-   
-    
 };
 
 function geoError(error) {

@@ -21,12 +21,12 @@ function tugglePostSection() {
     isSectionShow = !isSectionShow;
 }
 
-function postSuccess(result,status,xhr) {
-
+function postSuccess(result) {
+    console.log("post success: ", result);
 }
 
-function postError(xhr,status,error) {
-    
+function postError(error) {
+    onError("post error: ", error);
 }
 
 function sendPost() {
@@ -37,7 +37,10 @@ function sendPost() {
             data: {
                 location: $("#upload-location").val(),
                 name: $("#upload-name").val(),
-                picture: $("#upload-picture-img").attr("src")
+                picture: $("#upload-picture-img").attr("src"),
+                car_num: "XXXX",
+                longitude: 22.32,
+                latitude: 122.11
             },
             success: postSuccess,
             error: postError
@@ -47,6 +50,12 @@ function sendPost() {
 
 function clickPostButton(event) {
     event.preventDefault();
-    sendPost();
+    // sendPost();
+    mediaStreamTrack.stop();
+    uploadImage(imageBlob);
     tugglePostSection();
+}
+
+function onError(error) {
+    console.log(error);
 }
