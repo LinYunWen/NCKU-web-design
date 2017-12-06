@@ -98,7 +98,7 @@
                 <div class="wow fadeInLeft" data-wow-delay="0.2s">
                 <div class="service-box">
                     <div class="service-icon">
-                        <img id="img" class="illegal-parking" src="img/team/member1.jpg" height="100%" width="100%" alt="" />
+                        <img id="img" class="illegal-parking" src="img/illegal.jpg" height="100%" width="100%" alt="" />
                     </div>
                     <div class="service-desc">
                     </div>
@@ -111,11 +111,11 @@
                 <div class="service-box">
                     <div class="service-desc">
                         <br>
-                        <h3 id="location">location</h3>
+                        <h3 id="location">location: <span>勝後停車場</span></h3>
                         <br>
-                        <h3 id="car">car no.</h3>
+                        <h3 id="car">car no.: <span>123-456</span></h3>
                         <br>
-                        <h3 id="time">time</h3>
+                        <h3 id="time">time: <span>2017/11/25 22:00</span></h3>
                 </div>
                 </div>
             </div>
@@ -126,16 +126,16 @@
             <div class="col-sm-2 col-md-2">
             </div>
             <div class="col-sm-1 col-md-2 col-xs-6">
-                <img class="illegal-parking" location="1.location" car="1.car" time="1.time" src="img/team/member1.jpg" height="100%" width="100%" alt="" />
+                <img class="illegal-parking" location="1.location" car="1.car" time="1.time" src="img/illegal.jpg" height="100%" width="100%" alt="" />
             </div>
             <div class="col-sm-1 col-md-2 col-xs-6">
-                <img class="illegal-parking" location="2.location" car="2.car" time="2.time" src="img/team/member2.jpg" height="100%" width="100%" alt="" />
+                <img class="illegal-parking" location="2.location" car="2.car" time="2.time" src="img/illegal.jpg" height="100%" width="100%" alt="" />
             </div>
             <div class="col-sm-1 col-md-2 col-xs-6">
-                <img class="illegal-parking" location="3.location" car="3.car" time="3.time"src="img/team/member3.jpg" height="100%" width="100%"    alt="" />
+                <img class="illegal-parking" location="3.location" car="3.car" time="3.time"src="img/illegal.jpg" height="100%" width="100%" alt="" />
             </div>
             <div class="col-sm-1 col-md-2 col-xs-6">
-                <img class="illegal-parking" location="4.location" car="4.car" time="4.itme" src="img/team/member4.jpg" height="100%" width="100%"    alt="" />
+                <img class="illegal-parking" location="4.location" car="4.car" time="4.itme" src="img/illegal.jpg" height="100%" width="100%" alt="" />
             </div>
             <div class="col-sm-6 col-md-6">
             </div>
@@ -176,7 +176,7 @@
 
                         <div class="col-sm-2 col-md-2 col-xs-4">
                             <div class="wow fadeInLeft" data-wow-delay="0.2s">
-                            <img src="img/team/member5.jpg" height="100%" width="100%"  alt="" />
+                            <img src="img/illegal.jpg" height="100%" width="100%"  alt="" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-xs-4">
@@ -198,7 +198,7 @@
 
                         <div class="col-sm-2 col-md-2 col-xs-4">
                             <div class="wow fadeInLeft" data-wow-delay="0.2s">
-                            <img src="img/team/member5.jpg" height="100%" width="100%"  alt="" />
+                            <img src="img/illegal.jpg" height="100%" width="100%"  alt="" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-xs-4">
@@ -219,7 +219,7 @@
                         </div>
                         <div class="col-sm-2 col-md-2 col-xs-4">
                             <div class="wow fadeInLeft" data-wow-delay="0.2s">
-                            <img src="img/team/member5.jpg" height="100%" width="100%"  alt="" />
+                            <img src="img/illegal.jpg" height="100%" width="100%"  alt="" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-xs-4">
@@ -317,20 +317,20 @@
                             <p class="marginbot-50"></p>
                         </div>
                     </div>
-                    <input id="upload-photo-input" type="file" name="filename" accept="image/jpeg, image/png" style="display: none;">
+                    <input id="upload-photo-input" type="file" name="filename" accept="image/*" style="display: none;">
     </section>
 
 
-    <input id="use-camera" type="button" value="Start Camera">
+    <input id="use-camera" type="button" value="Start Camera" style="display: none;">
     <div id="camera" class="camera-div">
         <video id="camera-video" autoplay></video>
     </div>
     <img id="change-camera" class="change-camera" src="./img/icons/change_camera.png" width="15%" height="10%">
     <img id="take-photo" class="take-photo" src="./img/icons/take_camera.png" width="15%" height="10%">
-    <img id="upload-photo" class="upload-photo" src="./img/icons/take_camera.png" width="15%" height="10%">
+    <img id="upload-photo" class="upload-photo" src="./img/icons/service-icon-2.png" width="15%" height="10%">
 
-    <div>經度: <span id="startLon"></span></div>
-    <div>緯度: <span id="startLat"></span></div>
+    <div style="display: none;">經度: <span id="startLon"></span></div>
+    <div style="display: none;">緯度: <span id="startLat"></span></div>
 
     <!-- /Section: contact -->
     <footer>

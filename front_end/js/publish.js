@@ -32,7 +32,7 @@ function displayNotification() {
       navigator.serviceWorker.getRegistration().then(function(reg) {
         //reg.header("Access-Control-Allow-Origin", "*");
         var options = {
-            body: 'Here is a notification body!',
+            body: '地點: 自強測',
             icon: 'img/icons/logo_144.png',
             vibrate: [100, 50, 100],
             data: {
@@ -46,7 +46,7 @@ function displayNotification() {
                   icon: 'img/icons/search2.png'},
             ]
         };
-        reg.showNotification('Hello world!', options);
+        reg.showNotification('有拖吊哦~', options);
       });
     }
 }

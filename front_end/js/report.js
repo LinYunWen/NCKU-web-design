@@ -46,6 +46,10 @@ function clickPublishButton(event) {
 
 function getIllegalSuccess(result) {
     console.log("get illegal success: ", result);
+    var parkingImgs = document.getElementsByClassName("illegal-parking");
+    for (let i=0; i<5; i++) {
+        parkingImgs[i].src = result["data"][i]["picture"];
+    }
 }
 
 function getIllegalError(error) {
