@@ -31,7 +31,7 @@ function clickPublishButton(event) {
     var anwser = alert("Are you sure to publish?");
     if (anwser) {
         $.ajax({
-            method: "GET",
+            method: "POST",
             url: "/publish",
             data: {
                 name: "publish",

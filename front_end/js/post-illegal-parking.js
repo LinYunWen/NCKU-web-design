@@ -32,7 +32,7 @@ function postError(error) {
 function sendPost() {
     $.ajax(
         {
-            method: "GET",
+            method: "POST",
             url: "/report_illegal",
             data: {
                 location: $("#upload-location").val(),
