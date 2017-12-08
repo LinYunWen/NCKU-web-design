@@ -23,13 +23,14 @@ function tugglePostSection() {
 
 function postSuccess(result) {
     console.log("post success: ", result);
+    window.alert("You are successfully post.");
 }
 
 function postError(error) {
     onError("post error: ", error);
 }
 
-function sendPost() {
+function sendPost(imageURL) {
     $.ajax(
         {
             method: "POST",
@@ -37,7 +38,7 @@ function sendPost() {
             data: {
                 location: $("#upload-location").val(),
                 name: $("#upload-name").val(),
-                picture: $("#upload-picture-img").attr("src"),
+                picture: imageURL,
                 car_num: "XXXX",
                 longitude: 22.32,
                 latitude: 122.11
@@ -45,12 +46,11 @@ function sendPost() {
             success: postSuccess,
             error: postError
         }
-    )
+    );
 }
 
 function clickPostButton(event) {
-    // event.preventDefault();
-    // sendPost();
+    event.preventDefault();
     mediaStreamTrack.stop();
     uploadImage(imageBlob);
     tugglePostSection();
@@ -58,4 +58,5 @@ function clickPostButton(event) {
 
 function onError(error) {
     console.log(error);
+    window.alert(error);
 }
