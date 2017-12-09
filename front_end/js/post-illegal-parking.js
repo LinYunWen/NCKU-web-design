@@ -5,7 +5,7 @@ var isSectionShow = false;
 
 function clickEditButton(event) {
     document.getElementById("use-camera").click();
-    // tugglePostSection();
+    getLocation();
 }
 
 function tugglePostSection() {
@@ -31,17 +31,18 @@ function postError(error) {
 }
 
 function sendPost(imageURL) {
+    var location = getLonAndLat();
     $.ajax(
         {
             method: "POST",
             url: "/report_illegal",
             data: {
-                location: $("#upload-location").val(),
+                location: parseToWord($("#upload-location").val()),
                 name: $("#upload-name").val(),
                 picture: imageURL,
-                car_num: "XXXX",
-                longitude: 22.32,
-                latitude: 122.11
+                car_num: $("#upload-car-num").val(),
+                longitude: location[0],
+                latitude: location[1]
             },
             success: postSuccess,
             error: postError
