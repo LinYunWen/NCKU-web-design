@@ -44,7 +44,7 @@ func main() {
 
     init_database();
 
-    http.ListenAndServeTLS(":2997", "ssl/certificate.crt", "ssl/private.key", router);
+    http.ListenAndServeTLS(":2996", "ssl/certificate.crt", "ssl/private.key", router);
 }
 
 
@@ -159,6 +159,7 @@ func select_top_3_illegal_car_number(index int) ([3]int, [3]string, [3]string, [
     if err != nil {
         panic(err.Error());
     }
+
     //fetch the data
     var i int = 0;
     for rows.Next() {
