@@ -40,7 +40,7 @@ func main() {
     router.POST("/publish", publish);
     router.POST("/signin", signin);
     router.POST("/signup", signup);
-    //router.POST("/get_user_info", get_user_info);
+    router.POST("/get_fb_info", get_fb_info);
 
     init_database();
 
@@ -85,7 +85,7 @@ func insert_illegal_info(car_num string, location string, longitude float64, lat
     }
 }
 
-func insert_fb_info() {
+func insert_fb_info(sender_id string, first_name string, last_name string, profile_pic string, locale string, timezone int, gender string) {
     //id, sender_id, first_name, last_name, profile_pic, locale, timezone, gender
     stmtIns, err := db.Prepare("INSERT INTO fb_info VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)");
 	if err != nil {
@@ -93,7 +93,7 @@ func insert_fb_info() {
     }
     defer stmtIns.Close();
 
-    _, err = stmtIns.Exec("1234567890", "Li", "junder", "asdasdasd", "here", 8, "male");
+    _, err = stmtIns.Exec(sender_id, first_name, last_name, profile_pic, locale, timezone, gender);
     if err != nil {
         panic(err.Error());
     }
@@ -348,27 +348,27 @@ func signin(c *gin.Context) {
     if_account_exist, database_password = select_password(account);
 
     if if_account_exist {
-        bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14);
-        if err != nil {
-            panic(err.Error());
-        }
 
-        err = bcrypt.CompareHashAndPassword([]byte(database_password), bytes);
+        err := bcrypt.CompareHashAndPassword([]byte(database_password), []byte(password));
 
         if err==nil {       //password correct
-            //to do...
+            c.JSON(http.StatusOK, gin.H {
+                "result": "1",
+                "message": "登入成功",
+            });
         } else {            //password wrong
-            //to do...
+            c.JSON(http.StatusOK, gin.H {
+                "result": "-1",
+                "message": "帳號或密碼輸入錯誤",
+            });
         }
 
     } else {                //these is no account
-        //to do...
+        c.JSON(http.StatusOK, gin.H {
+            "result": "-1",
+            "message": "帳號或密碼輸入錯誤",
+        });
     }
-
-    c.JSON(http.StatusOK, gin.H {
-        "result": "1",
-        "message": "post success",
-    });
 }
 
 func signup(c *gin.Context) {
@@ -380,10 +380,16 @@ func signup(c *gin.Context) {
     if_account_exist, _ := select_password(account);
 
     if if_account_exist {
-        //to do...
+        c.JSON(http.StatusOK, gin.H {
+            "result": "-2",
+            "message": "此帳號已存在",
+        });
     } else {
         if check_if_email_exist(email) {
-            //to do...
+            c.JSON(http.StatusOK, gin.H {
+                "result": "-3",
+                "message": "電子信箱已被使用過",
+            });
         } else {
             bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14);
             if err != nil {
@@ -391,13 +397,27 @@ func signup(c *gin.Context) {
             }
 
             insert_user_account(account, string(bytes), car_number, email);
+
+            c.JSON(http.StatusOK, gin.H {
+                "result": "1",
+                "message": "註冊成功",
+            });
         }
     }
-
-    c.JSON(http.StatusOK, gin.H {
-        "result": "1",
-        "message": "post success",
-    });
 }
+
+func get_fb_info(c *gin.Context) {
+
+    sender_id := c.PostForm("sender_id");
+    first_name := c.PostForm("first_name");
+    last_name := c.PostForm("last_name");
+    profile_pic := c.PostForm("profile_pic");
+    locale := c.PostForm("locale");
+    timezone, _ := strconv.Atoi(c.PostForm("timezone"));
+    gender := c.PostForm("gender");
+
+    insert_fb_info(sender_id, first_name, last_name, profile_pic, locale, timezone, gender);
+}
+
 
 
