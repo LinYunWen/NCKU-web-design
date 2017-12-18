@@ -2,6 +2,7 @@ package main
 
 import "github.com/gin-gonic/gin"
 import "github.com/gin-contrib/static"
+import "golang.org/x/crypto/bcrypt"
 import "net/http"
 import "database/sql"
 import "encoding/json"
@@ -35,15 +36,15 @@ func main() {
     router.GET("/get_illegal_post", get_illegal_post);
     router.GET("/get_top_post", get_top_post);
 
-    router.GET("/report_illegal", report_illegal);
-    router.GET("/publish", publish);
-    router.GET("/signin", signin);
-    router.GET("/signup", signup);
-    //router.POST("/get_user_info", get_user_info);
+    router.POST("/report_illegal", report_illegal);
+    router.POST("/publish", publish);
+    router.POST("/signin", signin);
+    router.POST("/signup", signup);
+    router.POST("/get_fb_info", get_fb_info);
 
     init_database();
 
-    http.ListenAndServeTLS(":2996", "ssl/certificate.crt", "ssl/private.key", router);
+    http.ListenAndServeTLS(":2997", "ssl/certificate.crt", "ssl/private.key", router);
 }
 
 
@@ -84,7 +85,7 @@ func insert_illegal_info(car_num string, location string, longitude float64, lat
     }
 }
 
-func insert_fb_info() {
+func insert_fb_info(sender_id string, first_name string, last_name string, profile_pic string, locale string, timezone int, gender string) {
     //id, sender_id, first_name, last_name, profile_pic, locale, timezone, gender
     stmtIns, err := db.Prepare("INSERT INTO fb_info VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)");
 	if err != nil {
@@ -92,21 +93,21 @@ func insert_fb_info() {
     }
     defer stmtIns.Close();
 
-    _, err = stmtIns.Exec("1234567890", "Li", "junder", "asdasdasd", "here", 8, "male");
+    _, err = stmtIns.Exec(sender_id, first_name, last_name, profile_pic, locale, timezone, gender);
     if err != nil {
         panic(err.Error());
     }
 }
 
-func insert_user_account() {
+func insert_user_account(account string, password string, car_number string, email string) {
     //id, account, password, car_number
-    stmtIns, err := db.Prepare("INSERT INTO user_account VALUES(NULL, ?, ?, ?)");
+    stmtIns, err := db.Prepare("INSERT INTO user_account VALUES(NULL, ?, ?, ?, ?)");
     if err != nil {
         panic(err.Error());
     }
     defer stmtIns.Close();
 
-    _, err = stmtIns.Exec("apple11361", "i'm a hash", "956-NWM");
+    _, err = stmtIns.Exec(account, password, car_number, email);
     if err != nil {
         panic(err.Error());
     }
@@ -139,12 +140,15 @@ func select_illegal_info() ([5]string, [5]string, [5]string, [5]string){
     return time, car_number, location, picture;
 }
 
-//return car_number
-func select_top_3_illegal_car_number(index int) [3]string {
+//return count picture location car_number
+func select_top_3_illegal_car_number(index int) ([3]int, [3]string, [3]string, [3]string) {
+    var count [3]int;
+    var picture [3]string;
+    var location [3]string;
     var car_number [3]string;
 
     //Prepare the query
-    stmtSel, err := db.Prepare("SELECT COUNT(*) AS count, car_number FROM illegal_info GROUP BY car_number ORDER BY count DESC LIMIT ?, ?");
+    stmtSel, err := db.Prepare("SELECT COUNT(*) AS count, picture, parking_lot, car_number FROM (SELECT * FROM illegal_info ORDER BY id DESC) AS total GROUP BY car_number ORDER BY count DESC LIMIT ?, ?");
     if err != nil {
         panic(err.Error());
     }
@@ -155,11 +159,11 @@ func select_top_3_illegal_car_number(index int) [3]string {
     if err != nil {
         panic(err.Error());
     }
-    //fetch data
+
+    //fetch the data
     var i int = 0;
-    var count int;
     for rows.Next() {
-        err = rows.Scan(&count, &car_number[i]);
+        err = rows.Scan(&count[i], &picture[i], &location[i], &car_number[i]);
         if err != nil {
             panic(err.Error());
         }
@@ -167,18 +171,81 @@ func select_top_3_illegal_car_number(index int) [3]string {
         i++;
     }
 
-    return car_number;
+    return count, picture, location, car_number;
+}
+
+//return if there is the account, if yes, return the password, if no, return empty string 
+func select_password(account string) (bool, string) {
+    var password string;
+
+    //Prepare the query
+    stmtSel, err := db.Prepare("SELECT password FROM user_account WHERE account=?");
+    if err != nil {
+        panic(err.Error());
+    }
+    defer stmtSel.Close();
+
+
+    //Execute the query
+    rows, err := stmtSel.Query(account);
+    if err != nil {
+        panic(err.Error());
+    }
+
+    //Fetch the data
+    if rows.Next() {                //there is the account
+        err = rows.Scan(&password);
+        if err != nil {
+            panic(err.Error());
+        }
+        return true, password;
+    } else {                        //there is no that account
+        return false, "";
+    }
+}
+
+func check_if_email_exist(email string) bool {
+    var account string;
+
+    //Prepare the query
+    stmtSel, err := db.Prepare("SELECT account FROM user_account WHERE car_number=?");
+    if err != nil {
+        panic(err.Error());
+    }
+    defer stmtSel.Close();
+
+
+    //Execute the query
+    rows, err := stmtSel.Query(email);
+    if err != nil {
+        panic(err.Error());
+    }
+
+    //Fetch the data
+    if rows.Next() {                //there is the email
+        err = rows.Scan(&account);
+        if err != nil {
+            panic(err.Error());
+        }
+        return true;
+    } else {                        //there is no that eamil
+        return false;
+    }
 }
 
 func report_illegal(c *gin.Context) {
-    location := c.Query("location");
-    name := c.Query("name");
-    picture := c.Query("picture");
-    car_num := c.Query("car_num");
-    longitude, _ := strconv.ParseFloat(c.Query("longitude"), 64);
-    latitude, _ := strconv.ParseFloat(c.Query("latitude"), 64);
+    location := c.PostForm("location");
+    name := c.PostForm("name");
+    picture := c.PostForm("picture");
+    car_num := c.PostForm("car_num");
+    longitude, _ := strconv.ParseFloat(c.PostForm("longitude"), 64);
+    latitude, _ := strconv.ParseFloat(c.PostForm("latitude"), 64);
 
     insert_illegal_info(car_num, location, longitude, latitude, name, picture);
+    c.JSON(http.StatusOK, gin.H {
+        "result": "1",
+        "message": "post success",
+    });
 }
 
 func get_illegal_post(c *gin.Context) {
@@ -228,26 +295,33 @@ func get_illegal_post(c *gin.Context) {
 }
 
 func get_top_post(c *gin.Context) {
+    var count [3]int;
+    var picture [3]string;
+    var location [3]string;
     var car_number [3]string;
+
     index, _ := strconv.Atoi(c.Query("index"));
 
-    car_number = select_top_3_illegal_car_number(index);
+    count, picture, location, car_number = select_top_3_illegal_car_number(index);
 
     c.JSON(http.StatusOK, gin.H {
         "data": []interface{} {
             gin.H{
-                "picture": "p",
-                "location": "l",
+                "count": count[0],
+                "picture": picture[0],
+                "location": location[0],
                 "car_num": car_number[0],
             },
             gin.H{
-                "picture": "p2",
-                "location": "l2",
+                "count": count[1],
+                "picture": picture[1],
+                "location": location[1],
                 "car_num": car_number[1],
             },
             gin.H{
-                "picture": "p3",
-                "location": "l3",
+                "count": count[2],
+                "picture": picture[2],
+                "location": location[2],
                 "car_num": car_number[2],
             },
         },
@@ -255,25 +329,97 @@ func get_top_post(c *gin.Context) {
 }
 
 func publish(c *gin.Context) {
-    //longitude, _ := strconv.ParseFloat(c.Query("longitude"), 64);
-    //latitude, _ := strconv.ParseFloat(c.Query("latitude"), 64);
+    //name := c.PostForm("name");
+    //longitude, _ := strconv.ParseFloat(c.PostForm("longitude"), 64);
+    //latitude, _ := strconv.ParseFloat(c.PostForm("latitude"), 64);
 
-    c.String(http.StatusOK, "success");
+    c.JSON(http.StatusOK, gin.H {
+        "result": "1",
+        "message": "post success",
+    });
 }
 
 func signin(c *gin.Context) {
-    account := c.Query("account");
-    password := c.Query("password");
+    account := c.PostForm("account");
+    password := c.PostForm("password");
 
-    c.String(http.StatusOK, "account: " + account + "\npassword: " + password);
+    var if_account_exist bool;
+    var database_password string;
+
+    if_account_exist, database_password = select_password(account);
+
+    if if_account_exist {
+
+        err := bcrypt.CompareHashAndPassword([]byte(database_password), []byte(password));
+
+        if err==nil {       //password correct
+            c.JSON(http.StatusOK, gin.H {
+                "result": "1",
+                "message": "登入成功",
+            });
+        } else {            //password wrong
+            c.JSON(http.StatusOK, gin.H {
+                "result": "-1",
+                "message": "帳號或密碼輸入錯誤",
+            });
+        }
+
+    } else {                //these is no account
+        c.JSON(http.StatusOK, gin.H {
+            "result": "-1",
+            "message": "帳號或密碼輸入錯誤",
+        });
+    }
+
 }
 
 func signup(c *gin.Context) {
-    account := c.Query("account");
-    password := c.Query("password");
-    email := c.Query("email");
+    account := c.PostForm("account");
+    password := c.PostForm("password");
+    car_number := c.PostForm("car_number");
+    email := c.PostForm("email");
 
-    c.String(http.StatusOK, "account: " + account + "\npassword: " + password + "\nemail" + email);
+    if_account_exist, _ := select_password(account);
+
+    if if_account_exist {
+        c.JSON(http.StatusOK, gin.H {
+            "result": "-2",
+            "message": "此帳號已存在",
+        });
+    } else {
+        if check_if_email_exist(email) {
+            c.JSON(http.StatusOK, gin.H {
+                "result": "-3",
+                "message": "電子信箱已被使用過",
+            });
+        } else {
+            bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14);
+            if err != nil {
+                panic(err.Error());
+            }
+
+            insert_user_account(account, string(bytes), car_number, email);
+
+            c.JSON(http.StatusOK, gin.H {
+                "result": "1",
+                "message": "註冊成功",
+            });
+        }
+    }
 }
+
+func get_fb_info(c *gin.Context) {
+
+    sender_id := c.PostForm("sender_id");
+    first_name := c.PostForm("first_name");
+    last_name := c.PostForm("last_name");
+    profile_pic := c.PostForm("profile_pic");
+    locale := c.PostForm("locale");
+    timezone, _ := strconv.Atoi(c.PostForm("timezone"));
+    gender := c.PostForm("gender");
+
+    insert_fb_info(sender_id, first_name, last_name, profile_pic, locale, timezone, gender);
+}
+
 
 
