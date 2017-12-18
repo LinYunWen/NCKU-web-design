@@ -159,6 +159,7 @@ func select_top_3_illegal_car_number(index int) ([3]int, [3]string, [3]string, [
     if err != nil {
         panic(err.Error());
     }
+
     //fetch the data
     var i int = 0;
     for rows.Next() {
@@ -369,6 +370,7 @@ func signin(c *gin.Context) {
             "message": "帳號或密碼輸入錯誤",
         });
     }
+
 }
 
 func signup(c *gin.Context) {
