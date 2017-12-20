@@ -59,7 +59,7 @@ function clickSignUpButton(event) {
             account: signUpAccountInput.value,
             password: signUpPasswordInput.value,
             email: signUpEmailInput.value,
-            carNum: signUpCarNumInput.value
+            car_num: signUpCarNumInput.value
         },
         success: signUpSuccess,
         error: signUpError
