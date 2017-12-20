@@ -14,11 +14,17 @@ var deviceIds = [];
 var deviceIndex = 0;
 
 document.getElementById("take-photo").addEventListener("click", startTakePhoto);
-document.getElementById("upload-photo").addEventListener("click", uploadPhoto);
+document.getElementById("upload-photo").addEventListener("click", clickUploadPhoto);
+document.getElementById("upload-photo").addEventListener("change", uploadPhotoChange);
 cameraButton.addEventListener("click", clickCameraButton);
 
-function uploadPhoto(event) {
+function clickUploadPhoto(event) {
     document.getElementById("upload-photo-input").click();
+}
+
+function uploadPhotoChange(files) {
+    photoImg.src = URL.createObjectURL(files[0]);
+    tuggleCamera();
 }
 
 function clickCameraButton(event) {

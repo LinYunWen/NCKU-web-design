@@ -1,28 +1,37 @@
-var clientId = "188209a74ecddfc"
+'use strict'
 
 function uploadImage(blob) {
-    console.log(blob.type);
-    var file = new File([blob], "image", {type: "image/png", lastModified: Date.now()});
-    console.log("file: ", file);
-    var setting = {
-        method: "POST",
-        url: "https://api.imgur.com/3/image",
-        headers: {
-            Authorization: 'Client-ID ' + clientId,
-            Accept: 'application/json'
-        },
-        data: {
-            "image": file[0]
-        },
-        success: uploadSuccess,
-        error: uploadError
+    var reader = new FileReader();
+    reader.readAsDataURL(blob); 
+    reader.onloadend = function() {
+        var base64Data = reader.result;
+        var form = new FormData();
+        base64Data = base64Data.substring(base64Data.indexOf(",")+1);
+        form.append("image", base64Data);
+        
+        var settings = {
+            async: true,
+            crossDomain: true,
+            url: "https://api.imgur.com/3/image",
+            method: "POST",
+            headers: {
+                Authorization: "Client-ID 188209a74ecddfc"
+            },
+            processData: false,
+            contentType: false,
+            mimeType: "multipart/form-data",
+            data: form,
+            success: uploadSuccess,
+            error: uploadError
+        }
+        $.ajax(settings);
     }
-
-    $.ajax(setting);
 }
 
 function uploadSuccess(result) {
-
+    result = JSON.parse(result);
+    console.log("link: ", result["data"]["link"]);
+    sendPost(result["data"]["link"]);
 }
 
 function uploadError(error) {

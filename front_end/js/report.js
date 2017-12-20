@@ -23,27 +23,6 @@ function getTopPost(index) {
     });
 }
 
-
-var pubishButton = document.getElementById("publish-button");
-pubishButton.addEventListener("click", clickPublishButton);
-
-function clickPublishButton(event) {
-    var anwser = alert("Are you sure to publish?");
-    if (anwser) {
-        $.ajax({
-            method: "GET",
-            url: "/publish",
-            data: {
-                name: "publish",
-                longitude: 312,
-                latitude: 12
-            },
-            success: publishSuccess,
-            error: publishError
-        });
-    }
-}
-
 function getIllegalSuccess(result) {
     console.log("get illegal success: ", result);
     var parkingImgs = document.getElementsByClassName("illegal-parking");

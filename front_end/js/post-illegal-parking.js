@@ -5,7 +5,7 @@ var isSectionShow = false;
 
 function clickEditButton(event) {
     document.getElementById("use-camera").click();
-    // tugglePostSection();
+    getLocation();
 }
 
 function tugglePostSection() {
@@ -23,34 +23,35 @@ function tugglePostSection() {
 
 function postSuccess(result) {
     console.log("post success: ", result);
+    window.alert("You are successfully post.");
 }
 
 function postError(error) {
     onError("post error: ", error);
 }
 
-function sendPost() {
+function sendPost(imageURL) {
+    var location = getLonAndLat();
     $.ajax(
         {
-            method: "GET",
+            method: "POST",
             url: "/report_illegal",
             data: {
-                location: $("#upload-location").val(),
+                location: parseToWord($("#upload-location").val()),
                 name: $("#upload-name").val(),
-                picture: $("#upload-picture-img").attr("src"),
-                car_num: "XXXX",
-                longitude: 22.32,
-                latitude: 122.11
+                picture: imageURL,
+                car_num: $("#upload-car-num").val(),
+                longitude: location[0],
+                latitude: location[1]
             },
             success: postSuccess,
             error: postError
         }
-    )
+    );
 }
 
 function clickPostButton(event) {
     event.preventDefault();
-    // sendPost();
     mediaStreamTrack.stop();
     uploadImage(imageBlob);
     tugglePostSection();
@@ -58,4 +59,5 @@ function clickPostButton(event) {
 
 function onError(error) {
     console.log(error);
+    window.alert(error);
 }
