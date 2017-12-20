@@ -19,6 +19,9 @@ var signUpCarNumInput = document.getElementById("sign-up-car-number");
 signInLink.addEventListener("click", showSignIn);
 signUpLink.addEventListener("click", showSignUp);
 
+signInButton.addEventListener("click", clickSignInButton);
+signUpButton.addEventListener("click", clickSignUpButton);
+
 function showSignUp(event) {
     event.preventDefault();
     signIn.style.display = "none";
