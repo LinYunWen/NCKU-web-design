@@ -68,8 +68,8 @@ func init_database() {
 }
 
 func insert_illegal_info(car_num string, location string, longitude float64, latitude float64, name string, picture string) {
-    //id, time, car_number, parking_lot, longitude, latitude, name, picture
-    stmtIns, err := db.Prepare("INSERT INTO illegal_info VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)");
+    //id, time, car_number, parking_lot, longitude, latitude, name, picture, process_status, process_time, processor
+    stmtIns, err := db.Prepare("INSERT INTO illegal_info VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, '尚未處理', '尚未處理', '尚未處理')");
     if err != nil {
         panic(err.Error());
     }
