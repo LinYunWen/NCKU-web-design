@@ -1,5 +1,8 @@
 'use strict'
 
+getIllegalPost();
+getTopPost();
+
 function getIllegalPost() {
     $.ajax({
         method: "GET",
