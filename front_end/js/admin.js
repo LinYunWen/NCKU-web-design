@@ -9,7 +9,7 @@ function addRecord(info) {
         div.classList.add("col-md-" + size[i].toString());
         var span = document.createElement("span");
         if (i >= 0 && i < 7) {
-            span.textContent = info[i-1];
+            span.textContent = info[i];
         } else {
             var input = document.createElement("input");
             input.type = "button";
