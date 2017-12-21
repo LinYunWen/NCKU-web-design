@@ -68,5 +68,6 @@ function signInSuccess(result) {
 }
 
 function signInError(error) {
-        onError(error);
+    onError(error);
 }
+
