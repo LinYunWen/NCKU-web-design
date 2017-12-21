@@ -3,6 +3,8 @@ package main
 import "github.com/gin-gonic/gin"
 import "github.com/gin-contrib/static"
 import "golang.org/x/crypto/bcrypt"
+import "github.com/SherClockHolmes/webpush-go"
+import "bytes"
 import "net/http"
 import "database/sql"
 import "encoding/json"
@@ -21,6 +23,9 @@ type Conf struct {
     User string
     Password string
 }
+
+/****push notification VAPID private_key****/
+const vapid_private_key = "VVGcRo-7fylWWP86OmqncvChDMOmEchHE37FoBlfQQA";
 
 var db *sql.DB;
 
@@ -41,6 +46,7 @@ func main() {
     router.POST("/signin", signin);
     router.POST("/signup", signup);
     router.POST("/get_fb_info", get_fb_info);
+    router.POST("/store_subscription", store_subscription);
 
     init_database();
 
@@ -110,6 +116,37 @@ func insert_user_account(account string, password string, car_number string, ema
     _, err = stmtIns.Exec(account, password, car_number, email);
     if err != nil {
         panic(err.Error());
+    }
+}
+
+func insert_push_subscription(push_subscription string) {
+    /************先找資料庫有這筆嗎*************/
+    stmtSel, err := db.Prepare("SELECT push_subscription FROM push_subscription WHERE push_subscription=?");
+    if err != nil {
+        panic(err.Error());
+    }
+    defer stmtSel.Close();
+
+    //Execute the query
+    rows, err := stmtSel.Query(push_subscription);
+    if err != nil {
+        panic(err.Error());
+    }
+
+    /***************************************/
+    if rows.Next() {        //有這筆資料
+
+    } else {                //沒有這筆資料
+        stmtIns, err := db.Prepare("INSERT INTO push_subscription VALUES (NULL, ?)");
+        if err != nil {
+            panic(err.Error());
+        }
+        defer stmtIns.Close();
+
+        _, err = stmtIns.Exec(push_subscription);
+        if err != nil {
+            panic(err.Error());
+        }
     }
 }
 
@@ -184,7 +221,6 @@ func select_password(account string) (bool, string) {
         panic(err.Error());
     }
     defer stmtSel.Close();
-
 
     //Execute the query
     rows, err := stmtSel.Query(account);
@@ -330,8 +366,43 @@ func get_top_post(c *gin.Context) {
 
 func publish(c *gin.Context) {
     //name := c.PostForm("name");
-    //longitude, _ := strconv.ParseFloat(c.PostForm("longitude"), 64);
-    //latitude, _ := strconv.ParseFloat(c.PostForm("latitude"), 64);
+    longitude := c.PostForm("longitude");
+    latitude := c.PostForm("latitude");
+    var subscription string;
+
+    options := `{
+        "longitude": "`+longitude+`",
+        "latitude": "`+latitude+`"
+    }`;
+
+    /**********select all push subscription**********/
+    //Execute the query
+    rows, err := db.Query("SELECT push_subscription FROM push_subscription");
+    if err != nil {
+        panic(err.Error());
+    }
+
+    //fetch data
+    for rows.Next() {
+        err = rows.Scan(&subscription);
+        if err != nil {
+            panic(err.Error());
+        }
+
+        subJSON := subscription;
+
+        s := webpush.Subscription{};
+	    if err := json.NewDecoder(bytes.NewBufferString(subJSON)).Decode(&s); err != nil {
+	        panic(err.Error());
+        }
+	    _, err := webpush.SendNotification([]byte(options), &s, &webpush.Options{
+		    Subscriber:      "apple113611361@gmail.com",
+		    VAPIDPrivateKey: vapid_private_key,
+	    })
+	    if err != nil {
+	        panic(err.Error());
+	    }
+   }
 
     c.JSON(http.StatusOK, gin.H {
         "result": "1",
@@ -421,5 +492,9 @@ func get_fb_info(c *gin.Context) {
     insert_fb_info(sender_id, first_name, last_name, profile_pic, locale, timezone, gender);
 }
 
+func store_subscription(c *gin.Context) {
+    subscription := c.PostForm("subscription");
 
+    insert_push_subscription(subscription);
+}
 
