@@ -15,7 +15,6 @@ import "time"
 
 import _ "github.com/go-sql-driver/mysql"
 
-
 /****database confugure file****/
 type Conf struct {
     Host string
@@ -53,7 +52,6 @@ func main() {
     http.ListenAndServeTLS(":2997", "ssl/certificate.crt", "ssl/private.key", router);
 }
 
-
 func init_database() {
 
     /******read configure file******/
@@ -73,7 +71,15 @@ func init_database() {
     }
 }
 
-func insert_illegal_info(car_num string, location string, longitude float64, latitude float64, name string, picture string) {
+func report_illegal(c *gin.Context) {
+    location := c.PostForm("location");
+    name := c.PostForm("name");
+    picture := c.PostForm("picture");
+    car_num := c.PostForm("car_num");
+    longitude, _ := strconv.ParseFloat(c.PostForm("longitude"), 64);
+    latitude, _ := strconv.ParseFloat(c.PostForm("latitude"), 64);
+
+    /**********************insert to database******************/
     //id, time, car_number, parking_lot, longitude, latitude, name, picture
     stmtIns, err := db.Prepare("INSERT INTO illegal_info VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)");
     if err != nil {
@@ -89,74 +95,22 @@ func insert_illegal_info(car_num string, location string, longitude float64, lat
     if err != nil {
         panic(err.Error());
     }
+    /*********************************************************/
+
+    c.JSON(http.StatusOK, gin.H {
+        "result": "1",
+        "message": "post success",
+    });
 }
 
-func insert_fb_info(sender_id string, first_name string, last_name string, profile_pic string, locale string, timezone int, gender string) {
-    //id, sender_id, first_name, last_name, profile_pic, locale, timezone, gender
-    stmtIns, err := db.Prepare("INSERT INTO fb_info VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)");
-	if err != nil {
-        panic(err.Error());
-    }
-    defer stmtIns.Close();
-
-    _, err = stmtIns.Exec(sender_id, first_name, last_name, profile_pic, locale, timezone, gender);
-    if err != nil {
-        panic(err.Error());
-    }
-}
-
-func insert_user_account(account string, password string, car_number string, email string) {
-    //id, account, password, car_number
-    stmtIns, err := db.Prepare("INSERT INTO user_account VALUES(NULL, ?, ?, ?, ?)");
-    if err != nil {
-        panic(err.Error());
-    }
-    defer stmtIns.Close();
-
-    _, err = stmtIns.Exec(account, password, car_number, email);
-    if err != nil {
-        panic(err.Error());
-    }
-}
-
-func insert_push_subscription(push_subscription string) {
-    /************先找資料庫有這筆嗎*************/
-    stmtSel, err := db.Prepare("SELECT push_subscription FROM push_subscription WHERE push_subscription=?");
-    if err != nil {
-        panic(err.Error());
-    }
-    defer stmtSel.Close();
-
-    //Execute the query
-    rows, err := stmtSel.Query(push_subscription);
-    if err != nil {
-        panic(err.Error());
-    }
-
-    /***************************************/
-    if rows.Next() {        //有這筆資料
-
-    } else {                //沒有這筆資料
-        stmtIns, err := db.Prepare("INSERT INTO push_subscription VALUES (NULL, ?)");
-        if err != nil {
-            panic(err.Error());
-        }
-        defer stmtIns.Close();
-
-        _, err = stmtIns.Exec(push_subscription);
-        if err != nil {
-            panic(err.Error());
-        }
-    }
-}
-
-//return time, car_number, location, picture
-func select_illegal_info() ([5]string, [5]string, [5]string, [5]string){
+func get_illegal_post(c *gin.Context) {
+    //return time, car_number, location, picture
     var time [5]string;
     var car_number [5]string;
     var location [5]string;
     var picture [5]string;
 
+    /******select time, car_number, location, picture********/
     //Execute the query
     rows, err := db.Query("SELECT time, car_number, parking_lot, picture FROM illegal_info ORDER BY id DESC LIMIT 5");
     if err != nil {
@@ -173,126 +127,7 @@ func select_illegal_info() ([5]string, [5]string, [5]string, [5]string){
 
         i++;
     }
-
-    return time, car_number, location, picture;
-}
-
-//return count picture location car_number
-func select_top_3_illegal_car_number(index int) ([3]int, [3]string, [3]string, [3]string) {
-    var count [3]int;
-    var picture [3]string;
-    var location [3]string;
-    var car_number [3]string;
-
-    //Prepare the query
-    stmtSel, err := db.Prepare("SELECT COUNT(*) AS count, picture, parking_lot, car_number FROM (SELECT * FROM illegal_info ORDER BY id DESC) AS total GROUP BY car_number ORDER BY count DESC LIMIT ?, ?");
-    if err != nil {
-        panic(err.Error());
-    }
-    defer stmtSel.Close();
-
-    //Execute the query
-    rows, err := stmtSel.Query(index*3, 3);
-    if err != nil {
-        panic(err.Error());
-    }
-
-    //fetch the data
-    var i int = 0;
-    for rows.Next() {
-        err = rows.Scan(&count[i], &picture[i], &location[i], &car_number[i]);
-        if err != nil {
-            panic(err.Error());
-        }
-
-        i++;
-    }
-
-    return count, picture, location, car_number;
-}
-
-//return if there is the account, if yes, return the password, if no, return empty string 
-func select_password(account string) (bool, string) {
-    var password string;
-
-    //Prepare the query
-    stmtSel, err := db.Prepare("SELECT password FROM user_account WHERE account=?");
-    if err != nil {
-        panic(err.Error());
-    }
-    defer stmtSel.Close();
-
-    //Execute the query
-    rows, err := stmtSel.Query(account);
-    if err != nil {
-        panic(err.Error());
-    }
-
-    //Fetch the data
-    if rows.Next() {                //there is the account
-        err = rows.Scan(&password);
-        if err != nil {
-            panic(err.Error());
-        }
-        return true, password;
-    } else {                        //there is no that account
-        return false, "";
-    }
-}
-
-func check_if_email_exist(email string) bool {
-    var account string;
-
-    //Prepare the query
-    stmtSel, err := db.Prepare("SELECT account FROM user_account WHERE car_number=?");
-    if err != nil {
-        panic(err.Error());
-    }
-    defer stmtSel.Close();
-
-
-    //Execute the query
-    rows, err := stmtSel.Query(email);
-    if err != nil {
-        panic(err.Error());
-    }
-
-    //Fetch the data
-    if rows.Next() {                //there is the email
-        err = rows.Scan(&account);
-        if err != nil {
-            panic(err.Error());
-        }
-        return true;
-    } else {                        //there is no that eamil
-        return false;
-    }
-}
-
-func report_illegal(c *gin.Context) {
-    location := c.PostForm("location");
-    name := c.PostForm("name");
-    picture := c.PostForm("picture");
-    car_num := c.PostForm("car_num");
-    longitude, _ := strconv.ParseFloat(c.PostForm("longitude"), 64);
-    latitude, _ := strconv.ParseFloat(c.PostForm("latitude"), 64);
-
-    insert_illegal_info(car_num, location, longitude, latitude, name, picture);
-    c.JSON(http.StatusOK, gin.H {
-        "result": "1",
-        "message": "post success",
-    });
-}
-
-func get_illegal_post(c *gin.Context) {
-    //return time, car_number, location, picture
-    var time [5]string;
-    var car_number [5]string;
-    var location [5]string;
-    var picture [5]string;
-
-    time, car_number, location, picture = select_illegal_info();
-    fmt.Printf("%s %s %s %s %s", time[1], car_number[1], location[1], picture[1]);
+    /*********************************************************/
 
     c.JSON(http.StatusOK, gin.H {
         "data": []interface{} {
@@ -338,7 +173,31 @@ func get_top_post(c *gin.Context) {
 
     index, _ := strconv.Atoi(c.Query("index"));
 
-    count, picture, location, car_number = select_top_3_illegal_car_number(index);
+    /********select count picture location car_number********/
+    //Prepare the query
+    stmtSel, err := db.Prepare("SELECT COUNT(*) AS count, picture, parking_lot, car_number FROM (SELECT * FROM illegal_info ORDER BY id DESC) AS total GROUP BY car_number ORDER BY count DESC LIMIT ?, ?");
+    if err != nil {
+        panic(err.Error());
+    }
+    defer stmtSel.Close();
+
+    //Execute the query
+    rows, err := stmtSel.Query(index*3, 3);
+    if err != nil {
+        panic(err.Error());
+    }
+
+    //fetch the data
+    var i int = 0;
+    for rows.Next() {
+        err = rows.Scan(&count[i], &picture[i], &location[i], &car_number[i]);
+        if err != nil {
+            panic(err.Error());
+        }
+
+        i++;
+    }
+    /*******************************************************/
 
     c.JSON(http.StatusOK, gin.H {
         "data": []interface{} {
@@ -417,7 +276,33 @@ func signin(c *gin.Context) {
     var if_account_exist bool;
     var database_password string;
 
-    if_account_exist, database_password = select_password(account);
+    /*******check if there is the account, if yes, return the password, if no, return empty string******/
+    //Prepare the query
+    stmtSel, err := db.Prepare("SELECT password FROM user_account WHERE account=?");
+    if err != nil {
+        panic(err.Error());
+    }
+    defer stmtSel.Close();
+
+    //Execute the query
+    rows, err := stmtSel.Query(account);
+    if err != nil {
+        panic(err.Error());
+    }
+
+    //Fetch the data
+    if rows.Next() {                //there is the account
+        err = rows.Scan(&database_password);
+        if err != nil {
+            panic(err.Error());
+        }
+
+        if_account_exist = true;
+    } else {                        //there is no that account
+        if_account_exist = false;
+        database_password = "";
+    }
+    /*************************************************************************/
 
     if if_account_exist {
 
@@ -450,7 +335,29 @@ func signup(c *gin.Context) {
     car_number := c.PostForm("car_number");
     email := c.PostForm("email");
 
-    if_account_exist, _ := select_password(account);
+    var if_account_exist bool;
+    var if_email_exist bool;
+
+    /***********check if there is the account*********/
+    //Prepare the query
+    stmtSel, err := db.Prepare("SELECT password FROM user_account WHERE account=?");
+    if err != nil {
+        panic(err.Error());
+    }
+    defer stmtSel.Close();
+
+    //Execute the query
+    rows, err := stmtSel.Query(account);
+    if err != nil {
+        panic(err.Error());
+    }
+
+    if rows.Next() {                //there is the account
+        if_account_exist = true;
+    } else {                        //there is no that account
+        if_account_exist = false;
+    }
+    /**************************************************/
 
     if if_account_exist {
         c.JSON(http.StatusOK, gin.H {
@@ -458,7 +365,28 @@ func signup(c *gin.Context) {
             "message": "此帳號已存在",
         });
     } else {
-        if check_if_email_exist(email) {
+        /***********check if there is the email*********/
+        //Prepare the query
+        stmtSel, err := db.Prepare("SELECT account FROM user_account WHERE email=?");
+        if err != nil {
+            panic(err.Error());
+        }
+        defer stmtSel.Close();
+
+        //Execute the query
+        rows, err := stmtSel.Query(email);
+        if err != nil {
+            panic(err.Error());
+        }
+
+        //Fetch the data
+        if rows.Next() {                //there is the email
+            if_email_exist = true;
+        } else {                        //there is no that eamil
+            if_email_exist = false;
+        }
+
+        if if_email_exist {
             c.JSON(http.StatusOK, gin.H {
                 "result": "-3",
                 "message": "電子信箱已被使用過",
@@ -469,7 +397,19 @@ func signup(c *gin.Context) {
                 panic(err.Error());
             }
 
-            insert_user_account(account, string(bytes), car_number, email);
+            /*****************insert to database***************/
+            //id, account, password, car_number
+            stmtIns, err := db.Prepare("INSERT INTO user_account VALUES(NULL, ?, ?, ?, ?)");
+            if err != nil {
+                panic(err.Error());
+            }
+            defer stmtIns.Close();
+
+            _, err = stmtIns.Exec(account, string(bytes), car_number, email);
+            if err != nil {
+                panic(err.Error());
+            }
+            /***************************************************/
 
             c.JSON(http.StatusOK, gin.H {
                 "result": "1",
@@ -489,12 +429,56 @@ func get_fb_info(c *gin.Context) {
     timezone, _ := strconv.Atoi(c.PostForm("timezone"));
     gender := c.PostForm("gender");
 
-    insert_fb_info(sender_id, first_name, last_name, profile_pic, locale, timezone, gender);
+    /*******************insert to database********************/
+    //id, sender_id, first_name, last_name, profile_pic, locale, timezone, gender
+    stmtIns, err := db.Prepare("INSERT INTO fb_info VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)");
+	if err != nil {
+        panic(err.Error());
+    }
+    defer stmtIns.Close();
+
+    _, err = stmtIns.Exec(sender_id, first_name, last_name, profile_pic, locale, timezone, gender);
+    if err != nil {
+        panic(err.Error());
+    }
+    /*********************************************************/
+
+    c.JSON(http.StatusOK, gin.H {
+        "result": "1",
+        "message": "post success",
+    });
 }
 
 func store_subscription(c *gin.Context) {
-    subscription := c.PostForm("subscription");
+    push_subscription := c.PostForm("subscription");
 
-    insert_push_subscription(subscription);
+    /********先找資料庫有這筆嗎**********/
+    stmtSel, err := db.Prepare("SELECT push_subscription FROM push_subscription WHERE push_subscription=?");
+    if err != nil {
+        panic(err.Error());
+    }
+    defer stmtSel.Close();
+
+    //Execute the query
+    rows, err := stmtSel.Query(push_subscription);
+    if err != nil {
+        panic(err.Error());
+    }
+    /***********************************/
+
+    if rows.Next() {        //有這筆資料
+
+    } else {                //沒有這筆資料
+        stmtIns, err := db.Prepare("INSERT INTO push_subscription VALUES (NULL, ?)");
+        if err != nil {
+            panic(err.Error());
+        }
+        defer stmtIns.Close();
+
+        _, err = stmtIns.Exec(push_subscription);
+        if err != nil {
+            panic(err.Error());
+        }
+    }
 }
 
