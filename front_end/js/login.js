@@ -68,6 +68,7 @@ function clickSignUpButton(event) {
 
 function signUpSuccess(result) {
     console.log("sign up success: ", result);
+    location.replace("https://luffy.ee.ncku.edu.tw:2996/login.html")
 }
 
 function signUpError(error) {
@@ -76,6 +77,7 @@ function signUpError(error) {
 
 function signInSuccess(result) {
     console.log("sign in success: ", result);
+    location.replace("https://luffy.ee.ncku.edu.tw:2996/report.html");
 }
 
 function signInError(error) {
