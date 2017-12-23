@@ -23,7 +23,7 @@ function tugglePostSection() {
 
 function postSuccess(result) {
     console.log("post success: ", result);
-    window.alert("You are successfully post.");
+    window.alert("You have successfully posted.");
 }
 
 function postError(error) {
