@@ -91,3 +91,8 @@ function signInSuccess(result) {
 function signInError(error) {
         onError(error);
 }
+
+function onError(error) {
+    console.log(error);
+}
+

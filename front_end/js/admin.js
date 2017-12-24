@@ -1,18 +1,20 @@
 var selectText = ["10分鐘內處理", "20分鐘內處理", "處理完畢", "其他"];
+var recordKey = ["id", "time", "picture", "parking", "processStatus", "processTime", "processPerson"];
 
 function addRecord(info) {
+    console.log("info: ", info);
     var container = document.getElementById("record-contain");
     var record = document.createElement("div");
     var size = [1, 2, 2, 2, 1, 2, 1, 1];
     record.classList.add("row");
-    record.id = `record-${info[0]}`;
+    record.id = `record-${info["id"]}`;
 
     for (let i = 0; i < 8; i++) {
         var div = document.createElement("div");
         div.classList.add("col-md-" + size[i].toString());
         var span = document.createElement("span");
         if (i >= 0 && i < 7) {
-            span.textContent = info[i];
+            span.textContent = info[recordKey[i]];
         } else {
             var select = document.createElement("select");
             select.classList.add("form-control");
@@ -29,7 +31,7 @@ function addRecord(info) {
 function getRecords() {
     $.ajax({
         method: "GET",
-        url: "",
+        url: "/get_records",
         data: {
         },
         success: getRecordsSuccess,
@@ -39,7 +41,7 @@ function getRecords() {
 
 function getRecordsSuccess(result) {
     for (let i = 0; i < result.length; i++) {
-        addRecord(result[i]);
+        addRecord(result.data[i]);
     }
 }
 
