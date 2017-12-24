@@ -51,7 +51,7 @@ func main() {
 
     init_database();
 
-    http.ListenAndServeTLS(":2997", "ssl/certificate.crt", "ssl/private.key", router);
+    http.ListenAndServeTLS(":2996", "ssl/certificate.crt", "ssl/private.key", router);
 }
 
 func init_database() {
