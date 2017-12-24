@@ -1,6 +1,8 @@
 var selectText = ["10分鐘內處理", "20分鐘內處理", "處理完畢", "其他"];
 var recordKey = ["id", "time", "picture", "parking", "processStatus", "processTime", "processPerson"];
 
+getRecords();
+
 function addRecord(info) {
     console.log("info: ", info);
     var container = document.getElementById("record-contain");
@@ -18,8 +20,8 @@ function addRecord(info) {
         } else {
             var select = document.createElement("select");
             select.classList.add("form-control");
-            select.id = `update-${info[0]}`;
-            setUpdateSelect(info[0], select);
+            select.id = `update-${info["id"]}`;
+            setUpdateSelect(info["id"], select);
             span.appendChild(select);
         }
         div.appendChild(span);
@@ -40,7 +42,8 @@ function getRecords() {
 }
 
 function getRecordsSuccess(result) {
-    for (let i = 0; i < result.length; i++) {
+    console.log("result: ", result);
+    for (let i = 0; i < result.data.length; i++) {
         addRecord(result.data[i]);
     }
 }
@@ -69,7 +72,7 @@ function changeUpdate(event) {
 function updateStatus(id, status) {
     $.ajax({
         method: "POST", 
-        url: "",
+        url: "update_status",
         data: {
             id: id,
             status: status
@@ -82,9 +85,9 @@ function updateStatus(id, status) {
 function updateStatusSuccess(result) {
     console.log("success: ", result);
     if (result.result == 1) {
-         document.getElementById(`row-${result.data.id}`).getElementsByTagName("div")[4].textContent = result.data.status;
+         document.getElementById(`record-${result.data.id}`).getElementsByTagName("div")[4].textContent = result.data.status;
          if (result.data.status == "處理完畢") {
-            document.getElementById(`row-${result.data.id}`).getElementsByTagName("div")[5].textContent = result.data.time;
+            document.getElementById(`record-${result.data.id}`).getElementsByTagName("div")[5].textContent = result.data.time;
          }
     } else {
         alert("fail to update status");
