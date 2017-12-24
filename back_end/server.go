@@ -39,6 +39,7 @@ func main() {
 
     router.GET("/get_illegal_post", get_illegal_post);
     router.GET("/get_top_post", get_top_post);
+    router.GET("/get_records", get_records);
 
     router.POST("/report_illegal", report_illegal);
     router.POST("/publish", publish);
@@ -221,6 +222,53 @@ func get_top_post(c *gin.Context) {
                 "car_num": car_number[2],
             },
         },
+    });
+}
+
+func get_records(c *gin.Context) {
+    var id [15]string;
+    var time [15]string;
+    var parking_lot [15]string;
+    var picture [15]string;
+    var process_status [15]string;
+    var process_time [15]string;
+    var processor [15]string;
+
+    /******select id, time, parking_lot, picture, process_status, process_time, processor********/
+    //Execute the query
+    rows, err := db.Query("SELECT id, time, parking_lot, picture, process_status, process_time, processor FROM illegal_info ORDER BY id DESC LIMIT 15");
+    if err != nil {
+        panic(err.Error());
+    }
+
+    //fetch data
+    var i int = 0;
+    for rows.Next() {
+        err = rows.Scan(&id[i], &time[i], &parking_lot[i], &picture[i], &process_status[i], &process_time[i], &processor[i]);
+        if err != nil {
+            panic(err.Error());
+        }
+
+        i++;
+    }
+    /*********************************************************/
+
+    var data []gin.H;
+
+    for j:=0; j<i; j++ {
+        data = append(data, gin.H{
+            "id": id[j],
+            "time": time[j],
+            "parking": parking_lot[j],
+            "picture": picture[j],
+            "processStatus": process_status[j],
+            "processTime": process_time[j],
+            "processPerson": processor[j],
+        })
+    }
+
+    c.JSON(http.StatusOK, gin.H {
+        "data": data,
     });
 }
 
