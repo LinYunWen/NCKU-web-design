@@ -100,7 +100,7 @@ func report_illegal(c *gin.Context) {
     /*********************************************************/
 
     c.JSON(http.StatusOK, gin.H {
-        "result": "1",
+        "result": 1,
         "message": "post success",
     });
 }
@@ -313,7 +313,7 @@ func publish(c *gin.Context) {
    }
 
     c.JSON(http.StatusOK, gin.H {
-        "result": "1",
+        "result": 1,
         "message": "post success",
     });
 }
@@ -359,19 +359,19 @@ func signin(c *gin.Context) {
 
         if err==nil {       //password correct
             c.JSON(http.StatusOK, gin.H {
-                "result": "1",
+                "result": 1,
                 "message": "登入成功",
             });
         } else {            //password wrong
             c.JSON(http.StatusOK, gin.H {
-                "result": "-1",
+                "result": -1,
                 "message": "帳號或密碼輸入錯誤",
             });
         }
 
     } else {                //these is no account
         c.JSON(http.StatusOK, gin.H {
-            "result": "-1",
+            "result": -1,
             "message": "帳號或密碼輸入錯誤",
         });
     }
@@ -410,7 +410,7 @@ func signup(c *gin.Context) {
 
     if if_account_exist {
         c.JSON(http.StatusOK, gin.H {
-            "result": "-2",
+            "result": -2,
             "message": "此帳號已存在",
         });
     } else {
@@ -437,7 +437,7 @@ func signup(c *gin.Context) {
 
         if if_email_exist {
             c.JSON(http.StatusOK, gin.H {
-                "result": "-3",
+                "result": -3,
                 "message": "電子信箱已被使用過",
             });
         } else {
@@ -461,7 +461,7 @@ func signup(c *gin.Context) {
             /***************************************************/
 
             c.JSON(http.StatusOK, gin.H {
-                "result": "1",
+                "result": 1,
                 "message": "註冊成功",
             });
         }
@@ -493,7 +493,7 @@ func get_fb_info(c *gin.Context) {
     /*********************************************************/
 
     c.JSON(http.StatusOK, gin.H {
-        "result": "1",
+        "result": 1,
         "message": "post success",
     });
 }
@@ -540,7 +540,7 @@ func update_status(c *gin.Context) {
     /****************/
 
    /*******************update to database********************/
-    stmtIns, err := db.Prepare("UPDATE illegal_indo SET process_status=?, process_time=? WHERE id=?");
+    stmtIns, err := db.Prepare("UPDATE illegal_info SET process_status=?, process_time=? WHERE id=?");
 	if err != nil {
         panic(err.Error());
     }
@@ -560,7 +560,7 @@ func update_status(c *gin.Context) {
     /*********************************************************/
 
     c.JSON(http.StatusOK, gin.H {
-        "result": "1",
+        "result": 1,
         "message": "update success",
         "data": gin.H {
             "id": id,
