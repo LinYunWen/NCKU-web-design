@@ -92,3 +92,7 @@ function signInError(error) {
     onError(error);
 }
 
+function onError(error) {
+    console.log(error);
+}
+

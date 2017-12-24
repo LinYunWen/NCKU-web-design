@@ -11,12 +11,14 @@ function clickEditButton(event) {
 function tugglePostSection() {
     var section = document.getElementById("post-illegal-parking");
     var state = isSectionShow ? "none" : "inline";
+    var stateOther = !isSectionShow ? "none" : "inline";
     if ($(window).width() < 800) {
-        section.style.height = "100vh";
-        section.style.width = "100vw";
-        section.style.bottom = "0";
-        section.style.left = "0";
+        section.style.top = "10vh";
     }
+    document.getElementById("rank").style.display = stateOther;
+    document.getElementById("illegal-parking").style.display = stateOther;
+    document.getElementById("intro").style.display = stateOther;
+    document.getElementsByTagName("footer")[0].style.display = stateOther;
     section.style.display = state;
     isSectionShow = !isSectionShow;
 }
