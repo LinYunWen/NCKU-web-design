@@ -59,7 +59,7 @@ function clickSignUpButton(event) {
             account: signUpAccountInput.value,
             password: signUpPasswordInput.value,
             email: signUpEmailInput.value,
-            carNum: signUpCarNumInput.value
+            car_num: signUpCarNumInput.value
         },
         success: signUpSuccess,
         error: signUpError
@@ -68,6 +68,11 @@ function clickSignUpButton(event) {
 
 function signUpSuccess(result) {
     console.log("sign up success: ", result);
+    if (result.result == 1) {
+        location.replace("https://luffy.ee.ncku.edu.tw:2996/login.html");
+    } else {
+        alert(result.message);
+    }
 }
 
 function signUpError(error) {
@@ -76,6 +81,11 @@ function signUpError(error) {
 
 function signInSuccess(result) {
     console.log("sign in success: ", result);
+    if (result.result == 1) {
+        location.replace("https://luffy.ee.ncku.edu.tw:2996/report.html");
+    } else {
+        alert(result.message);
+    }
 }
 
 function signInError(error) {

@@ -28,31 +28,96 @@ function geoError(error) {
 function setSelection(lon, lat) {
     // initial location
     $("#upload-location").val('6');
-    if (lon >= 120.214791 && lon <= 120.216891) {
-        if (lat >= 22.996430 && lat <= 22.997637) {
-            $("#upload-location").val('1'); // selects "guan fu"
-        }
+    var x=0,y=0;
+    if (lon > 120.214941 && lon <= 120.218740) {
+        x=1;
     } 
-    else if (lon >= 120.217152 && lon <= 120.218704) {
-        if (lat >= 22.998407 && lat <= 22.999077) {
-            $("#upload-location").val('2'); // selects "yuan pin"
-        }
+    else if (lon > 120.218740 && lon <= 120.222321) {
+        x=2;
     }
-    else if (lon >= 120.215482 && lon <= 120.217182) {
-        if(lat >= 23.000521 && lat <= 23.001786) {
-            $("#upload-location").val('3'); // selects "social"
-        }
+    else if (lon > 120.222321 && lon <= 120.224685) {
+        x=3;
     }
-    else if (lon >= 120.220100 && lon <= 120.222244) {
-        if (lat >= 22.995908 && lat <= 22.998956) {
-            $("#upload-location").val('4'); // selects "csie"
-        }
+
+
+    if (lat > 23.001407 && lat <= 23.003730) {
+        y=1;
+    } 
+    else if (lat > 22.999900 && lat <= 23.001407) {
+        y=2;
     }
-    else if (lon >= 120.219007 && lon <= 120.221164) {
-        if (lat >= 22.992849 && lat <= 22.993531) {
-            $("#upload-location").val('5'); // selects "senli"
-        }
+    else if(lat > 22.997557 && lat <= 22.999900) {
+        y=3;
     }
+    else if(lat > 22.995941 && lat <= 22.997557) {
+        y=4;
+    }
+    else if(lat > 22.992533 && lat <= 22.995941) {
+        y=5;
+    }
+    
+
+    if(x==1 && y==1){
+        $("#upload-location").val('3'); // selects "social"
+        console.log('society');
+    }
+    else if(x==1 && y==2){
+        console.log('tree park');
+    }
+    else if(x==1 && y==3){
+        $("#upload-location").val('2'); // selects "yuan pin"
+        console.log('cloud');
+    }
+    else if(x==1 && y==4){
+        console.log('tree park');$("#upload-location").val('1'); // selects "guan fu"
+        console.log('guanfu');
+    }
+    else if(x==1 && y==5){
+        console.log('new parking');
+    }
+
+    else if(x==2 && y==1){
+        console.log('hospital');
+    }
+    else if(x==2 && y==2){
+        console.log('library');
+    }
+    else if(x==2 && y==3){
+        console.log('big street');
+    }
+    else if(x==2 && y==4){
+        $("#upload-location").val('4'); // selects "csie"
+        console.log('csie');
+    }
+    else if(x==2 && y==5){
+        $("#upload-location").val('5'); // selects "senli"
+        console.log('win');
+    }
+
+    else if(x==3 && y==1){
+        console.log('gin ya');
+    }
+    else if(x==3 && y==2){
+        console.log('ball');
+    }
+    else if(x==3 && y==3){
+        console.log('big street');
+    }
+    else if(x==3 && y==4){
+        console.log('ee');
+    }
+    else if(x==3 && y==5){
+        console.log('iaa');
+    }
+
+   
+    
+    
+   
+    
+   
+    
+    
 }
 
 function getLonAndLat() {
