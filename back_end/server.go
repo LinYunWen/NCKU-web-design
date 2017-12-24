@@ -46,6 +46,7 @@ func main() {
     router.POST("/signup", signup);
     router.POST("/get_fb_info", get_fb_info);
     router.POST("/store_subscription", store_subscription);
+    router.POST("/update_status", update_status);
 
     init_database();
 
@@ -481,4 +482,45 @@ func store_subscription(c *gin.Context) {
         }
     }
 }
+
+func update_status(c *gin.Context) {
+    id := c.PostForm("id");
+    status := c.PostForm("status");
+
+    /****get time****/
+    now := time.Now().Format("2006-01-02 15:04:05");
+    /****************/
+
+   /*******************update to database********************/
+    stmtIns, err := db.Prepare("UPDATE illegal_indo SET process_status=?, process_time=? WHERE id=?");
+	if err != nil {
+        panic(err.Error());
+    }
+    defer stmtIns.Close();
+
+    if status == "處理完畢" {                   //process finish
+       _, err = stmtIns.Exec(status, now, id);
+        if err != nil {
+            panic(err.Error());
+        }
+    } else {                                    //process not finish
+        _, err = stmtIns.Exec(status, nil, id);
+        if err != nil {
+            panic(err.Error());
+        }
+    }
+    /*********************************************************/
+
+    c.JSON(http.StatusOK, gin.H {
+        "result": "1",
+        "message": "update success",
+        "data": gin.H {
+            "id": id,
+            "status": status,
+            "time": now,
+        },
+    });
+
+}
+
 
