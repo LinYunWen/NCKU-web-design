@@ -1,8 +1,28 @@
 .record-title {
     text-align: center;
-    background-color: lightblue;
+    background-color: #29D9C2 ;
+}
+
+.record-title div{
+    color:#2F2933;
+    margin-top:25px;
 }
 
 #record-contain {
-    background-color: lightgreen;
+    background-color: #ffffa6;
+    text-align: center;
+}
+
+.title{
+    background-color:#BDF271;
+
+}
+
+.title h1,h3{
+    color:#2F2933;
+    margin-top:25px;
+}
+
+body{
+    background-color: #CBDBD7;
 }

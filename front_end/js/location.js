@@ -29,6 +29,7 @@ function setSelection(lon, lat) {
     // initial location
     $("#upload-location").val('6');
     var x=0,y=0;
+    
     if (lon > 120.214941 && lon <= 120.218740) {
         x=1;
     } 
