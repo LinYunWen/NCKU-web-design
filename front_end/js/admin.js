@@ -1,20 +1,28 @@
+var selectText = ["10分鐘內處理", "20分鐘內處理", "處理完畢", "其他"];
+var recordKey = ["id", "time", "picture", "parking", "processStatus", "processTime", "processPerson"];
+
+getRecords();
+
 function addRecord(info) {
+    console.log("info: ", info);
     var container = document.getElementById("record-contain");
     var record = document.createElement("div");
     var size = [1, 2, 2, 2, 1, 2, 1, 1];
     record.classList.add("row");
+    record.id = `record-${info["id"]}`;
 
     for (let i = 0; i < 8; i++) {
         var div = document.createElement("div");
         div.classList.add("col-md-" + size[i].toString());
         var span = document.createElement("span");
         if (i >= 0 && i < 7) {
-            span.textContent = info[i];
+            span.textContent = info[recordKey[i]];
         } else {
-            var input = document.createElement("input");
-            input.type = "button";
-            setUpdateButton(info[0], input);
-            span.appendChild(input);
+            var select = document.createElement("select");
+            select.classList.add("form-control");
+            select.id = `update-${info["id"]}`;
+            setUpdateSelect(info["id"], select);
+            span.appendChild(select);
         }
         div.appendChild(span);
         record.appendChild(div);
@@ -25,7 +33,7 @@ function addRecord(info) {
 function getRecords() {
     $.ajax({
         method: "GET",
-        url: "",
+        url: "/get_records",
         data: {
         },
         success: getRecordsSuccess,
@@ -34,8 +42,9 @@ function getRecords() {
 }
 
 function getRecordsSuccess(result) {
-    for (let i = 0; i < result.length; i++) {
-        addRecord(result[i]);
+    console.log("result: ", result);
+    for (let i = 0; i < result.data.length; i++) {
+        addRecord(result.data[i]);
     }
 }
 
@@ -43,22 +52,27 @@ function getRecordsError(error) {
     console.log("error: ", error);
 }
 
-function setUpdateButton(id, input) {
-    input.value = "update...";
-    input.id = `update-${id}`;
-    input.addEventListener("click", clickUpdate);
+function setUpdateSelect(id, select) {
+    for (let i = 0; i < 4; i++) {
+        var option = document.createElement("option");
+        option.value = i;
+        option.textContent = selectText[i];
+        select.appendChild(option);
+    }
+    select.addEventListener("change", changeUpdate);
 }
 
-function clickUpdate(event) {
+function changeUpdate(event) {
     var update = event.target;
     var id = update.id.substring(update.id.indexOf("-") + 1);
-    updateStatus(id, status);
+    updateStatus(id, selectText[update.value]);
+    console.log("id: ", id, selectText[update.value]);
 }
 
 function updateStatus(id, status) {
     $.ajax({
         method: "POST", 
-        url: "",
+        url: "update_status",
         data: {
             id: id,
             status: status
@@ -69,9 +83,18 @@ function updateStatus(id, status) {
 }
 
 function updateStatusSuccess(result) {
-    
+    console.log("success: ", result);
+    if (result.result == 1) {
+         document.getElementById(`record-${result.data.id}`).getElementsByTagName("div")[4].textContent = result.data.status;
+         if (result.data.status == "處理完畢") {
+            document.getElementById(`record-${result.data.id}`).getElementsByTagName("div")[5].textContent = result.data.time;
+         }
+    } else {
+        alert("fail to update status");
+    }
 }
 
 function updateStatusError(error) {
     console.log("error: ", error);
+    alert("fail to update status");
 }

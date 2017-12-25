@@ -40,6 +40,10 @@ function getIllegalError(error) {
 
 function getTopSuccess(result) {
     console.log("get top success: ", result);
+    var top3Imgs = document.getElementsByClassName("top3-img");
+    for (let i = 0; i < 3; i++) {
+        top3Imgs[i].src = result["data"][i]["picture"];
+    }
 }
 
 function getTopError(error) {
@@ -48,6 +52,7 @@ function getTopError(error) {
 
 function publishSuccess(result) {
     console.log("get publish success: ", result);
+    alert("You have successfully published.");
 }
 
 function publishError(error) {

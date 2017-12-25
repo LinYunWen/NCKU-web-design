@@ -1,7 +1,5 @@
 #post-illegal-parking {
-    position: fixed;
-    bottom: 18vh;
-    left: 10vw;
+    top: 10vh;
     z-index: 250;
     display: none;
 }

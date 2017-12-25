@@ -132,6 +132,7 @@ function getLonAndLat() {
 // 5: senli
 // 6: others
 function parseToWord(id) {
+    console.log("id: ", id);
     switch (id) {
         case 1:
             return "guan-fu";
