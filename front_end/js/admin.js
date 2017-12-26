@@ -18,7 +18,12 @@ function addRecord(info) {
         div.classList.add("col-md-" + size[i].toString());
         var span = document.createElement("span");
         if (i >= 0 && i < 7) {
-            span.textContent = info[recordKey[i]];
+            if (i == 3) {
+                var img = addImage(info[recordKey[i]]);
+                span.appendChild(img);
+            } else {
+                span.textContent = info[recordKey[i]];
+            }
         } else {
             var select = document.createElement("select");
             select.classList.add("form-control");
@@ -104,6 +109,7 @@ function updateStatusError(error) {
 function autoReflesh() {
     setInterval(function() {
         location.reload();
+        console.log("refresh");
     }, 300000);
 }
 
@@ -115,4 +121,11 @@ function setTimeStamps() {
     var hour = d.getHours().toString();
     var minute = d.getMinutes().toString();
     document.getElementById("time-stamps").textContent = `更新時間： ${year}/${month}/${date} ${hour}:${minute}`;
+}
+
+function addImage(url) {
+    var img = document.createElement("img");
+    img.src = url;
+    img.classList.add("post-image");
+    return img;
 }

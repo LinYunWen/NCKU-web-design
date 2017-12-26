@@ -32,3 +32,8 @@ body{
     margin-bottom: 20px;
     margin-right: 15px;
 }
+
+.post-image {
+    max-height: 300px;
+    max-width: 300px;
+}
