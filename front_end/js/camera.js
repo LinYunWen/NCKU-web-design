@@ -55,6 +55,7 @@ function startTakePhoto(event) {
     imageCapture.takePhoto()
         .then(blob => {
             imageBlob = blob;
+            carNumRecognition(blob);
             photoImg.src = URL.createObjectURL(blob);
             photoImg.onload = () => { URL.revokeObjectURL(this.src); }
         })
