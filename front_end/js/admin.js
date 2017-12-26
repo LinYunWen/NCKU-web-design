@@ -1,7 +1,9 @@
 var selectText = ["10分鐘內處理", "20分鐘內處理", "處理完畢", "其他"];
 var recordKey = ["id", "time", "picture", "parking", "processStatus", "processTime", "processPerson"];
 
+setTimeStamps();
 getRecords();
+autoReflesh();
 
 function addRecord(info) {
     console.log("info: ", info);
@@ -97,4 +99,20 @@ function updateStatusSuccess(result) {
 function updateStatusError(error) {
     console.log("error: ", error);
     alert("fail to update status");
+}
+
+function autoReflesh() {
+    setInterval(function() {
+        location.reload();
+    }, 300000);
+}
+
+function setTimeStamps() {
+    var d = new Date();
+    var year = d.getFullYear().toString();
+    var month = d.getMonth().toString();
+    var date = d.getDate().toString();
+    var hour = d.getHours().toString();
+    var minute = d.getMinutes().toString();
+    document.getElementById("time-stamps").textContent = `更新時間： ${year}/${month}/${date} ${hour}:${minute}`;
 }

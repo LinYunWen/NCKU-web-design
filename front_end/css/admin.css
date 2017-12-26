@@ -26,3 +26,9 @@
 body{
     background-color: #CBDBD7;
 }
+
+#time-stamps {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-right: 15px;
+}
