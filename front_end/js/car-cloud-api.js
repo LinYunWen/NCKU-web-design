@@ -31,9 +31,13 @@ function carNumRecognition(blob) {
 
 function carNumRecognitionSuccess(result) {
     result = JSON.parse(result);
-    var carNum = result["results"][0]["plate"]; 
-    console.log(result["results"][0]["plate"]);
-    $("#upload-car-num").val(carNum);
+    if (result["result"].length != 0) {
+        var carNum = result["results"][0]["plate"]; 
+        console.log(result["results"][0]["plate"]);
+        $("#upload-car-num").val(carNum);
+    } else {
+        console.log("no result");
+    }
 }
 
 function carNumRecognitionError(error) {

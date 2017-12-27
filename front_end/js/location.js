@@ -133,7 +133,7 @@ function getLonAndLat() {
 // 6: others
 function parseToWord(id) {
     console.log("id: ", id);
-    switch (id) {
+    switch (parseInt(id)) {
         case 1:
             return "guan-fu";
             break;
