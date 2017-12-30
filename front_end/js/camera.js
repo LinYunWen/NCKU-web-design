@@ -25,17 +25,16 @@ function clickUploadPhoto(event) {
 
 function clickCrossIcon(event) {
     console.log("here");
-    setTrackStop();
+    stopTracks();
     setCameraDisplay("none");
     setWebPageDisplay("block");
 }
 
 function uploadPhotoChange(event) {
-    console.log("event: ", event);
     console.log("file: ", event.target.files[0]);
     photoImg.src = URL.createObjectURL(event.target.files[0]);
     setCameraDisplay("none");
-    setTrackStop();
+    stopTracks();
     setPostSectionDisplay("inline");
 }
 
@@ -70,7 +69,7 @@ function startTakePhoto(event) {
     setPostSectionDisplay("inline");
 }
 
-function setTrackStop() {
+function stopTracks() {
     window.stream.getTracks().forEach(function(track) {
         track.stop();
     });
@@ -105,7 +104,7 @@ function gotStream(stream) {
 
 function start() {
   if (window.stream) {
-    setTrackStop();
+    stopTracks();
   }
   var videoSource = deviceIds[deviceIndex];
   var constraints = {

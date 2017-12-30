@@ -1,9 +1,25 @@
 document.getElementById("edit-button").addEventListener("click", clickEditButton);
 document.getElementById("post-button").addEventListener("click", clickPostButton);
+document.getElementById("cancel-button").addEventListener("click", clickCancelButton);
 
 function clickEditButton(event) {
     document.getElementById("use-camera").click();
     getLocation();
+}
+
+function clickCancelButton(event) {
+    event.preventDefault();
+    stopTracks();
+    setPostSectionDisplay("none");
+    setWebPageDisplay("block");
+}
+
+function clickPostButton(event) {
+    event.preventDefault();
+    mediaStreamTrack.stop();
+    uploadImage(imageBlob);
+    setPostSectionDisplay("none");
+    setWebPageDisplay("block");
 }
 
 function setPostSectionDisplay(state) {
@@ -49,14 +65,6 @@ function sendPost(imageURL) {
             error: postError
         }
     );
-}
-
-function clickPostButton(event) {
-    event.preventDefault();
-    mediaStreamTrack.stop();
-    uploadImage(imageBlob);
-    setPostSectionDisplay("none");
-    setWebPageDisplay("block");
 }
 
 function onError(error) {
