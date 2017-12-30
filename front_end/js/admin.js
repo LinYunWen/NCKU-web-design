@@ -18,7 +18,7 @@ function addRecord(info) {
         div.classList.add("col-md-" + size[i].toString());
         var span = document.createElement("span");
         if (i >= 0 && i < 7) {
-            if (i == 3) {
+            if (i == 2) {
                 var img = addImage(info[recordKey[i]]);
                 span.appendChild(img);
             } else {
