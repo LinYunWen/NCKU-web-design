@@ -32,11 +32,11 @@ function getIllegalSuccess(result) {
     var parkingLocation = document.getElementById("lpcation-span");
     var parkingCar = document.getElementById("car-span");
     var parkingTime = document.getElementById("time-span");
+    parkingLocation.textContent = result["data"][0]["location"];
+    parkingCar.textContent = result["data"][0]["car_num"];
+    parkingTime.textContent = result["data"][0]["time"];
     for (let i=0; i<5; i++) {
         parkingImgs[i].src = result["data"][i]["picture"];
-        parkingLocation.textContent = result["data"][i]["location"];
-        parkingCar.textContent = result["data"][i]["car_num"];
-        parkingTime.textContent = result["data"][i]["time"];
     }
 }
 
