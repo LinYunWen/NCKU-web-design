@@ -34,3 +34,12 @@
     left: 10vw;
     margin:0 auto;
 }
+
+.cross-icon {
+    display: none;
+    z-index: 350;
+    position: fixed;
+    top: 5vh;
+    right: 10vw;
+    margin:0 auto;
+}

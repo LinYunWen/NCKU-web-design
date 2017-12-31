@@ -14,33 +14,38 @@ var deviceIds = [];
 var deviceIndex = 0;
 
 document.getElementById("take-photo").addEventListener("click", startTakePhoto);
+document.getElementById("cross-icon").addEventListener("click", clickCrossIcon);
 document.getElementById("upload-photo").addEventListener("click", clickUploadPhoto);
-document.getElementById("upload-photo").addEventListener("change", uploadPhotoChange);
+document.getElementById("upload-photo-input").addEventListener("change", uploadPhotoChange);
 cameraButton.addEventListener("click", clickCameraButton);
 
 function clickUploadPhoto(event) {
     document.getElementById("upload-photo-input").click();
 }
 
-function uploadPhotoChange(files) {
-    photoImg.src = URL.createObjectURL(files[0]);
-    tuggleCamera();
+function clickCrossIcon(event) {
+    console.log("here");
+    stopTracks();
+    setCameraDisplay("none");
+    setWebPageDisplay("block");
+}
+
+function uploadPhotoChange(event) {
+    console.log("file: ", event.target.files[0]);
+    photoImg.src = URL.createObjectURL(event.target.files[0]);
+    setCameraDisplay("none");
+    stopTracks();
+    setPostSectionDisplay("inline");
 }
 
 function clickCameraButton(event) {
-    if (imageCapture == undefined) {
-        /*
-        navigator.mediaDevices.getUserMedia({video: true})
-            .then(gotMedia)
-            .catch(error => console.error('getUserMedia() error:', error));
-        */
-        start();
-    }
+    start();
     if (isCameraShow) {
         // Stop all video streams.
         player.srcObject.getVideoTracks().forEach(track => track.stop());
     }
-    tuggleCamera();
+    setCameraDisplay("inline");
+    setWebPageDisplay("none");
 }
 
 function gotMedia(mediaStream) {
@@ -60,17 +65,22 @@ function startTakePhoto(event) {
             photoImg.onload = () => { URL.revokeObjectURL(this.src); }
         })
         .catch(error => console.error('takePhoto() error:', error));
-    tuggleCamera();
-    tugglePostSection();
+    setCameraDisplay("none");
+    setPostSectionDisplay("inline");
 }
 
-function tuggleCamera() {
-    var state = isCameraShow ? "none" : "inline";
+function stopTracks() {
+    window.stream.getTracks().forEach(function(track) {
+        track.stop();
+    });
+}
+
+function setCameraDisplay(state) {
     document.getElementById("camera").style.display = state;
     document.getElementById("take-photo").style.display = state;
     document.getElementById("change-camera").style.display = state;
     document.getElementById("upload-photo").style.display = state;
-    isCameraShow = !isCameraShow;
+    document.getElementById("cross-icon").style.display = state;
 }
 
 function gotDevices(deviceInfos) {
@@ -94,9 +104,7 @@ function gotStream(stream) {
 
 function start() {
   if (window.stream) {
-    window.stream.getTracks().forEach(function(track) {
-      track.stop();
-    });
+    stopTracks();
   }
   var videoSource = deviceIds[deviceIndex];
   var constraints = {
