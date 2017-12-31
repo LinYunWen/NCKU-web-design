@@ -4,6 +4,7 @@ import "github.com/gin-gonic/gin"
 import "github.com/gin-contrib/static"
 import "golang.org/x/crypto/bcrypt"
 import "github.com/SherClockHolmes/webpush-go"
+import "github.com/gin-contrib/sessions"
 import "bytes"
 import "net/http"
 import "database/sql"
@@ -31,12 +32,14 @@ var db *sql.DB;
 func main() {
 
     router := gin.Default();
+    store := sessions.NewCookieStore([]byte(vapid_private_key));     //use vapid_private_key for convenience
+
     router.Use(static.Serve("/", static.LocalFile("../front_end", true)));
+    router.Use(sessions.Sessions("sessionID", store));
 
     router.GET("/", func(c *gin.Context) {
         c.HTML(http.StatusOK, "index.html", nil);
     });
-
     router.GET("/get_illegal_post", get_illegal_post);
     router.GET("/get_top_post", get_top_post);
     router.GET("/get_records", get_records);
@@ -321,9 +324,25 @@ func publish(c *gin.Context) {
 func signin(c *gin.Context) {
     account := c.PostForm("account");
     password := c.PostForm("password");
+    session := sessions.Default(c);
 
+    var if_signin bool;
     var if_account_exist bool;
     var database_password string;
+
+    v := session.Get("if_signin");
+    if v == nil {
+        fmt.Printf("have not signined\n");
+    } else {
+        if_signin = v.(bool);
+
+        if if_signin {
+            fmt.Printf("have signined\n");
+        } else {
+            fmt.Printf("have not signined\n");
+        }
+    }
+
 
     /*******check if there is the account, if yes, return the password, if no, return empty string******/
     //Prepare the query
@@ -358,6 +377,10 @@ func signin(c *gin.Context) {
         err := bcrypt.CompareHashAndPassword([]byte(database_password), []byte(password));
 
         if err==nil {       //password correct
+            if_signin = true;
+            session.Set("if_signin", if_signin);
+            session.Save();
+
             c.JSON(http.StatusOK, gin.H {
                 "result": 1,
                 "message": "登入成功",
