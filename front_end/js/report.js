@@ -29,8 +29,14 @@ function getTopPost(index) {
 function getIllegalSuccess(result) {
     console.log("get illegal success: ", result);
     var parkingImgs = document.getElementsByClassName("illegal-parking");
+    var parkingLocation = document.getElementById("lpcation-span");
+    var parkingCar = document.getElementById("car-span");
+    var parkingTime = document.getElementById("time-span");
     for (let i=0; i<5; i++) {
         parkingImgs[i].src = result["data"][i]["picture"];
+        parkingLocation.textContent = result["data"][i]["location"];
+        parkingCar.textContent = result["data"][i]["car_num"];
+        parkingTime.textContent = result["data"][i]["time"];
     }
 }
 
