@@ -43,6 +43,7 @@ func main() {
     router.GET("/get_illegal_post", get_illegal_post);
     router.GET("/get_top_post", get_top_post);
     router.GET("/get_records", get_records);
+    router.GET("/get_session", get_session);
 
     router.POST("/report_illegal", report_illegal);
     router.POST("/publish", publish);
@@ -326,17 +327,17 @@ func signin(c *gin.Context) {
     password := c.PostForm("password");
     session := sessions.Default(c);
 
-    var if_signin bool;
+    var signin_status bool;
     var if_account_exist bool;
     var database_password string;
 
-    v := session.Get("if_signin");
+    v := session.Get("signin_status");
     if v == nil {
         fmt.Printf("have not signined\n");
     } else {
-        if_signin = v.(bool);
+        signin_status = v.(bool);
 
-        if if_signin {
+        if signin_status {
             fmt.Printf("have signined\n");
         } else {
             fmt.Printf("have not signined\n");
@@ -377,8 +378,8 @@ func signin(c *gin.Context) {
         err := bcrypt.CompareHashAndPassword([]byte(database_password), []byte(password));
 
         if err==nil {       //password correct
-            if_signin = true;
-            session.Set("if_signin", if_signin);
+            signin_status = true;
+            session.Set("signin_status", signin_status);
             session.Set("account", account);
             session.Save();
 
@@ -592,6 +593,38 @@ func update_status(c *gin.Context) {
             "time": now,
         },
     });
+
+}
+
+func get_session(c *gin.Context) {
+    var signin_status bool;
+    var account string;
+
+    session := sessions.Default(c);
+
+    v := session.Get("signin_status");
+    if v == nil {                       //do not have a session
+        c.JSON(http.StatusOK, gin.H {
+            "signin_status": false,
+        });
+    } else {                            //have a session
+        signin_status = v.(bool);
+
+        if signin_status {                  //the state is signin
+            v = session.Get("account");
+            account = v.(string);
+
+            c.JSON(http.StatusOK, gin.H {
+                "signin_status": signin_status,
+                "account": account,
+            });
+        } else {                        //the state is not signin
+            c.JSON(http.StatusOK, gin.H {
+                "signin_status": signin_status,
+            });
+        }
+    }
+
 
 }
 
