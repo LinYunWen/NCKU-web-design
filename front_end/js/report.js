@@ -4,7 +4,7 @@ getIllegalPost();
 getTopPost();
 getSession();
 
-document.getElementById("sign-out-li").addEventListener("clcik", clickSignOut);
+document.getElementById("sign-out-li").addEventListener("click", clickSignOut);
 
 function clickSignOut(event) {
     $.ajax({
