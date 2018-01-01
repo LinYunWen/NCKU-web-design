@@ -408,6 +408,7 @@ func signout(c *gin.Context) {
     session := sessions.Default(c);
 
     session.Set("signin_status", false);
+    session.Save();
 
     c.JSON(http.StatusOK, gin.H {
         "result": 1,
