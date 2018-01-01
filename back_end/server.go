@@ -48,6 +48,7 @@ func main() {
     router.POST("/report_illegal", report_illegal);
     router.POST("/publish", publish);
     router.POST("/signin", signin);
+    router.POST("/signout", signout);
     router.POST("/signup", signup);
     router.POST("/get_fb_info", get_fb_info);
     router.POST("/store_subscription", store_subscription);
@@ -401,6 +402,17 @@ func signin(c *gin.Context) {
         });
     }
 
+}
+
+func signout(c *gin.Context) {
+    session := sessions.Default(c);
+
+    session.Set("signin_status", false);
+
+    c.JSON(http.StatusOK, gin.H {
+        "result": 1,
+        "message": "登出成功",
+    });
 }
 
 func signup(c *gin.Context) {
