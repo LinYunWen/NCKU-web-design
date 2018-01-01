@@ -4,6 +4,7 @@ import "github.com/gin-gonic/gin"
 import "github.com/gin-contrib/static"
 import "golang.org/x/crypto/bcrypt"
 import "github.com/SherClockHolmes/webpush-go"
+import "github.com/gin-contrib/sessions"
 import "bytes"
 import "net/http"
 import "database/sql"
@@ -31,19 +32,23 @@ var db *sql.DB;
 func main() {
 
     router := gin.Default();
+    store := sessions.NewCookieStore([]byte(vapid_private_key));     //use vapid_private_key for convenience
+
     router.Use(static.Serve("/", static.LocalFile("../front_end", true)));
+    router.Use(sessions.Sessions("sessionID", store));
 
     router.GET("/", func(c *gin.Context) {
         c.HTML(http.StatusOK, "index.html", nil);
     });
-
     router.GET("/get_illegal_post", get_illegal_post);
     router.GET("/get_top_post", get_top_post);
     router.GET("/get_records", get_records);
+    router.GET("/get_session", get_session);
 
     router.POST("/report_illegal", report_illegal);
     router.POST("/publish", publish);
     router.POST("/signin", signin);
+    router.POST("/signout", signout);
     router.POST("/signup", signup);
     router.POST("/get_fb_info", get_fb_info);
     router.POST("/store_subscription", store_subscription);
@@ -321,9 +326,25 @@ func publish(c *gin.Context) {
 func signin(c *gin.Context) {
     account := c.PostForm("account");
     password := c.PostForm("password");
+    session := sessions.Default(c);
 
+    var signin_status bool;
     var if_account_exist bool;
     var database_password string;
+
+    v := session.Get("signin_status");
+    if v == nil {
+        fmt.Printf("have not signined\n");
+    } else {
+        signin_status = v.(bool);
+
+        if signin_status {
+            fmt.Printf("have signined\n");
+        } else {
+            fmt.Printf("have not signined\n");
+        }
+    }
+
 
     /*******check if there is the account, if yes, return the password, if no, return empty string******/
     //Prepare the query
@@ -358,6 +379,11 @@ func signin(c *gin.Context) {
         err := bcrypt.CompareHashAndPassword([]byte(database_password), []byte(password));
 
         if err==nil {       //password correct
+            signin_status = true;
+            session.Set("signin_status", signin_status);
+            session.Set("account", account);
+            session.Save();
+
             c.JSON(http.StatusOK, gin.H {
                 "result": 1,
                 "message": "登入成功",
@@ -376,6 +402,17 @@ func signin(c *gin.Context) {
         });
     }
 
+}
+
+func signout(c *gin.Context) {
+    session := sessions.Default(c);
+
+    session.Set("signin_status", false);
+
+    c.JSON(http.StatusOK, gin.H {
+        "result": 1,
+        "message": "登出成功",
+    });
 }
 
 func signup(c *gin.Context) {
@@ -568,6 +605,38 @@ func update_status(c *gin.Context) {
             "time": now,
         },
     });
+
+}
+
+func get_session(c *gin.Context) {
+    var signin_status bool;
+    var account string;
+
+    session := sessions.Default(c);
+
+    v := session.Get("signin_status");
+    if v == nil {                       //do not have a session
+        c.JSON(http.StatusOK, gin.H {
+            "signin_status": false,
+        });
+    } else {                            //have a session
+        signin_status = v.(bool);
+
+        if signin_status {                  //the state is signin
+            v = session.Get("account");
+            account = v.(string);
+
+            c.JSON(http.StatusOK, gin.H {
+                "signin_status": signin_status,
+                "account": account,
+            });
+        } else {                        //the state is not signin
+            c.JSON(http.StatusOK, gin.H {
+                "signin_status": signin_status,
+            });
+        }
+    }
+
 
 }
 
