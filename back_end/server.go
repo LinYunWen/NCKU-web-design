@@ -379,6 +379,7 @@ func signin(c *gin.Context) {
         if err==nil {       //password correct
             if_signin = true;
             session.Set("if_signin", if_signin);
+            session.Set("account", account);
             session.Save();
 
             c.JSON(http.StatusOK, gin.H {
