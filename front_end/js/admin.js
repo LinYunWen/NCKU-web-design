@@ -9,7 +9,7 @@ function addRecord(info) {
     console.log("info: ", info);
     var container = document.getElementById("record-contain");
     var record = document.createElement("div");
-    var size = [1, 2, 2, 2, 1, 2, 1, 1];
+    var size = [1, 2, 3, 1, 1, 2, 1, 1];
     record.classList.add("row");
     record.id = `record-${info["id"]}`;
 
@@ -120,7 +120,7 @@ function setTimeStamps() {
     var date = d.getDate().toString();
     var hour = d.getHours().toString();
     var minute = d.getMinutes().toString();
-    document.getElementById("time-stamps").textContent = `更新時間： ${year}/${month}/${date} ${hour}:${minute}`;
+    document.getElementById("time-stamps").textContent = `更新時間： ${year}/${month+1}/${date} ${hour}:${minute}`;
 }
 
 function addImage(url) {
