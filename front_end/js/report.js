@@ -20,6 +20,7 @@ function clickSignOut(event) {
 
 function signOutSuccess(result) {
     if (result["result"] == 1) {
+        document.getElementById("account-name").value = "";
         setSignOutDisplay(false);
         alert("You have successfully signed out.");
     } else {
