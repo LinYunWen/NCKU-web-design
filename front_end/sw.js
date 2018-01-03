@@ -56,33 +56,16 @@ self.addEventListener('fetch', event => {
     )
 })
 
-/*
-self.addEventListener('notificationclose', function(event) {
-    var notification = event.notification;
-    var primaryKey = notification.data.primaryKey;
-
-    console.log('Closed notification: ' + primaryKey);
-});
-*/
-
 /****拖吊地點****/
 var longitude;
 var latitude;
 
 self.addEventListener('notificationclick', function(event) {
-    //var primaryKey = notification.data.primaryKey;
     var action = event.action;
     var location_url = 'http://maps.google.com/?q='+latitude+', '+longitude;
 
     clients.openWindow(location_url);
     event.notification.close();
-
-    /*if (action === 'close') {
-        event.notification.close();
-    } else if(action === 'explore') {
-        clients.openWindow('http://www.google.com');
-        event.notification.close();
-    }*/
 });
 
 self.addEventListener('push', event => {
@@ -96,7 +79,7 @@ self.addEventListener('push', event => {
 
         var title = '有拖吊唷!';
         var options = {
-            body: '點擊查看地點',
+            body: '點擊查看地點\n拖你媽吊，別再 hack 了!',
             icon: 'img/icons/logo_144.png',
             //vibrate: [100, 50, 100],
             //data: {
