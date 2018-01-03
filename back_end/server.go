@@ -328,6 +328,7 @@ func signin(c *gin.Context) {
     password := c.PostForm("password");
     session := sessions.Default(c);
 
+    var class int;
     var signin_status bool;
     var if_account_exist bool;
     var database_password string;
@@ -348,7 +349,7 @@ func signin(c *gin.Context) {
 
     /*******check if there is the account, if yes, return the password, if no, return empty string******/
     //Prepare the query
-    stmtSel, err := db.Prepare("SELECT password FROM user_account WHERE account=?");
+    stmtSel, err := db.Prepare("SELECT password, class FROM user_account WHERE account=?");
     if err != nil {
         panic(err.Error());
     }
@@ -362,7 +363,7 @@ func signin(c *gin.Context) {
 
     //Fetch the data
     if rows.Next() {                //there is the account
-        err = rows.Scan(&database_password);
+        err = rows.Scan(&database_password, &class);
         if err != nil {
             panic(err.Error());
         }
@@ -382,6 +383,7 @@ func signin(c *gin.Context) {
             signin_status = true;
             session.Set("signin_status", signin_status);
             session.Set("account", account);
+            session.Set("class", class);
             session.Save();
 
             c.JSON(http.StatusOK, gin.H {
@@ -486,7 +488,7 @@ func signup(c *gin.Context) {
 
             /*****************insert to database***************/
             //id, account, password, car_number
-            stmtIns, err := db.Prepare("INSERT INTO user_account VALUES(NULL, ?, ?, ?, ?)");
+            stmtIns, err := db.Prepare("INSERT INTO user_account VALUES(NULL, ?, ?, ?, ?, 1)");
             if err != nil {
                 panic(err.Error());
             }
@@ -612,6 +614,7 @@ func update_status(c *gin.Context) {
 func get_session(c *gin.Context) {
     var signin_status bool;
     var account string;
+    var class int;
 
     session := sessions.Default(c);
 
@@ -626,10 +629,13 @@ func get_session(c *gin.Context) {
         if signin_status {                  //the state is signin
             v = session.Get("account");
             account = v.(string);
+            v = session.Get("class");
+            class = v.(int);
 
             c.JSON(http.StatusOK, gin.H {
                 "signin_status": signin_status,
                 "account": account,
+                "calss": class,
             });
         } else {                        //the state is not signin
             c.JSON(http.StatusOK, gin.H {
