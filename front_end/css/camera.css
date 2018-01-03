@@ -8,6 +8,10 @@
     position: fixed;
 }
 
+#camera-video {
+    width: 100vw;
+}
+
 .take-photo {
     display: none;
     z-index: 350;

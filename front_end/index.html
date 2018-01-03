@@ -54,8 +54,10 @@
                         <li class="active"><a href="index.html">Home</a></li>
                         <li><a href="report.html">Service</a></li>
                         <li><a href="about.html">About</a></li>
-                        <li><a href="login.html">Sign in/up</a></li>
+                        <li id="sign-in-li"><a href="login.html">Sign in/up</a></li>
+                        <li id="sign-out-li" style="display: none;"><a href="#page-top">Sign out</a></li>
                     </ul>
+                    <input id="account-name" type="text" style="display: none;">
                 </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -329,6 +331,7 @@
     <script src="js/custom.js"></script>
     <!-- slide show-->
     <script src="js/publish.js"></script>
+    <script src="js/index.js"></script>
     <script>
         if ($(window).width() < 800 || $(window).height() < 400) {
             document.getElementById("slideshow").style.display = "none";
