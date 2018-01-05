@@ -25,7 +25,7 @@ function clickPublishButton(event) {
                 });
                 console.log("position: ", position);
                 console.log("here");
-                displayNotification();
+                //displayNotification();
             }
         } , geoError);
         console.log('Geolocation is supported!');
@@ -34,6 +34,7 @@ function clickPublishButton(event) {
     }
 }
 
+/*
 function displayNotification() {
     if (Notification.permission == 'granted') {
         navigator.serviceWorker.getRegistration().then(function(reg) {
@@ -55,12 +56,13 @@ function displayNotification() {
         reg.showNotification('有拖吊哦~', options);
       });
     }
-}
+}*/
 
 function publishSuccess(result) {
-    
+    console.log("get publish success: ", result);
+    alert("You have successfully published.");
 }
-    
+
 function publishError(error) {
     onError(error);
 }

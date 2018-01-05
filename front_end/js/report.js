@@ -89,15 +89,6 @@ function getTopError(error) {
     onError(error);
 }
 
-function publishSuccess(result) {
-    console.log("get publish success: ", result);
-    alert("You have successfully published.");
-}
-
-function publishError(error) {
-    onError(error);
-}
-
 function getSession() {
     $.ajax({
         method: "GET",
