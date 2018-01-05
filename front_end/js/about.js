@@ -1,4 +1,5 @@
 document.getElementById("sign-out-li").addEventListener("click", clickSignOut);
+getSession();
 
 function clickSignOut(event) {
     $.ajax({

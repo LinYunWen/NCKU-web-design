@@ -64,8 +64,12 @@ function getIllegalSuccess(result) {
     parkingLocation.textContent = result["data"][0]["location"];
     parkingCar.textContent = result["data"][0]["car_num"];
     parkingTime.textContent = result["data"][0]["time"];
-    for (let i=0; i<5; i++) {
-        parkingImgs[i].src = result["data"][i]["picture"];
+    parkingImgs[0].src = result["data"][0]["picture"];
+    for (let i = 1; i < 6; i++) {
+        parkingImgs[i].src = result["data"][i - 1]["picture"];
+        parkingImgs[i].setAttribute("car", result["data"][i - 1]["car_num"]);
+        parkingImgs[i].setAttribute("location", result["data"][i - 1]["location"]);
+        parkingImgs[i].setAttribute("time", result["data"][i - 1]["time"]);
     }
 }
 
@@ -82,15 +86,6 @@ function getTopSuccess(result) {
 }
 
 function getTopError(error) {
-    onError(error);
-}
-
-function publishSuccess(result) {
-    console.log("get publish success: ", result);
-    alert("You have successfully published.");
-}
-
-function publishError(error) {
     onError(error);
 }
 
@@ -130,3 +125,12 @@ function setSignOutDisplay(display) {
 function onError(error) {
     console.log(error);
 }
+
+$(".illegal-parking").click(function(){
+	$("#img").attr("src",$(this).attr("src"));
+	$("#location").text($(this).attr("location"));
+	$("#car").text($(this).attr("car"));
+    $("#time").text($(this).attr("time"));
+    $("undisplay-item").removeClass("undisplay-item");
+    $(this).addClass("undisplay-item");
+});
