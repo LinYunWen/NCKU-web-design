@@ -36,12 +36,3 @@
 	});
 
 })(jQuery);
-
-
-$(".illegal-parking").click(function(){
-	$("#img").attr("src",$(this).attr("src"));
-	$("#location").text($(this).attr("location"));
-	$("#car").text($(this).attr("car"));
-	$("#time").text($(this).attr("time"));
-	
-});
