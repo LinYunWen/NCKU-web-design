@@ -19,6 +19,7 @@ function signOutSuccess(result) {
         document.getElementById("account-name").value = "";
         setSignOutDisplay(false);
         alert("You have successfully signed out.");
+        location.reload();
     } else {
         alert("Error on signing out.");
     }
