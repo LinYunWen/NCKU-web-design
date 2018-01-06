@@ -28,6 +28,7 @@ function clickCrossIcon(event) {
     stopTracks();
     setCameraDisplay("none");
     setWebPageDisplay("block");
+    setFixedButton("fixed");
 }
 
 function uploadPhotoChange(event) {
@@ -46,6 +47,7 @@ function clickCameraButton(event) {
     }
     setCameraDisplay("inline");
     setWebPageDisplay("none");
+    setFixedButton("none");
 }
 
 function gotMedia(mediaStream) {

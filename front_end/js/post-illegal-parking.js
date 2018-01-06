@@ -12,6 +12,7 @@ function clickCancelButton(event) {
     stopTracks();
     setPostSectionDisplay("none");
     setWebPageDisplay("block");
+    setFixedButton("fixed");
 }
 
 function clickPostButton(event) {
@@ -20,6 +21,7 @@ function clickPostButton(event) {
     uploadImage(imageBlob);
     setPostSectionDisplay("none");
     setWebPageDisplay("block");
+    setFixedButton("fixed");
 }
 
 function setPostSectionDisplay(state) {
@@ -36,6 +38,11 @@ function setWebPageDisplay(state) {
     document.getElementById("intro").style.display = state;
     document.getElementsByTagName("footer")[0].style.display = state;
     document.getElementsByTagName("nav")[0].style.display = state;
+}
+
+function setFixedButton(state) {
+    document.getElementById("edit-button").style.display = state;
+    document.getElementById("publish-button").style.display = state;
 }
 
 function postSuccess(result) {
