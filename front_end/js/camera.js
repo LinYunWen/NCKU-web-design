@@ -31,11 +31,24 @@ function clickCrossIcon(event) {
 
 function uploadPhotoChange(event) {
     console.log("file: ", event.target.files[0]);
-    photoImg.src = URL.createObjectURL(event.target.files[0]);
+    var file = event.target.files[0];
+    if (file.type.includes("image")) {
+        if (file.size < 3000000) {
+            photoImg.src = URL.createObjectURL(event.target.files[0]);
+            setPostSectionDisplay("inline");
+            setName($("#account-name").val());
+        } else {
+            alert("Image size cannot over 3MB.");
+            setWebPageDisplay("block");
+            setFixedButton("fixed");
+        }
+    } else {
+        alert("Please upload the image file.");
+        setWebPageDisplay("block");
+        setFixedButton("fixed");
+    }
     setCameraDisplay("none");
     stopTracks();
-    setPostSectionDisplay("inline");
-    setName($("#account-name").val());
 }
 
 function clickCameraButton(event) {
