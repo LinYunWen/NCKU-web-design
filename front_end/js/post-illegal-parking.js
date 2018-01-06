@@ -45,6 +45,10 @@ function setFixedButton(state) {
     document.getElementById("publish-button").style.display = state;
 }
 
+function setName(name) {
+    document.getElementById("upload-name").value = name;
+}
+
 function postSuccess(result) {
     console.log("post success: ", result);
     window.alert("You have successfully posted.");

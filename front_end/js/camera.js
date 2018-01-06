@@ -37,6 +37,7 @@ function uploadPhotoChange(event) {
     setCameraDisplay("none");
     stopTracks();
     setPostSectionDisplay("inline");
+    setName($("#account-name").val());
 }
 
 function clickCameraButton(event) {
@@ -69,6 +70,7 @@ function startTakePhoto(event) {
         .catch(error => console.error('takePhoto() error:', error));
     setCameraDisplay("none");
     setPostSectionDisplay("inline");
+    setName($("#account-name").val());
 }
 
 function stopTracks() {
