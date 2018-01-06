@@ -8,8 +8,6 @@ var imageBlob = undefined;
 var imageCapture = undefined;
 var mediaStreamTrack = undefined;
 
-var isCameraShow = false;
-
 var deviceIds = [];
 var deviceIndex = 0;
 
@@ -42,10 +40,6 @@ function uploadPhotoChange(event) {
 
 function clickCameraButton(event) {
     start();
-    if (isCameraShow) {
-        // Stop all video streams.
-        player.srcObject.getVideoTracks().forEach(track => track.stop());
-    }
     setCameraDisplay("inline");
     setWebPageDisplay("none");
     setFixedButton("none");
@@ -88,41 +82,49 @@ function setCameraDisplay(state) {
 }
 
 function gotDevices(deviceInfos) {
-  for (var i = 0; i !== deviceInfos.length; ++i) {
-    var deviceInfo = deviceInfos[i];
+    for (var i = 0; i !== deviceInfos.length; ++i) {
+        var deviceInfo = deviceInfos[i];
 
-    if (deviceInfo.kind === 'videoinput') {
-        deviceIds.splice(0, 0, deviceInfo.deviceId);
+        if (deviceInfo.kind === 'videoinput') {
+            deviceIds.splice(0, 0, deviceInfo.deviceId);
+        }
     }
-  }
 }
 
 navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 
 function gotStream(stream) {
-  window.stream = stream; // make stream available to console
-  player.srcObject = stream;
-  mediaStreamTrack = stream.getVideoTracks()[0];
-  imageCapture = new ImageCapture(mediaStreamTrack);
+    window.stream = stream; // make stream available to console
+    player.srcObject = stream;
+    mediaStreamTrack = stream.getVideoTracks()[0];
+    imageCapture = new ImageCapture(mediaStreamTrack);
 }
 
 function start() {
-  if (window.stream) {
-    stopTracks();
-  }
-  var videoSource = deviceIds[deviceIndex];
-  var constraints = {
-    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
-  };
-  console.log("video: ", {deviceId: videoSource ? {exact: videoSource} : undefined});
-  navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
-  deviceIndex = (deviceIndex + 1) % deviceIds.length;
+    if (window.stream) {
+        stopTracks();
+    }
+    var videoSource = deviceIds[deviceIndex];
+    var constraints = {
+        video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+    };
+    console.log("video: ", {deviceId: videoSource ? {exact: videoSource} : undefined});
+    navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
 }
 
-videoChangeButton.onclick = start;
+function clickChangeCameraButton(event) {
+    changeCamera();
+    start();
+}
+
+function changeCamera() {
+    deviceIndex = (deviceIndex + 1) % deviceIds.length;
+}
+
+videoChangeButton.onclick = clickChangeCameraButton;
 
 
 
 function handleError(error) {
-  console.log('navigator.getUserMedia error: ', error);
+    console.log('navigator.getUserMedia error: ', error);
 }

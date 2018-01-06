@@ -9,7 +9,8 @@
 }
 
 #camera-video {
-    width: 100vw;
+    min-width: 100vw;
+    min-height: 100vh;
 }
 
 .take-photo {
