@@ -26,7 +26,7 @@ function clickCrossIcon(event) {
     stopTracks();
     setCameraDisplay("none");
     setWebPageDisplay("block");
-    setFixedButton("fixed");
+    setFixedButton("inline-block");
 }
 
 function uploadPhotoChange(event) {
@@ -40,12 +40,12 @@ function uploadPhotoChange(event) {
         } else {
             alert("Image size cannot over 3MB.");
             setWebPageDisplay("block");
-            setFixedButton("fixed");
+            setFixedButton("inline-block");
         }
     } else {
         alert("Please upload the image file.");
         setWebPageDisplay("block");
-        setFixedButton("fixed");
+        setFixedButton("inline-block");
     }
     setCameraDisplay("none");
     stopTracks();
