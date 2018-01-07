@@ -23,6 +23,7 @@ function signOutSuccess(result) {
         document.getElementById("account-name").value = "";
         setSignOutDisplay(false);
         alert("You have successfully signed out.");
+        location.reload();
     } else {
         alert("Error on signing out.");
     }
@@ -58,7 +59,7 @@ function getTopPost(index) {
 function getIllegalSuccess(result) {
     console.log("get illegal success: ", result);
     var parkingImgs = document.getElementsByClassName("illegal-parking");
-    var parkingLocation = document.getElementById("lpcation-span");
+    var parkingLocation = document.getElementById("location-span");
     var parkingCar = document.getElementById("car-span");
     var parkingTime = document.getElementById("time-span");
     parkingLocation.textContent = result["data"][0]["location"];
@@ -126,11 +127,11 @@ function onError(error) {
     console.log(error);
 }
 
-$(".illegal-parking").click(function(){
+$(".illegal-parking").click(function(event){
 	$("#img").attr("src",$(this).attr("src"));
-	$("#location").text($(this).attr("location"));
-	$("#car").text($(this).attr("car"));
-    $("#time").text($(this).attr("time"));
-    $("undisplay-item").removeClass("undisplay-item");
-    $(this).addClass("undisplay-item");
+	$("#location-span").text($(this).attr("location"));
+	$("#car-span").text($(this).attr("car"));
+    $("#time-span").text($(this).attr("time"));
+    $(".undisplay-item").removeClass("undisplay-item");
+    event.target.parentNode.classList.add("undisplay-item");
 });
