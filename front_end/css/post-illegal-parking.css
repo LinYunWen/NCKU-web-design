@@ -3,3 +3,7 @@
     z-index: 250;
     display: none;
 }
+
+.undisplay-item {
+    display: none;
+}

@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Parking - admin</title>
-
+    <link rel="shortcut icon" type="image/png" href="img/icons/logo_144.png">
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -26,12 +26,7 @@
       <div id="load"></div>
     </div>
 
-
-    <!-- Section: intro -->
-    <section style="min-height: 10%;">
-        
-    </section>
-    <!-- /Section: intro -->
+    <h5 id="time-stamps" align="right"></h5>
     <section >
         <div class="container">
             <div class="row title">
@@ -41,7 +36,9 @@
                 <div class="col-md-6">
                 </div>
                 <div class="col-md-1">
-                    <h3><a href="login.html" >登入</a></h3>
+                    <h3 id="sign-in-h3"><a href="login.html" >登入</a></h3>
+                    <h3 id="sign-out-h3" style="display: none;"><span id="account"></span><a href="#page-top">登出</a></li>
+                    <input id="account-name" type="text" style="display: none;">
                 </div>
             </div>
         </div>
@@ -55,10 +52,10 @@
                 <div class="col-md-2">
                     <h4>通報時間</h4>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <h4>圖片</h4>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <h4>地點</h4>
                 </div>
                 <div class="col-md-1">

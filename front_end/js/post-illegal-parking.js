@@ -1,26 +1,52 @@
 document.getElementById("edit-button").addEventListener("click", clickEditButton);
 document.getElementById("post-button").addEventListener("click", clickPostButton);
-
-var isSectionShow = false;
+document.getElementById("cancel-button").addEventListener("click", clickCancelButton);
 
 function clickEditButton(event) {
     document.getElementById("use-camera").click();
     getLocation();
 }
 
-function tugglePostSection() {
+function clickCancelButton(event) {
+    event.preventDefault();
+    stopTracks();
+    setPostSectionDisplay("none");
+    setWebPageDisplay("block");
+    setFixedButton("fixed");
+}
+
+function clickPostButton(event) {
+    event.preventDefault();
+    mediaStreamTrack.stop();
+    uploadImage(imageBlob);
+    setPostSectionDisplay("none");
+    setWebPageDisplay("block");
+    setFixedButton("fixed");
+}
+
+function setPostSectionDisplay(state) {
     var section = document.getElementById("post-illegal-parking");
-    var state = isSectionShow ? "none" : "inline";
-    var stateOther = !isSectionShow ? "none" : "inline";
     if ($(window).width() < 800) {
         section.style.top = "10vh";
     }
-    document.getElementById("rank").style.display = stateOther;
-    document.getElementById("illegal-parking").style.display = stateOther;
-    document.getElementById("intro").style.display = stateOther;
-    document.getElementsByTagName("footer")[0].style.display = stateOther;
     section.style.display = state;
-    isSectionShow = !isSectionShow;
+}
+
+function setWebPageDisplay(state) {
+    document.getElementById("rank").style.display = state;
+    document.getElementById("illegal-parking").style.display = state;
+    document.getElementById("intro").style.display = state;
+    document.getElementsByTagName("footer")[0].style.display = state;
+    document.getElementsByTagName("nav")[0].style.display = state;
+}
+
+function setFixedButton(state) {
+    document.getElementById("edit-button").style.display = state;
+    document.getElementById("publish-button").style.display = state;
+}
+
+function setName(name) {
+    document.getElementById("upload-name").value = name;
 }
 
 function postSuccess(result) {
@@ -50,13 +76,6 @@ function sendPost(imageURL) {
             error: postError
         }
     );
-}
-
-function clickPostButton(event) {
-    event.preventDefault();
-    mediaStreamTrack.stop();
-    uploadImage(imageBlob);
-    tugglePostSection();
 }
 
 function onError(error) {

@@ -13,7 +13,7 @@
     <meta property="og:description" content="We are trying to fix the problem of scooters parking in NCKU. Because of lots of students parking their scooter without rule and management, making others a big problem. we want create a new platform for any devices to search, to publish, to report anything the user encountered." />
 
     <title>Parking</title>
-
+    <link rel="shortcut icon" type="image/png" href="img/icons/logo_144.png">
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -52,9 +52,11 @@
                         <li class="active"><a href="index.html">Home</a></li>
                         <li><a href="report.html">Service</a></li>
                         <li><a href="about.html">About</a></li>
-                        <li><a href="login.html">Sign in/up</a></li>
+                        <li id="sign-in-li"><a href="login.html">Sign in/up</a></li>
+                        <li id="sign-out-li" style="display: none;"><a href="#page-top">Sign out</a></li>
                     </ul>
-                </div>
+                    <input id="account-name" type="text" style="display: none;">
+            </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
@@ -67,7 +69,7 @@
             <h4>WE ARE GROUP OF GENTLEMEN IMPORVING THE PARKING ISSUE</h4>
         </div>
         <div class="page-scroll">
-            <a href="#service" class="btn btn-circle">
+            <a href="#illegal-parking" class="btn btn-circle">
                 <i class="fa fa-angle-double-down animated"></i>
             </a>
         </div>
@@ -111,9 +113,9 @@
                 <div class="wow fadeInUp" data-wow-delay="0.2s">
                     <div class="service-box">
                         <div class="service-desc" align="left">
-                            <h3 id="location">location: <span>勝後停車場</span></h3>
-                            <h3 id="car">car no: <span>123-456</span></h3>
-                            <h3 id="time">time: <span>2017/11/25 22:00</span></h3>
+                            <h3 id="location">location: <span id="location-span">勝後停車場</span></h3>
+                            <h3 id="car">car no: <span id="car-span">123-456</span></h3>
+                            <h3 id="time">time: <span id="time-span">2017/11/25 22:00</span></h3>
                 </div>
                 </div>
             </div>
@@ -122,6 +124,9 @@
         </div>
         <div class="row"></div>
             <div class="col-sm-2 col-md-2">
+            </div>
+            <div class="col-sm-1 col-md-2 col-xs-6 undisplay-item">
+                <img class="illegal-parking" location="0.location" car="0.car" time="0.time" src="img/illegal.jpg" height="100%" width="100%" alt="" />
             </div>
             <div class="col-sm-1 col-md-2 col-xs-6">
                 <img class="illegal-parking" location="1.location" car="1.car" time="1.time" src="img/illegal.jpg" height="100%" width="100%" alt="" />
@@ -303,6 +308,7 @@
                                 </div>
                                 
                             <button id="post-button" class="btn btn-skin">Send</button>
+                            <button id="cancel-button" class="btn btn-skin">Cancel</button>
                         </div>
                         <div class="col-sm-2 col-md-2">
                         </div>
@@ -323,6 +329,7 @@
     <div id="camera" class="camera-div">
         <video id="camera-video" autoplay></video>
     </div>
+    <i id="cross-icon" class="fa fa-times fa-5x cross-icon" aria-hidden="true"></i>
     <img id="change-camera" class="change-camera" src="./img/icons/change_camera.png" width="15%" height="10%">
     <img id="take-photo" class="take-photo" src="./img/icons/take_camera.png" width="15%" height="10%">
     <img id="upload-photo" class="upload-photo" src="./img/icons/service-icon-2.png" width="15%" height="10%">
@@ -362,6 +369,7 @@
     <script src="js/publish.js"></script>
     <script src="js/report.js"></script>
     <script src="js/upload-imgur.js"></script>
+    <script src="js/car-cloud-api.js"></script>
     <!-- app -->
     <script src="pwa/register.js"></script>
 </body>

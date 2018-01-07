@@ -2,6 +2,36 @@
 
 getIllegalPost();
 getTopPost();
+getSession();
+
+document.getElementById("sign-out-li").addEventListener("click", clickSignOut);
+
+function clickSignOut(event) {
+    $.ajax({
+        method: "POST",
+        url: "/signout",
+        data: {
+            command: "sign-out"
+        },
+        success: signOutSuccess,
+        error: signOutError
+    });
+}
+
+function signOutSuccess(result) {
+    if (result["result"] == 1) {
+        document.getElementById("account-name").value = "";
+        setSignOutDisplay(false);
+        alert("You have successfully signed out.");
+        location.reload();
+    } else {
+        alert("Error on signing out.");
+    }
+}
+
+function signOutError(error) {
+    onError(error);
+}
 
 function getIllegalPost() {
     $.ajax({
@@ -29,8 +59,18 @@ function getTopPost(index) {
 function getIllegalSuccess(result) {
     console.log("get illegal success: ", result);
     var parkingImgs = document.getElementsByClassName("illegal-parking");
-    for (let i=0; i<5; i++) {
-        parkingImgs[i].src = result["data"][i]["picture"];
+    var parkingLocation = document.getElementById("location-span");
+    var parkingCar = document.getElementById("car-span");
+    var parkingTime = document.getElementById("time-span");
+    parkingLocation.textContent = result["data"][0]["location"];
+    parkingCar.textContent = result["data"][0]["car_num"];
+    parkingTime.textContent = result["data"][0]["time"];
+    parkingImgs[0].src = result["data"][0]["picture"];
+    for (let i = 1; i < 6; i++) {
+        parkingImgs[i].src = result["data"][i - 1]["picture"];
+        parkingImgs[i].setAttribute("car", result["data"][i - 1]["car_num"]);
+        parkingImgs[i].setAttribute("location", result["data"][i - 1]["location"]);
+        parkingImgs[i].setAttribute("time", result["data"][i - 1]["time"]);
     }
 }
 
@@ -50,15 +90,48 @@ function getTopError(error) {
     onError(error);
 }
 
-function publishSuccess(result) {
-    console.log("get publish success: ", result);
-    alert("You have successfully published.");
+function getSession() {
+    $.ajax({
+        method: "GET",
+        url: "/get_session",
+        data: {
+        },
+        success: getSessionSuccess,
+        error: getSessionError
+    });
 }
 
-function publishError(error) {
+function getSessionSuccess(result) {
+    if (result["signin_status"]) {
+        var account = document.getElementById("account-name");
+        account.value = result["account"];
+        setSignOutDisplay(true);
+    }
+}
+
+function getSessionError(error) {
     onError(error);
+}
+
+function setSignOutDisplay(display) {
+    if (display) {
+        document.getElementById("sign-in-li").style.display = "none";
+        document.getElementById("sign-out-li").style.display = "block";
+    } else {
+        document.getElementById("sign-in-li").style.display = "block";
+        document.getElementById("sign-out-li").style.display = "none";
+    }
 }
 
 function onError(error) {
     console.log(error);
 }
+
+$(".illegal-parking").click(function(event){
+	$("#img").attr("src",$(this).attr("src"));
+	$("#location-span").text($(this).attr("location"));
+	$("#car-span").text($(this).attr("car"));
+    $("#time-span").text($(this).attr("time"));
+    $(".undisplay-item").removeClass("undisplay-item");
+    event.target.parentNode.classList.add("undisplay-item");
+});

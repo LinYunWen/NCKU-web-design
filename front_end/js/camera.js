@@ -8,39 +8,54 @@ var imageBlob = undefined;
 var imageCapture = undefined;
 var mediaStreamTrack = undefined;
 
-var isCameraShow = false;
-
 var deviceIds = [];
 var deviceIndex = 0;
 
 document.getElementById("take-photo").addEventListener("click", startTakePhoto);
+document.getElementById("cross-icon").addEventListener("click", clickCrossIcon);
 document.getElementById("upload-photo").addEventListener("click", clickUploadPhoto);
-document.getElementById("upload-photo").addEventListener("change", uploadPhotoChange);
+document.getElementById("upload-photo-input").addEventListener("change", uploadPhotoChange);
 cameraButton.addEventListener("click", clickCameraButton);
 
 function clickUploadPhoto(event) {
     document.getElementById("upload-photo-input").click();
 }
 
-function uploadPhotoChange(files) {
-    photoImg.src = URL.createObjectURL(files[0]);
-    tuggleCamera();
+function clickCrossIcon(event) {
+    console.log("here");
+    stopTracks();
+    setCameraDisplay("none");
+    setWebPageDisplay("block");
+    setFixedButton("fixed");
+}
+
+function uploadPhotoChange(event) {
+    console.log("file: ", event.target.files[0]);
+    var file = event.target.files[0];
+    if (file.type.includes("image")) {
+        if (file.size < 3000000) {
+            photoImg.src = URL.createObjectURL(event.target.files[0]);
+            setPostSectionDisplay("inline");
+            setName($("#account-name").val());
+        } else {
+            alert("Image size cannot over 3MB.");
+            setWebPageDisplay("block");
+            setFixedButton("fixed");
+        }
+    } else {
+        alert("Please upload the image file.");
+        setWebPageDisplay("block");
+        setFixedButton("fixed");
+    }
+    setCameraDisplay("none");
+    stopTracks();
 }
 
 function clickCameraButton(event) {
-    if (imageCapture == undefined) {
-        /*
-        navigator.mediaDevices.getUserMedia({video: true})
-            .then(gotMedia)
-            .catch(error => console.error('getUserMedia() error:', error));
-        */
-        start();
-    }
-    if (isCameraShow) {
-        // Stop all video streams.
-        player.srcObject.getVideoTracks().forEach(track => track.stop());
-    }
-    tuggleCamera();
+    start();
+    setCameraDisplay("inline");
+    setWebPageDisplay("none");
+    setFixedButton("none");
 }
 
 function gotMedia(mediaStream) {
@@ -55,61 +70,74 @@ function startTakePhoto(event) {
     imageCapture.takePhoto()
         .then(blob => {
             imageBlob = blob;
+            carNumRecognition(blob);
             photoImg.src = URL.createObjectURL(blob);
             photoImg.onload = () => { URL.revokeObjectURL(this.src); }
         })
         .catch(error => console.error('takePhoto() error:', error));
-    tuggleCamera();
-    tugglePostSection();
+    setCameraDisplay("none");
+    setPostSectionDisplay("inline");
+    setName($("#account-name").val());
 }
 
-function tuggleCamera() {
-    var state = isCameraShow ? "none" : "inline";
+function stopTracks() {
+    window.stream.getTracks().forEach(function(track) {
+        track.stop();
+    });
+}
+
+function setCameraDisplay(state) {
     document.getElementById("camera").style.display = state;
     document.getElementById("take-photo").style.display = state;
     document.getElementById("change-camera").style.display = state;
     document.getElementById("upload-photo").style.display = state;
-    isCameraShow = !isCameraShow;
+    document.getElementById("cross-icon").style.display = state;
 }
 
 function gotDevices(deviceInfos) {
-  for (var i = 0; i !== deviceInfos.length; ++i) {
-    var deviceInfo = deviceInfos[i];
+    for (var i = 0; i !== deviceInfos.length; ++i) {
+        var deviceInfo = deviceInfos[i];
 
-    if (deviceInfo.kind === 'videoinput') {
-        deviceIds.splice(0, 0, deviceInfo.deviceId);
+        if (deviceInfo.kind === 'videoinput') {
+            deviceIds.splice(0, 0, deviceInfo.deviceId);
+        }
     }
-  }
 }
 
 navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 
 function gotStream(stream) {
-  window.stream = stream; // make stream available to console
-  player.srcObject = stream;
-  mediaStreamTrack = stream.getVideoTracks()[0];
-  imageCapture = new ImageCapture(mediaStreamTrack);
+    window.stream = stream; // make stream available to console
+    player.srcObject = stream;
+    mediaStreamTrack = stream.getVideoTracks()[0];
+    imageCapture = new ImageCapture(mediaStreamTrack);
 }
 
 function start() {
-  if (window.stream) {
-    window.stream.getTracks().forEach(function(track) {
-      track.stop();
-    });
-  }
-  var videoSource = deviceIds[deviceIndex];
-  var constraints = {
-    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
-  };
-  console.log("video: ", {deviceId: videoSource ? {exact: videoSource} : undefined});
-  navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
-  deviceIndex = (deviceIndex + 1) % deviceIds.length;
+    if (window.stream) {
+        stopTracks();
+    }
+    var videoSource = deviceIds[deviceIndex];
+    var constraints = {
+        video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+    };
+    console.log("video: ", {deviceId: videoSource ? {exact: videoSource} : undefined});
+    navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
 }
 
-videoChangeButton.onclick = start;
+function clickChangeCameraButton(event) {
+    changeCamera();
+    start();
+}
+
+function changeCamera() {
+    deviceIndex = (deviceIndex + 1) % deviceIds.length;
+}
+
+videoChangeButton.onclick = clickChangeCameraButton;
 
 
 
 function handleError(error) {
-  console.log('navigator.getUserMedia error: ', error);
+    console.log('navigator.getUserMedia error: ', error);
 }

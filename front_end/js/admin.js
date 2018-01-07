@@ -1,13 +1,15 @@
 var selectText = ["10分鐘內處理", "20分鐘內處理", "處理完畢", "其他"];
 var recordKey = ["id", "time", "picture", "parking", "processStatus", "processTime", "processPerson"];
 
+setTimeStamps();
 getRecords();
+autoReflesh();
 
 function addRecord(info) {
     console.log("info: ", info);
     var container = document.getElementById("record-contain");
     var record = document.createElement("div");
-    var size = [1, 2, 2, 2, 1, 2, 1, 1];
+    var size = [1, 2, 3, 1, 1, 2, 1, 1];
     record.classList.add("row");
     record.id = `record-${info["id"]}`;
 
@@ -16,7 +18,12 @@ function addRecord(info) {
         div.classList.add("col-md-" + size[i].toString());
         var span = document.createElement("span");
         if (i >= 0 && i < 7) {
-            span.textContent = info[recordKey[i]];
+            if (i == 2) {
+                var img = addImage(info[recordKey[i]]);
+                span.appendChild(img);
+            } else {
+                span.textContent = info[recordKey[i]];
+            }
         } else {
             var select = document.createElement("select");
             select.classList.add("form-control");
@@ -97,4 +104,97 @@ function updateStatusSuccess(result) {
 function updateStatusError(error) {
     console.log("error: ", error);
     alert("fail to update status");
+}
+
+function autoReflesh() {
+    setInterval(function() {
+        location.reload();
+        console.log("refresh");
+    }, 300000);
+}
+
+function setTimeStamps() {
+    var d = new Date();
+    var year = d.getFullYear().toString();
+    var month = d.getMonth().toString();
+    var date = d.getDate().toString();
+    var hour = d.getHours().toString();
+    var minute = d.getMinutes().toString();
+    document.getElementById("time-stamps").textContent = `更新時間： ${year}/${month+1}/${date} ${hour}:${minute}`;
+}
+
+function addImage(url) {
+    var img = document.createElement("img");
+    img.src = url;
+    img.classList.add("post-image");
+    return img;
+}
+
+
+document.getElementById("sign-out-h3").addEventListener("click", clickSignOut);
+
+function clickSignOut(event) {
+    $.ajax({
+        method: "POST",
+        url: "/signout",
+        data: {
+            command: "sign-out"
+        },
+        success: signOutSuccess,
+        error: signOutError
+    });
+}
+
+function signOutSuccess(result) {
+    if (result["result"] == 1) {
+        document.getElementById("account-name").value = "";
+        document.getElementById("account").textContent = "";
+        setSignOutDisplay(false);
+        alert("You have successfully signed out.");
+        location.reload();
+    } else {
+        alert("Error on signing out.");
+    }
+}
+
+function signOutError(error) {
+    onError(error);
+}
+
+function getSession() {
+    $.ajax({
+        method: "GET",
+        url: "/get_session",
+        data: {
+        },
+        success: getSessionSuccess,
+        error: getSessionError
+    });
+}
+
+function getSessionSuccess(result) {
+    if (result["signin_status"]) {
+        var account = document.getElementById("account-name");
+        account.value = result["account"];
+        document.getElementById("account").textContent = result["account"];
+        setSignOutDisplay(true);
+    }
+}
+
+function getSessionError(error) {
+    onError(error);
+}
+
+function setSignOutDisplay(display) {
+    if (display) {
+        document.getElementById("sign-in-h3").style.display = "none";
+        document.getElementById("sign-out-h3").style.display = "block";
+    } else {
+        document.getElementById("sign-in-h3").style.display = "block";
+        document.getElementById("sign-out-h3").style.display = "none";
+    }
+}
+
+function onError(error) {
+    console.log(error);
 }

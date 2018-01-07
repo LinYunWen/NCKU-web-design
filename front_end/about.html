@@ -13,7 +13,7 @@
     <meta property="og:description" content="We are trying to fix the problem of scooters parking in NCKU. Because of lots of students parking their scooter without rule and management, making others a big problem. we want create a new platform for any devices to search, to publish, to report anything the user encountered." />
 
     <title>Parking</title>
-
+    <link rel="shortcut icon" type="image/png" href="img/icons/logo_144.png">
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -54,8 +54,10 @@
                         <li class="active"><a href="index.html">Home</a></li>
                         <li><a href="report.html">Service</a></li>
                         <li><a href="about.html">About</a></li>
-                        <li><a href="login.html">Sign in/up</a></li>
+                        <li id="sign-in-li"><a href="login.html">Sign in/up</a></li>
+                        <li id="sign-out-li" style="display: none;"><a href="#page-top">Sign out</a></li>
                     </ul>
+                    <input id="account-name" type="text" style="display: none;">
                 </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -146,38 +148,6 @@
         </div>
     </section>
     <!-- /Section: services -->
-
-	<!-- Section: showcase -->
-	<section id="slideshow" class="bg-gray">			
-				<div class="container">
-					<div class="slider">
-						<figure>
-							<img src="img/works/illegal.png" alt="" width="800" height="400" />
-							<figcaption>Report</figcaption>
-						</figure><!--
-						--><figure>
-							<img src="img/works/parkinglot.png" alt="" width="800" height="400" />
-							<figcaption>Search</figcaption>
-						</figure><!--
-						--><figure>
-							<img src="img/works/towing.png" alt="" width="800" height="400" />
-							<figcaption>Publish</figcaption>
-						</figure><!--
-						--><figure>
-							<img src="img/works/illegal.png" alt="" width="800" height="400" />
-							<figcaption>Report</figcaption>
-						</figure>
-					</div>
-				</div>	
-				<ul class="dots_commands"><!--
-					--><li><a title="Show slide 1" href="#sl_i1">Slide 1</a></li><!--
-					--><li><a title="Show slide 2" href="#sl_i2">Slide 2</a></li><!--
-					--><li><a title="Show slide 3" href="#sl_i3">Slide 3</a></li><!--
-					--><li><a title="Show slide 4" href="#sl_i4">Slide 4</a></li>
-				</ul>
-				
-	</section>
-	<!-- /Section: showcase -->
 
 	<!-- Section: about -->
     <section id="about" class="home-section text-center">
@@ -295,7 +265,6 @@
 		</div>
 	</section>
     <!-- /Section: about -->
-    <input id="publish-button" type="button" value="test">
 
     <footer>
         <div class="container">
@@ -330,6 +299,7 @@
     <script src="js/custom.js"></script>
     <!-- slide show-->
     <script src="js/publish.js"></script>
+    <script src="js.about.js"></script>
     <script>
         if ($(window).width() < 800 || $(window).height() < 400) {
             document.getElementById("slideshow").style.display = "none";
