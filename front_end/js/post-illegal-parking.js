@@ -12,7 +12,7 @@ function clickCancelButton(event) {
     stopTracks();
     setPostSectionDisplay("none");
     setWebPageDisplay("block");
-    setFixedButton("fixed");
+    setFixedButton("inline-block");
 }
 
 function clickPostButton(event) {
@@ -21,7 +21,7 @@ function clickPostButton(event) {
     uploadImage(imageBlob);
     setPostSectionDisplay("none");
     setWebPageDisplay("block");
-    setFixedButton("fixed");
+    setFixedButton("inline-block");
 }
 
 function setPostSectionDisplay(state) {
