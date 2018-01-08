@@ -34,8 +34,15 @@ func main() {
     router := gin.Default();
     store := sessions.NewCookieStore([]byte(vapid_private_key));     //use vapid_private_key for convenience
 
-    router.Use(static.Serve("/", static.LocalFile("../front_end", true)));
+    router.Use(static.Serve("/js/", static.LocalFile("../front_end/js", true)));
+    router.Use(static.Serve("/css/", static.LocalFile("../front_end/css", true)));
+    router.Use(static.Serve("/img/", static.LocalFile("../front_end/img", true)));
+    router.Use(static.Serve("/font-awesome/", static.LocalFile("../front_end/font-awesome", true)));
+    router.Use(static.Serve("/pwa/", static.LocalFile("../front_end/pwa", true)));
+    router.Use(static.Serve("/sw.js", static.LocalFile("../front_end/sw.js", true)));
     router.Use(sessions.Sessions("sessionID", store));
+
+    router.LoadHTMLGlob("../front_end/*.html");
 
     router.GET("/", func(c *gin.Context) {
         c.HTML(http.StatusOK, "index.html", nil);
