@@ -6,8 +6,8 @@
 .service-img {
     max-height: 85vh;
     max-width: 290px;
-    width: 70%;
-    height: 70%;
+    width: 80%;
+    height: 80%;
 }
 
 .service-title {
@@ -25,13 +25,11 @@
 }
 
 .service-text {
+    margin: 2% 0%;
     padding: 13% 30px;
 }
 
 .search-background {
-    min-height: 70vh;
-    background: url("../img/map.png") no-repeat;
-    background-position: 63vw center;
-    background-size: 25%;
+    background: url("../img/bg2.jpg") no-repeat bottom right ;
     background-attachment: fixed;
 }
