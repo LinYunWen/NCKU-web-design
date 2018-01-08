@@ -1,0 +1,37 @@
+.index-logo {
+    width: 70%;
+    height: 70%;
+}
+
+.service-img {
+    max-height: 85vh;
+    max-width: 290px;
+    width: 70%;
+    height: 70%;
+}
+
+.service-title {
+    margin: 25px;
+    padding: 5px;
+}
+
+.business-title {
+    margin: 15px;
+    padding: 5px;
+}
+
+.business-text {
+    padding: 5% 30px;
+}
+
+.service-text {
+    padding: 13% 30px;
+}
+
+.search-background {
+    min-height: 70vh;
+    background: url("../img/map.png") no-repeat;
+    background-position: 63vw center;
+    background-size: 25%;
+    background-attachment: fixed;
+}

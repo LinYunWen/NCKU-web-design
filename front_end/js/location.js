@@ -17,6 +17,7 @@ function geoSuccess(position) {
 };
 
 function geoError(error) {
+    $("#upload-location").val('6');
     console.log('Error occurred. Error code: ' + error.code);
     // error.code can be:
     //   0: unknown error
@@ -30,14 +31,17 @@ function setSelection(lon, lat) {
     $("#upload-location").val('6');
     var x=0,y=0;
     
-    if (lon > 120.214941 && lon <= 120.218740) {
+    if (lon > 120.214941 && lon <= 120.216788) {
         x=1;
-    } 
-    else if (lon > 120.218740 && lon <= 120.222321) {
+    }
+    else if (lon > 120.216788 && lon <= 120.218740) {
         x=2;
     }
-    else if (lon > 120.222321 && lon <= 120.224685) {
+    else if (lon > 120.218740 && lon <= 120.222321) {
         x=3;
+    }
+    else if (lon > 120.222321 && lon <= 120.224685) {
+        x=4;
     }
 
 
@@ -66,11 +70,12 @@ function setSelection(lon, lat) {
         console.log('tree park');
     }
     else if(x==1 && y==3){
-        $("#upload-location").val('2'); // selects "yuan pin"
-        console.log('cloud');
+       
+        console.log('guanfu dorm');
     }
     else if(x==1 && y==4){
-        console.log('tree park');$("#upload-location").val('1'); // selects "guan fu"
+        
+        $("#upload-location").val('1'); // selects "guan fu"
         console.log('guanfu');
     }
     else if(x==1 && y==5){
@@ -78,36 +83,54 @@ function setSelection(lon, lat) {
     }
 
     else if(x==2 && y==1){
-        console.log('hospital');
+        console.log('hospital parking');
     }
     else if(x==2 && y==2){
-        console.log('library');
+        console.log('lake');
     }
     else if(x==2 && y==3){
-        console.log('big street');
+        $("#upload-location").val('2'); // selects "yuan pin"
+        console.log('yuan pin');
     }
     else if(x==2 && y==4){
-        $("#upload-location").val('4'); // selects "csie"
-        console.log('csie');
+        
+        console.log('chunchen');
     }
     else if(x==2 && y==5){
-        $("#upload-location").val('5'); // selects "senli"
-        console.log('win');
+        console.log('new parking');
     }
 
     else if(x==3 && y==1){
-        console.log('gin ya');
+        console.log('hospital');
     }
     else if(x==3 && y==2){
-        console.log('ball');
+        console.log('library');
     }
     else if(x==3 && y==3){
         console.log('big street');
     }
     else if(x==3 && y==4){
-        console.log('ee');
+        $("#upload-location").val('4'); // selects "csie"
+        console.log('csie');
     }
     else if(x==3 && y==5){
+        $("#upload-location").val('5'); // selects "senli"
+        console.log('win');
+    }
+
+    else if(x==4 && y==1){
+        console.log('gin ya');
+    }
+    else if(x==4 && y==2){
+        console.log('ball');
+    }
+    else if(x==4 && y==3){
+        console.log('big street');
+    }
+    else if(x==4 && y==4){
+        console.log('ee');
+    }
+    else if(x==4 && y==5){
         console.log('iaa');
     }
 
