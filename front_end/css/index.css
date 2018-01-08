@@ -11,6 +11,19 @@
 }
 
 .service-title {
-    margin:25px;
+    margin: 25px;
     padding: 5px;
+}
+
+.business-title {
+    margin: 15px;
+    padding: 5px;
+}
+
+.business-text {
+    padding: 5% 30px;
+}
+
+.service-text {
+    padding: 13% 30px;
 }
