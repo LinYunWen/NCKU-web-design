@@ -30,7 +30,7 @@ h6 {
 }
 
 p {
-    margin: 0 0 20px;
+    margin: 0 0 0px;
     font-size: 16px;
     line-height: 1.6em;
 }
@@ -258,9 +258,9 @@ hr {
 ============================ */
 
 .home-section {
-    padding-top: 60px;
-    
-	display:block;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display:block;
     position:relative;
     z-index:120;
 }
@@ -310,6 +310,7 @@ hr {
 	position:relative;
     background: url(../img/bg2.jpg) no-repeat top center ;
     background-size: 100vw 80vh;
+    background-attachment: fixed;
 }
 
 #intro.intro {

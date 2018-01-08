@@ -1,0 +1,16 @@
+.index-logo {
+    width: 70%;
+    height: 70%;
+}
+
+.service-img {
+    max-height: 85vh;
+    max-width: 290px;
+    width: 70%;
+    height: 70%;
+}
+
+.service-title {
+    margin:25px;
+    padding: 5px;
+}
