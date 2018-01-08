@@ -1,6 +1,6 @@
 {
-  "name": "Parking",
-  "short_name": "Parking",
+  "name": "Parkamoto",
+  "short_name": "Parkamoto",
   "start_url": "/report.html",
   "display": "standalone",
   "orientation": "portrait",
