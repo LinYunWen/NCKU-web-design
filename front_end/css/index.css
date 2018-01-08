@@ -27,3 +27,11 @@
 .service-text {
     padding: 13% 30px;
 }
+
+.search-background {
+    min-height: 70vh;
+    background: url("../img/map.png") no-repeat;
+    background-position: 63vw center;
+    background-size: 25%;
+    background-attachment: fixed;
+}

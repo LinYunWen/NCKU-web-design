@@ -177,7 +177,7 @@ a:focus {
 
 
 #loaderInner {
-    background:#ffffff url(../img/spinner.gif) center center no-repeat;
+    background:#ffffff url("../img/spinner.gif") center center no-repeat;
     height: 60px;
     left: 50%;
     margin: -50px 0 0 -50px;
@@ -308,7 +308,7 @@ hr {
 .intro {
 	width:100%;
 	position:relative;
-    background: url(../img/bg2.jpg) no-repeat top center ;
+    background: url("../img/bg2.jpg") no-repeat top center ;
     background-size: 100vw 80vh;
     background-attachment: fixed;
 }
@@ -588,11 +588,11 @@ Parallax
 ============================= */
 
 #parallax1{	
-	background-image: url(../img/parallax/1.jpg);
+	background-image: url("../img/parallax/1.jpg");
 }
 
 #parallax1:after {	
-	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC);
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC");
 	content: "";
 	position: absolute;
 	bottom: 0;
@@ -605,12 +605,12 @@ Parallax
 
 
 #parallax2{	
-	background-image: url(../img/parallax/2.jpg);
+	background-image: url("../img/parallax/2.jpg");
 
 }
 
 #parallax2:after  {	
-	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC);
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC");
 	content: "";
 	position: absolute;
 	bottom: 0;
