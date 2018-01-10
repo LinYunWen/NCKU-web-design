@@ -1,21 +1,36 @@
 const cacheFile = [
-    '',
     'index.html',
-    'css/bootstrap.min.css',
+    'report.html',
+    'login.html',
+    'about.html',
+    'search.html',
     'font-awesome/css/font-awesome.min.css',
     'css/animate.css',
+    'css/bootstrap.min.css',
+    'css/camera.css',
+    'css/index.css',
+    'css/login.css',
+    'css/post-illegal-parking.css',
     'css/style.css',
     'css/color.css',
-    'css/showcase.css',
     'js/jquery.min.js',
     'js/jquery.easing.min.js',
     'js/jquery.scrollTo.js',
     'js/wow.min.js',
+    'js/about.js',
+    'js/location.js',
+    'js/publish.js',
+    'js/report.js',
+    'js/upload-imgur.js',
     'js/custom.js',
+    'js/camera.js',
+    'js/index.js',
+    'js/login.js',
+    'js/post-illegal-parking.js',
     'img/bg2.jpg'
 ]
 
-const cacheKey = 'v2.0.2'
+const cacheKey = 'v2.1.0';
 
 // install
 self.addEventListener('install', event => {

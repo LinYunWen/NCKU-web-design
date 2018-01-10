@@ -6,8 +6,8 @@
 .service-img {
     max-height: 85vh;
     max-width: 290px;
-    width: 70%;
-    height: 70%;
+    width: 80%;
+    height: 80%;
 }
 
 .service-title {
@@ -16,8 +16,8 @@
 }
 
 .business-title {
-    margin: 15px;
-    padding: 5px;
+    margin: 5% 30%;
+    padding: 5%;
 }
 
 .business-text {
@@ -25,13 +25,24 @@
 }
 
 .service-text {
-    padding: 13% 30px;
+    margin: 5% 0%;
+    padding: 10% 30px;
 }
 
 .search-background {
-    min-height: 70vh;
-    background: url("../img/map.png") no-repeat;
-    background-position: 63vw center;
-    background-size: 25%;
+    background: url("../img/search-background.jpg") no-repeat bottom right ;
     background-attachment: fixed;
+    background-size: 100vw 100vh;
+}
+
+.report-background {
+    background: url("../img/report-background.jpg") no-repeat bottom right ;
+    background-attachment: fixed;
+    background-size: 100vw 100vh;
+}
+
+.publish-background {
+    background: url("../img/publish-background.jpg") no-repeat bottom right ;
+    background-attachment: fixed;
+    background-size: 100vw 100vh;
 }
