@@ -39,7 +39,7 @@ func main() {
     router.Use(static.Serve("/img/", static.LocalFile("../front_end/img", true)));
     router.Use(static.Serve("/font-awesome/", static.LocalFile("../front_end/font-awesome", true)));
     router.Use(static.Serve("/pwa/", static.LocalFile("../front_end/pwa", true)));
-    router.Use(static.Serve("/sw.js", static.LocalFile("../front_end/sw.js", true)));
+    router.Use(static.Serve("/", static.LocalFile("../front_end/", true)));
     router.Use(sessions.Sessions("sessionID", store));
 
     router.LoadHTMLGlob("../front_end/*.html");
