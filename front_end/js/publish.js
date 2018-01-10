@@ -6,6 +6,10 @@ var pubishButton = document.getElementById("publish-button");
 pubishButton.addEventListener("click", clickPublishButton);
 
 function clickPublishButton(event) {
+    // if (!isLogin()) {
+    //     return;
+    // }
+
     // check for Geolocation support
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
