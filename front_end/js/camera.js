@@ -33,8 +33,9 @@ function uploadPhotoChange(event) {
     console.log("file: ", event.target.files[0]);
     var file = event.target.files[0];
     if (file.type.includes("image")) {
-        if (file.size < 3000000) {
+        if (file.size < 5000000) {
             photoImg.src = URL.createObjectURL(event.target.files[0]);
+            carNumRecognition(file);
             setPostSectionDisplay("inline");
             setName($("#account-name").val());
         } else {

@@ -30,6 +30,8 @@ function setPostSectionDisplay(state) {
         section.style.top = "10vh";
     }
     section.style.display = state;
+    document.getElementById("loading-text").style.display = state;
+    document.getElementById("loader").style.display = state;
 }
 
 function setWebPageDisplay(state) {

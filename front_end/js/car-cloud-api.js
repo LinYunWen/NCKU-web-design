@@ -30,6 +30,8 @@ function carNumRecognition(blob) {
 }
 
 function carNumRecognitionSuccess(result) {
+    document.getElementById("loading-text").style.display = "none";
+    document.getElementById("loader").style.display = "none";
     result = JSON.parse(result);
     var cars = result["results"];
     if (cars.length > 0) {
