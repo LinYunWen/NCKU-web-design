@@ -37,9 +37,12 @@ func main() {
     router.Use(static.Serve("/", static.LocalFile("../front_end/", true)));
     router.Use(sessions.Sessions("sessionID", store));
 
+    router.LoadHTMLGlob("../private/admin.html");
+
     router.GET("/", func(c *gin.Context) {
         c.HTML(http.StatusOK, "index.html", nil);
     });
+    router.GET("/admin.html", admin);
     router.GET("/get_illegal_post", get_illegal_post);
     router.GET("/get_top_post", get_top_post);
     router.GET("/get_records", get_records);
@@ -108,6 +111,45 @@ func report_illegal(c *gin.Context) {
         "result": 1,
         "message": "post success",
     });
+}
+
+func admin(c *gin.Context) {
+    var account string;
+    var class int;
+    var signin_status bool;
+
+    session := sessions.Default(c);
+
+    v := session.Get("signin_status");
+    if v == nil {                       //do not have a session
+        c.JSON(http.StatusOK, gin.H {
+            "signin_status": false,
+        });
+    } else {                                //have a session
+         signin_status = v.(bool);
+
+        if signin_status {                  //the state is signin
+            v = session.Get("account");
+            account = v.(string);
+            v = session.Get("class");
+            class = v.(int);
+
+            if class == 0 {                 //the class is admin
+                c.HTML(http.StatusOK, "admin.html", nil);
+            } else {
+                c.JSON(http.StatusOK, gin.H {
+                    "signin_status": signin_status,
+                    "account": account,
+                    "calss": class,
+                });
+            }
+
+        } else {                            //the state is not signin
+            c.JSON(http.StatusOK, gin.H {
+                "signin_status": signin_status,
+            });
+        }
+   }
 }
 
 func get_illegal_post(c *gin.Context) {
