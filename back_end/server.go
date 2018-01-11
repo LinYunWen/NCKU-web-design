@@ -59,7 +59,7 @@ func main() {
 
     init_database();
 
-    http.ListenAndServeTLS(":2997", "ssl/certificate.crt", "ssl/private.key", router);
+    http.ListenAndServeTLS(":2996", "ssl/certificate.crt", "ssl/private.key", router);
 }
 
 func init_database() {
@@ -109,6 +109,7 @@ func report_illegal(c *gin.Context) {
     /*******************push notification to admin************/
     var subscription string;
     options := `{
+        "type": "illegal",
         "location": "`+location+`",
         "name": "`+name+`",
         "picture": "`+picture+`",

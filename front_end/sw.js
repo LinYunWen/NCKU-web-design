@@ -90,27 +90,34 @@ self.addEventListener('push', event => {
         push_content = event.data.json();
         longitude = push_content.longitude;
         latitude = push_content.latitude;
-        console.log(longitude+'\n'+latitude);
 
-        var title = '有拖吊唷!';
-        var options = {
-            body: '點擊查看地點\n拖你媽吊，別再 hack 了!',
-            icon: 'img/icons/logo_144.png',
-            //vibrate: [100, 50, 100],
-            //data: {
-            //    dateOfArrival: Date.now(),
-            //    primaryKey: 1
-            //}
-            //actions: [
-            //    {
-            //        action: 'explore', title: 'Explore this new world',
-            //        icon: 'img/icons/scan.png'
-            //    }
-            //]
-            //    {action: 'close', title: 'Close notification',
-            //      icon: 'img/icons/search2.png'},
-            //]
-        };
+       if(push_content.type=="illegal") {
+            var title = '有人檢舉違停!!';
+            var options = {
+                body: '',
+                icon: 'img/icons/logo_144.png',
+            };
+        } else {
+            var title = '有拖吊唷!';
+            var options = {
+                body: '點擊查看地點\n拖你媽吊，別再 hack 了!',
+                icon: 'img/icons/logo_144.png',
+                //vibrate: [100, 50, 100],
+                //data: {
+                //    dateOfArrival: Date.now(),
+                //    primaryKey: 1
+                //}
+                //actions: [
+                //    {
+                //        action: 'explore', title: 'Explore this new world',
+                //        icon: 'img/icons/scan.png'
+                //    }
+                //]
+                //    {action: 'close', title: 'Close notification',
+                //      icon: 'img/icons/search2.png'},
+                //]
+            };
+        }
     }
     event.waitUntil(self.registration.showNotification(title, options));
 });
