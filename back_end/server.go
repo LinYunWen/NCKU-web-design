@@ -59,7 +59,7 @@ func main() {
 
     init_database();
 
-    http.ListenAndServeTLS(":2996", "ssl/certificate.crt", "ssl/private.key", router);
+    http.ListenAndServeTLS(":2997", "ssl/certificate.crt", "ssl/private.key", router);
 }
 
 func init_database() {
@@ -104,6 +104,45 @@ func report_illegal(c *gin.Context) {
     _, err = stmtIns.Exec(now, car_num, location, longitude, latitude, name, picture);
     if err != nil {
         panic(err.Error());
+    }
+
+    /*******************push notification to admin************/
+    var subscription string;
+    options := `{
+        "location": "`+location+`",
+        "name": "`+name+`",
+        "picture": "`+picture+`",
+        "car_num": "`+car_num+`",
+        "longitude": "`+strconv.FormatFloat(longitude, 'f', -1, 64)+`",
+        "latitude": "`+strconv.FormatFloat(latitude, 'f', -1, 64)+`"
+    }`;
+    /**********select all push subscription**********/
+    //Execute the query
+    rows, err := db.Query("SELECT push_subscription FROM admin_push_subscription");
+    if err != nil {
+        panic(err.Error());
+    }
+
+    //fetch data
+    for rows.Next() {
+        err = rows.Scan(&subscription);
+        if err != nil {
+            panic(err.Error());
+        }
+
+        subJSON := subscription;
+
+        s := webpush.Subscription{};
+	    if err := json.NewDecoder(bytes.NewBufferString(subJSON)).Decode(&s); err != nil {
+	        panic(err.Error());
+        }
+	    _, err := webpush.SendNotification([]byte(options), &s, &webpush.Options{
+		    Subscriber:      "apple113611361@gmail.com",
+		    VAPIDPrivateKey: vapid_private_key,
+	    })
+	    if err != nil {
+	        panic(err.Error());
+	    }
     }
     /*********************************************************/
 
@@ -357,7 +396,7 @@ func publish(c *gin.Context) {
 	    if err != nil {
 	        panic(err.Error());
 	    }
-   }
+    }
 
     c.JSON(http.StatusOK, gin.H {
         "result": 1,
