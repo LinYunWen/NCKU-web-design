@@ -582,7 +582,90 @@ func get_fb_info(c *gin.Context) {
 
 func store_subscription(c *gin.Context) {
     push_subscription := c.PostForm("subscription");
+    var class int;
+    var signin_status bool;
 
+    /**************admin subscription***********/
+    session := sessions.Default(c);
+    v := session.Get("signin_status");
+    if v == nil {                       //do not have a session
+        stmtDel, err := db.Prepare("DELETE FROM admin_push_subscription WHERE push_subscription=?");
+        if err != nil {
+            panic(err.Error());
+        }
+        defer stmtDel.Close();
+
+        _, err = stmtDel.Exec(push_subscription);
+        if err != nil {
+            panic(err.Error());
+        }
+
+        c.JSON(http.StatusOK, gin.H {
+            "signin_status": false,
+        });
+    } else {                            //have a session
+        signin_status = v.(bool);
+
+        if signin_status {              //the state is signin
+            v = session.Get("class");
+            class = v.(int);
+
+            /********先找資料庫有這筆嗎**********/
+            stmtSel, err := db.Prepare("SELECT push_subscription FROM admin_push_subscription WHERE push_subscription=?");
+            if err != nil {
+                panic(err.Error());
+            }
+            defer stmtSel.Close();
+
+            //Execute the query
+            rows, err := stmtSel.Query(push_subscription);
+            if err != nil {
+                panic(err.Error());
+            }
+            /***********************************/
+
+            if rows.Next() {        //有這筆資料
+                if class == 1 {     //the class is general
+                    stmtDel, err := db.Prepare("DELETE FROM admin_push_subscription WHERE push_subscription=?");
+                    if err != nil {
+                        panic(err.Error());
+                    }
+                    defer stmtDel.Close();
+
+                    _, err = stmtDel.Exec(push_subscription);
+                    if err != nil {
+                        panic(err.Error());
+                    }
+                }
+            } else {                //沒有這筆資料
+                if class == 0 {     //the class is admin
+                    stmtIns, err := db.Prepare("INSERT INTO admin_push_subscription VALUES (NULL, ?)");
+                    if err != nil {
+                        panic(err.Error());
+                    }
+                    defer stmtIns.Close();
+
+                    _, err = stmtIns.Exec(push_subscription);
+                    if err != nil {
+                        panic(err.Error());
+                    }
+                }
+            }
+        } else {                    //the state is not signin
+            stmtDel, err := db.Prepare("DELETE FROM admin_push_subscription WHERE push_subscription=?");
+            if err != nil {
+                panic(err.Error());
+            }
+            defer stmtDel.Close();
+
+            _, err = stmtDel.Exec(push_subscription);
+            if err != nil {
+                panic(err.Error());
+            }
+        }
+    }
+
+    /***********general subscription************/
     /********先找資料庫有這筆嗎**********/
     stmtSel, err := db.Prepare("SELECT push_subscription FROM push_subscription WHERE push_subscription=?");
     if err != nil {
