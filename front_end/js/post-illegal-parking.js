@@ -68,7 +68,7 @@ function sendPost(imageURL) {
             url: "/report_illegal",
             data: {
                 location: parseToWord($("#upload-location").val()),
-                name: $("#upload-name").val(),
+                name: $("#account-name").val(),
                 picture: imageURL,
                 car_num: $("#upload-car-num").val(),
                 longitude: location[0],
