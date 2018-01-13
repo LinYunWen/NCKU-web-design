@@ -27,6 +27,7 @@
 .service-text {
     margin: 5% 0%;
     padding: 10% 30px;
+    opacity: 0.85;
 }
 
 .search-background {
@@ -45,4 +46,8 @@
     background: url("../img/publish-background.jpg") no-repeat bottom right ;
     background-attachment: fixed;
     background-size: 100vw 100vh;
+}
+
+.min-height-400 {
+    min-height: 400px;
 }

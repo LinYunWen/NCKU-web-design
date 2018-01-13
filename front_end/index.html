@@ -106,8 +106,8 @@
                     <h3 class="service-title">Search</h3>
                     <p>For many people, parking scooters is a daily usual. However,  there is no enough space to hold total of scooters. And this makes lots of problems. We design a platform to let people search how many remaining space in parking lot really time and convenient.</p>
                 </div>
-                <div class="col-md-6 col-sm-6">
-                    <img src="img/map.png" class="service-img">
+                <div class="col-md-6 col-sm-6 min-height-400">
+                    <!-- <img src="img/map.png" class="service-img"> -->
                 </div>
             </div>
         </div>
@@ -115,8 +115,8 @@
     <section id="report" class="home-section text-center report-background">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-sm-6">
-                    <img src="img/report.png" class="service-img">
+                <div class="col-md-6 col-sm-6 min-height-400">
+                    <!-- <img src="img/report.png" class="service-img"> -->
                 </div>
                 <div class="col-md-6 col-sm-6 service-text" style=" background-color: #F6edd3;">
                     <h3 class="service-title">Report</h3>
@@ -132,8 +132,8 @@
                     <h3 class="service-title">Publish</h3>
                     <p>For someone parking illegally on sidewalks, we provide a feature to let someone publish the drawing information, like where and when.</p>
                 </div>
-                <div class="col-md-6 col-sm-6">
-                    <img src="img/publish.png" class="service-img">
+                <div class="col-md-6 col-sm-6 min-height-400">
+                    <!-- <img src="img/publish.png" class="service-img"> -->
                 </div>
             </div>
         </div>
@@ -169,6 +169,13 @@
     <script src="js/index.js"></script>
     <!-- app -->
     <script src="./pwa/register.js"></script>
+    <script>
+        if (window.innerWidth <= 800) {
+            document.getElementById("search").style.backgroundSize = "auto 100vh";
+            document.getElementById("report").style.backgroundSize = "auto 100vh";
+            document.getElementById("publish").style.backgroundSize = "auto 100vh";
+        }
+    </script>
 </body>
 
 </html>
