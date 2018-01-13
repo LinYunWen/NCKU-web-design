@@ -18,7 +18,8 @@ function clickCancelButton(event) {
 function clickPostButton(event) {
     event.preventDefault();
     mediaStreamTrack.stop();
-    uploadImage(imageBlob);
+    // uploadImage(imageBlob);
+    transfromImage(imageBlob);
     setPostSectionDisplay("none");
     setWebPageDisplay("block");
     setFixedButton("inline-block");
@@ -47,20 +48,17 @@ function setFixedButton(state) {
     document.getElementById("publish-button").style.display = state;
 }
 
-function setName(name) {
-    document.getElementById("upload-name").value = name;
-}
-
 function postSuccess(result) {
     console.log("post success: ", result);
     window.alert("You have successfully posted.");
+    clearValue();
 }
 
 function postError(error) {
     onError("post error: ", error);
 }
 
-function sendPost(imageURL) {
+function sendPost(imageData) {
     var location = getLonAndLat();
     $.ajax(
         {
@@ -68,8 +66,8 @@ function sendPost(imageURL) {
             url: "/report_illegal",
             data: {
                 location: parseToWord($("#upload-location").val()),
-                name: $("#upload-name").val(),
-                picture: imageURL,
+                name: $("#account-name").val(),
+                picture: imageData,
                 car_num: $("#upload-car-num").val(),
                 longitude: location[0],
                 latitude: location[1]
@@ -78,6 +76,12 @@ function sendPost(imageURL) {
             error: postError
         }
     );
+}
+
+function clearValue() {
+    document.querySelector("#camera-video").src = "";
+    document.querySelector("#upload-car-num").value = "";
+    document.querySelector("#upload-picture-img").src = "";
 }
 
 function onError(error) {

@@ -4,6 +4,7 @@ var recordKey = ["id", "time", "picture", "parking", "processStatus", "processTi
 setTimeStamps();
 getRecords();
 autoReflesh();
+getSession();
 
 function addRecord(info) {
     console.log("info: ", info);
@@ -134,6 +135,7 @@ function addImage(url) {
 document.getElementById("sign-out-h3").addEventListener("click", clickSignOut);
 
 function clickSignOut(event) {
+    event.preventDefault();
     $.ajax({
         method: "POST",
         url: "/signout",
@@ -147,11 +149,8 @@ function clickSignOut(event) {
 
 function signOutSuccess(result) {
     if (result["result"] == 1) {
-        document.getElementById("account-name").value = "";
-        document.getElementById("account").textContent = "";
-        setSignOutDisplay(false);
         alert("You have successfully signed out.");
-        location.reload();
+        location.replace("/");
     } else {
         alert("Error on signing out.");
     }
@@ -177,22 +176,11 @@ function getSessionSuccess(result) {
         var account = document.getElementById("account-name");
         account.value = result["account"];
         document.getElementById("account").textContent = result["account"];
-        setSignOutDisplay(true);
     }
 }
 
 function getSessionError(error) {
     onError(error);
-}
-
-function setSignOutDisplay(display) {
-    if (display) {
-        document.getElementById("sign-in-h3").style.display = "none";
-        document.getElementById("sign-out-h3").style.display = "block";
-    } else {
-        document.getElementById("sign-in-h3").style.display = "block";
-        document.getElementById("sign-out-h3").style.display = "none";
-    }
 }
 
 function onError(error) {

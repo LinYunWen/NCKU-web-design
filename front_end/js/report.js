@@ -83,6 +83,8 @@ function getTopSuccess(result) {
     var top3Imgs = document.getElementsByClassName("top3-img");
     for (let i = 0; i < 3; i++) {
         top3Imgs[i].src = result["data"][i]["picture"];
+        document.getElementById(`top-times-${i + 1}`).textContent = result["data"][i]["count"];
+        document.getElementById(`top-car-${i + 1}`).textContent = result["data"][i]["car_num"];
     }
 }
 

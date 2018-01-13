@@ -30,7 +30,7 @@ const cacheFile = [
     'img/bg2.jpg'
 ]
 
-const cacheKey = 'v2.1.0';
+const cacheKey = 'v2.2.0';
 
 // install
 self.addEventListener('install', event => {

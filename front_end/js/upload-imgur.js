@@ -37,3 +37,13 @@ function uploadSuccess(result) {
 function uploadError(error) {
     onError(error);
 }
+
+function transfromImage(blob) {
+    var reader = new FileReader();
+    reader.readAsDataURL(blob); 
+    reader.onloadend = function() {
+        var base64Data = reader.result;
+        base64Data = base64Data.substring(base64Data.indexOf(",")+1);
+        sendPost(base64Data);
+    }
+}

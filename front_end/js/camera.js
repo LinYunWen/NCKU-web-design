@@ -37,7 +37,6 @@ function uploadPhotoChange(event) {
             photoImg.src = URL.createObjectURL(event.target.files[0]);
             carNumRecognition(file);
             setPostSectionDisplay("inline");
-            setName($("#account-name").val());
         } else {
             alert("Image size cannot over 3MB.");
             setWebPageDisplay("block");
@@ -53,6 +52,9 @@ function uploadPhotoChange(event) {
 }
 
 function clickCameraButton(event) {
+    // if (!isLogin()) {
+    //     return;
+    // }
     start();
     setCameraDisplay("inline");
     setWebPageDisplay("none");
@@ -78,7 +80,6 @@ function startTakePhoto(event) {
         .catch(error => console.error('takePhoto() error:', error));
     setCameraDisplay("none");
     setPostSectionDisplay("inline");
-    setName($("#account-name").val());
 }
 
 function stopTracks() {
@@ -137,8 +138,14 @@ function changeCamera() {
 
 videoChangeButton.onclick = clickChangeCameraButton;
 
-
-
 function handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
+}
+
+function isLogin() {
+    if (document.getElementById("sign-out-li").style.display === "none") {
+        alert("Please login.");
+        return false;
+    }
+    return true;
 }
