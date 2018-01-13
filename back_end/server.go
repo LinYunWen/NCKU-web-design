@@ -7,12 +7,14 @@ import "github.com/SherClockHolmes/webpush-go"
 import "github.com/gin-contrib/sessions"
 import "bytes"
 import "net/http"
+import "net/url"
 import "database/sql"
 import "encoding/json"
 import "io/ioutil"
 import "fmt"
 import "strconv"
 import "time"
+import "strings"
 
 import _ "github.com/go-sql-driver/mysql"
 
@@ -22,6 +24,15 @@ type Conf struct {
     Database string
     User string
     Password string
+}
+
+/*****response of imgur api*****/
+type Imgur struct {
+    Data struct {
+        Link string
+    }
+    Success bool
+    Status int
 }
 
 /****push notification VAPID private_key****/
@@ -88,6 +99,38 @@ func report_illegal(c *gin.Context) {
     car_num := c.PostForm("car_num");
     longitude, _ := strconv.ParseFloat(c.PostForm("longitude"), 64);
     latitude, _ := strconv.ParseFloat(c.PostForm("latitude"), 64);
+
+    /**********************post to imgur***********************/
+    api_url := "https://api.imgur.com";
+    resource := "/3/image";
+    data := strings.NewReader(picture);
+
+    u, _ :=url.ParseRequestURI(api_url);
+    u.Path = resource;
+    url_str := u.String();
+
+    client := &http.Client{};
+    r, _ := http.NewRequest("POST", url_str, data);
+    r.Header.Add("Authorization", "Client-ID 188209a74ecddfc");
+    r.Header.Add("Content-Type", "multipart/form-data");
+
+    resp, _ := client.Do(r);
+
+    if(resp.Status == "200 OK") {
+        resp_body_str, err := ioutil.ReadAll(resp.Body);
+        if err != nil {
+            panic(err.Error());
+        }
+
+        resp_body_json := Imgur{};
+        err = json.Unmarshal(resp_body_str, &resp_body_json);
+        if err != nil {
+            panic(err.Error());
+        }
+        picture = resp_body_json.Data.Link;
+    } else {
+        return;
+    }
 
     /**********************insert to database******************/
     //id, time, car_number, parking_lot, longitude, latitude, name, picture, process_status, process_time, processor
