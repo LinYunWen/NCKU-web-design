@@ -53,6 +53,9 @@ function uploadPhotoChange(event) {
 }
 
 function clickCameraButton(event) {
+    // if (!isLogin()) {
+    //     return;
+    // }
     start();
     setCameraDisplay("inline");
     setWebPageDisplay("none");
@@ -137,8 +140,14 @@ function changeCamera() {
 
 videoChangeButton.onclick = clickChangeCameraButton;
 
-
-
 function handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
+}
+
+function isLogin() {
+    if (document.getElementById("sign-out-li").style.display === "none") {
+        alert("Please login.");
+        return false;
+    }
+    return true;
 }
