@@ -150,7 +150,7 @@ function clickSignOut(event) {
 function signOutSuccess(result) {
     if (result["result"] == 1) {
         alert("You have successfully signed out.");
-        location.replace("https://luffy.ee.ncku.edu.tw:2996/index.html");
+        location.replace("/");
     } else {
         alert("Error on signing out.");
     }

@@ -37,7 +37,6 @@ function uploadPhotoChange(event) {
             photoImg.src = URL.createObjectURL(event.target.files[0]);
             carNumRecognition(file);
             setPostSectionDisplay("inline");
-            setName($("#account-name").val());
         } else {
             alert("Image size cannot over 3MB.");
             setWebPageDisplay("block");
@@ -81,7 +80,6 @@ function startTakePhoto(event) {
         .catch(error => console.error('takePhoto() error:', error));
     setCameraDisplay("none");
     setPostSectionDisplay("inline");
-    setName($("#account-name").val());
 }
 
 function stopTracks() {
