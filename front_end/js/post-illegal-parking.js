@@ -23,10 +23,12 @@ function clickPostButton(event) {
     }
     // uploadImage(imageBlob);
     transfromImage(imageBlob);
+    setPostSpinnerDisplay("inline");
     setPostSectionDisplay("none");
-    setWebPageDisplay("block");
-    setFixedButton("inline-block");
-    clearValue();
+}
+
+function setPostSpinnerDisplay(state) {
+    document.getElementById("post-spinner").style.display = state;
 }
 
 function setPostSectionDisplay(state) {
@@ -54,11 +56,19 @@ function setFixedButton(state) {
 }
 
 function postSuccess(result) {
+    setPostSpinnerDisplay("none");
+    setWebPageDisplay("block");
+    setFixedButton("inline-block");
+    clearValue();
     console.log("post success: ", result);
     window.alert("You have successfully posted.");
 }
 
 function postError(error) {
+    setPostSpinnerDisplay("none");
+    setWebPageDisplay("block");
+    setFixedButton("inline-block");
+    clearValue();
     onError("post error: ", error);
 }
 
