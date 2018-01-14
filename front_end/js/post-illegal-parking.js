@@ -13,16 +13,20 @@ function clickCancelButton(event) {
     setPostSectionDisplay("none");
     setWebPageDisplay("block");
     setFixedButton("inline-block");
+    clearValue();
 }
 
 function clickPostButton(event) {
     event.preventDefault();
-    mediaStreamTrack.stop();
+    if (mediaStreamTrack) {
+        mediaStreamTrack.stop();
+    }
     // uploadImage(imageBlob);
     transfromImage(imageBlob);
     setPostSectionDisplay("none");
     setWebPageDisplay("block");
     setFixedButton("inline-block");
+    clearValue();
 }
 
 function setPostSectionDisplay(state) {
@@ -39,6 +43,7 @@ function setWebPageDisplay(state) {
     document.getElementById("rank").style.display = state;
     document.getElementById("illegal-parking").style.display = state;
     document.getElementById("intro").style.display = state;
+    document.getElementById("alternative-section").style.display = state;
     document.getElementsByTagName("footer")[0].style.display = state;
     document.getElementsByTagName("nav")[0].style.display = state;
 }
@@ -51,7 +56,6 @@ function setFixedButton(state) {
 function postSuccess(result) {
     console.log("post success: ", result);
     window.alert("You have successfully posted.");
-    clearValue();
 }
 
 function postError(error) {
