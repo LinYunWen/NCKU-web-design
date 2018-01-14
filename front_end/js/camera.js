@@ -28,7 +28,6 @@ function clickAlternativeButton(event) {
 }
 
 function clickCrossIcon(event) {
-    console.log("here");
     stopTracks();
     setCameraDisplay("none");
     setWebPageDisplay("block");
