@@ -30,7 +30,7 @@ const cacheFile = [
     'img/bg2.jpg'
 ]
 
-const cacheKey = 'v2.2.0';
+const cacheKey = 'v2.3.0';
 
 // install
 self.addEventListener('install', event => {
@@ -100,7 +100,7 @@ self.addEventListener('push', event => {
         } else {
             var title = '有拖吊唷!';
             var options = {
-                body: '點擊查看地點\n拖你媽吊，別再 hack 了!',
+                body: '點擊查看地點\n',
                 icon: 'img/icons/logo_144.png',
                 //vibrate: [100, 50, 100],
                 //data: {
