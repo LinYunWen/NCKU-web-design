@@ -253,6 +253,12 @@
             </div> 
         </div>
     </section>
+
+    <section id="alternative-section" class="text-center">
+        <h3 style="margin: 10px;">Upload Image</h3>
+        <p style="margin: 10px;">If your post illegal parking button is not work, you can use this.</p>
+        <input id="alternative-button" type="button" value="Alternative Button" style="margin: 10px;">
+    </section>
     
     <!-- /Section: Post illegal parking -->
     <button id="publish-button" type="button" class="edit-btn-circle edit-btn-lg"><i class="fa fa-exclamation" aria-hidden="true"></i></button>
@@ -312,15 +318,17 @@
                         </div>
                         </form>
                     </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-lg-offset-5">
-                            <p class="marginbot-50"></p>
-                            <p class="marginbot-50"></p>
-                        </div>
-                    </div>
+                </div>
                     <input id="upload-photo-input" type="file" name="filename" accept="image/*" multiple="false" style="display: none;">
+                    
     </section>
+    <div id="post-spinner" class="container text-center" style="display: none">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="img/spinner.gif" style="height: 20vh;">
+            </div>
+        </div>
+    </div>
 
 
     <input id="use-camera" type="button" value="Start Camera" style="display: none;">
