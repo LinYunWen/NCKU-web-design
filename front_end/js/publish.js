@@ -14,7 +14,6 @@ function clickPublishButton(event) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var anwser = window.confirm("Are you sure to publish?");
-            console.log("anwser: ", anwser);
             if (anwser) {
                 $.ajax({
                     method: "POST",
@@ -28,7 +27,6 @@ function clickPublishButton(event) {
                     error: publishError
                 });
                 console.log("position: ", position);
-                console.log("here");
                 //displayNotification();
             }
         } , geoError);

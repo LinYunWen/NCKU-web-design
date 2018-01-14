@@ -110,7 +110,6 @@ function updateStatusError(error) {
 function autoReflesh() {
     setInterval(function() {
         location.reload();
-        console.log("refresh");
     }, 300000);
 }
 

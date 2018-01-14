@@ -14,6 +14,7 @@ var deviceIndex = 0;
 document.getElementById("take-photo").addEventListener("click", startTakePhoto);
 document.getElementById("cross-icon").addEventListener("click", clickCrossIcon);
 document.getElementById("upload-photo").addEventListener("click", clickUploadPhoto);
+document.getElementById("alternative-button").addEventListener("click", clickAlternativeButton);
 document.getElementById("upload-photo-input").addEventListener("change", uploadPhotoChange);
 cameraButton.addEventListener("click", clickCameraButton);
 
@@ -21,8 +22,12 @@ function clickUploadPhoto(event) {
     document.getElementById("upload-photo-input").click();
 }
 
+function clickAlternativeButton(event) {
+    setWebPageDisplay("none");
+    document.getElementById("upload-photo-input").click();
+}
+
 function clickCrossIcon(event) {
-    console.log("here");
     stopTracks();
     setCameraDisplay("none");
     setWebPageDisplay("block");
@@ -34,11 +39,12 @@ function uploadPhotoChange(event) {
     var file = event.target.files[0];
     if (file.type.includes("image")) {
         if (file.size < 5000000) {
+            imageBlob = file;
             photoImg.src = URL.createObjectURL(event.target.files[0]);
             carNumRecognition(file);
             setPostSectionDisplay("inline");
         } else {
-            alert("Image size cannot over 3MB.");
+            alert("Image size cannot over 5MB.");
             setWebPageDisplay("block");
             setFixedButton("inline-block");
         }
@@ -55,7 +61,12 @@ function clickCameraButton(event) {
     // if (!isLogin()) {
     //     return;
     // }
-    start();
+    try {
+        start();
+    } catch (e) {
+        console.error(e);
+        window.alert("Your device doesn't spport this service. Please use alternative button.");
+    }
     setCameraDisplay("inline");
     setWebPageDisplay("none");
     setFixedButton("none");
@@ -83,9 +94,11 @@ function startTakePhoto(event) {
 }
 
 function stopTracks() {
-    window.stream.getTracks().forEach(function(track) {
-        track.stop();
-    });
+    if (window.stream) {
+        window.stream.getTracks().forEach(function(track) {
+            track.stop();
+        });
+    }
 }
 
 function setCameraDisplay(state) {
@@ -116,9 +129,7 @@ function gotStream(stream) {
 }
 
 function start() {
-    if (window.stream) {
-        stopTracks();
-    }
+    stopTracks();
     var videoSource = deviceIds[deviceIndex];
     var constraints = {
         video: {deviceId: videoSource ? {exact: videoSource} : undefined}

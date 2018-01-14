@@ -60,7 +60,7 @@ self.addEventListener('activate', event => {
 
 // fetch
 self.addEventListener('fetch', event => {
-    console.log(`${event.request.method}: ${event.request.url}`)
+    // console.log(`${event.request.method}: ${event.request.url}`)
     event.respondWith(
         caches.match(event.request).then(response => {
             if (response) {
