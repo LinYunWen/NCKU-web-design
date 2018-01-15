@@ -24,6 +24,7 @@ function clickUploadPhoto(event) {
 
 function clickAlternativeButton(event) {
     setWebPageDisplay("none");
+    setFixedButton("none");
     document.getElementById("upload-photo-input").click();
 }
 
@@ -66,6 +67,7 @@ function clickCameraButton(event) {
     } catch (e) {
         console.error(e);
         window.alert("Your device doesn't spport this service. Please use alternative button.");
+        return;
     }
     setCameraDisplay("inline");
     setWebPageDisplay("none");
