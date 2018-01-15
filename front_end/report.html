@@ -322,13 +322,29 @@
                     <input id="upload-photo-input" type="file" name="filename" accept="image/*" multiple="false" style="display: none;">
                     
     </section>
-    <div id="post-spinner" class="container text-center" style="display: none">
-        <div class="row">
-            <div class="col-md-12">
-                <img src="img/spinner.gif" style="height: 20vh;">
+    <section id="post-spinner" class="text-center" style="display: none">
+        <div class="container">
+            <div class="row" style="min-height: 5vh;"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Please wait about 30 seconds for uploading.</p>
+                </div>
+            </div>
+            <div class="row" style="min-height: 5vh;"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="img/spinner.gif" style="height: 15vh;">
+                </div>
+            </div>
+            <div class="row" style="min-height: 5vh;"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="padding: 10px;">Note: If it's uploading on background, do not reflesh website.</p>
+                    <input id="upload-background" type="button" value="Upload on Background">
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
 
     <input id="use-camera" type="button" value="Start Camera" style="display: none;">

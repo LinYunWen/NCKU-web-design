@@ -1,6 +1,7 @@
 document.getElementById("edit-button").addEventListener("click", clickEditButton);
 document.getElementById("post-button").addEventListener("click", clickPostButton);
 document.getElementById("cancel-button").addEventListener("click", clickCancelButton);
+document.getElementById("upload-background").addEventListener("click", clickUploadBackground);
 
 function clickEditButton(event) {
     document.getElementById("use-camera").click();
@@ -25,6 +26,13 @@ function clickPostButton(event) {
     transfromImage(imageBlob);
     setPostSpinnerDisplay("inline");
     setPostSectionDisplay("none");
+}
+
+function clickUploadBackground(event) {
+    setPostSpinnerDisplay("none");
+    setWebPageDisplay("block");
+    setFixedButton("inline-block");
+    clearValue();
 }
 
 function setPostSpinnerDisplay(state) {
