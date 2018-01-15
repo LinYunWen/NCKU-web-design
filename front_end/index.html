@@ -171,9 +171,18 @@
     <script src="./pwa/register.js"></script>
     <script>
         if (window.innerWidth <= 800) {
-            document.getElementById("search").style.backgroundSize = "auto 100vh";
-            document.getElementById("report").style.backgroundSize = "auto 100vh";
-            document.getElementById("publish").style.backgroundSize = "auto 100vh";
+            var introDiv = document.getElementById("intro");
+            var searchDiv = document.getElementById("search");
+            var reportDiv = document.getElementById("report");
+            var publishDiv = document.getElementById("publish");
+            searchDiv.style.backgroundSize = "auto 100%";
+            reportDiv.style.backgroundSize = "auto 100%";
+            publishDiv.style.backgroundSize = "auto 100%";
+            
+            introDiv.style.backgroundAttachment = "scroll";
+            searchDiv.style.backgroundAttachment = "scroll";
+            reportDiv.style.backgroundAttachment = "scroll";
+            publishDiv.style.backgroundAttachment = "scroll";
         }
     </script>
 </body>
