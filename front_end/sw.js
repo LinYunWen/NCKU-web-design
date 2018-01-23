@@ -30,11 +30,12 @@ const cacheFile = [
     'img/bg2.jpg'
 ]
 
-const cacheKey = 'v2.3.0';
+const cacheKey = 'v2.4.0';
 
 // install
 self.addEventListener('install', event => {
-    console.log("now install")
+    console.log("now install");
+    self.skipWaiting();
 
     event.waitUntil(
         caches.open(cacheKey)

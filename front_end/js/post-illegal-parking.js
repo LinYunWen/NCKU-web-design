@@ -1,3 +1,5 @@
+var postId = 1;
+var postQueue = [];
 document.getElementById("edit-button").addEventListener("click", clickEditButton);
 document.getElementById("post-button").addEventListener("click", clickPostButton);
 document.getElementById("cancel-button").addEventListener("click", clickCancelButton);
@@ -22,6 +24,7 @@ function clickPostButton(event) {
     if (mediaStreamTrack) {
         mediaStreamTrack.stop();
     }
+    postQueue.push(postId);
     // uploadImage(imageBlob);
     transfromImage(imageBlob);
     setPostSpinnerDisplay("inline");
@@ -33,6 +36,7 @@ function clickUploadBackground(event) {
     setWebPageDisplay("block");
     setFixedButton("inline-block");
     clearValue();
+    postId++;
 }
 
 function setPostSpinnerDisplay(state) {
@@ -64,20 +68,27 @@ function setFixedButton(state) {
 }
 
 function postSuccess(result) {
-    setPostSpinnerDisplay("none");
-    setWebPageDisplay("block");
-    setFixedButton("inline-block");
-    clearValue();
+    if (postId == postQueue[0]) {
+        setPostSpinnerDisplay("none");
+        setWebPageDisplay("block");
+        setFixedButton("inline-block");
+        clearValue();
+    }
     console.log("post success: ", result);
     window.alert("You have successfully posted.");
+    postQueue.shift();
 }
 
 function postError(error) {
-    setPostSpinnerDisplay("none");
-    setWebPageDisplay("block");
-    setFixedButton("inline-block");
-    clearValue();
+    if (postId == postQueue[0]) {
+        setPostSpinnerDisplay("none");
+        setWebPageDisplay("block");
+        setFixedButton("inline-block");
+        clearValue();
+    }
+    window.alert("You have unsuccessfully posted. Please retry it.");
     onError("post error: ", error);
+    postQueue.shift();
 }
 
 function sendPost(imageData) {
