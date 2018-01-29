@@ -1,4 +1,5 @@
 document.getElementById("sign-out-li").addEventListener("click", clickSignOut);
+document.getElementById("start-button").addEventListener("click", clickStartButton);
 
 getSession();
 
@@ -64,4 +65,8 @@ function setSignOutDisplay(display) {
 
 function onError(error) {
     console.log(error);
+}
+
+function clickStartButton(event) {
+    location.replace("/report.html");
 }
