@@ -47,11 +47,15 @@
     background-size: 100vw 100vh;
 }
 
+.guaid-background {
+    background-color: rgb(33, 46, 70);
+}
+
 .min-height-400 {
     min-height: 300px;
 }
 
-#start-button {
+.show-button {
     position: relative;
     top: 30px;
     transition-duration: 0.4s;
@@ -69,7 +73,22 @@
     cursor: pointer;
 }
 
-#start-button:hover {
+.show-button:hover {
     background-color: rgb(29, 108, 255);
     color: white;
+}
+
+.guaid-button-text {
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+.guaid-button-i {
+    font-size: 30px;
+}
+
+.guaid-button {
+    width: auto;
+    height: auto;
+    font-size: 10px;
 }

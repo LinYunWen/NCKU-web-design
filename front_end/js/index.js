@@ -1,5 +1,6 @@
 document.getElementById("sign-out-li").addEventListener("click", clickSignOut);
 document.getElementById("start-button").addEventListener("click", clickStartButton);
+document.getElementById("guaid-button").addEventListener("click", clickGuaidButton);
 
 getSession();
 
@@ -69,4 +70,8 @@ function onError(error) {
 
 function clickStartButton(event) {
     location.replace("/report.html");
+}
+
+function clickGuaidButton(event) {
+    location.replace("#guaid");
 }

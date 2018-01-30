@@ -833,15 +833,4 @@ Parallax
 	.tp-banner-container {
 		padding-top:40px;
 	}
-
-	.page-scroll a.btn-circle {
-		width: 40px;
-		height: 40px;
-		margin-top: 10px;
-		padding: 7px 0;
-		border: 2px solid #fff;
-		border-radius: 50%;
-		font-size: 20px;
-	}
-	
 }
