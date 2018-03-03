@@ -47,6 +47,48 @@
     background-size: 100vw 100vh;
 }
 
+.guaid-background {
+    background-color: rgb(33, 46, 70);
+}
+
 .min-height-400 {
     min-height: 300px;
+}
+
+.show-button {
+    position: relative;
+    top: 30px;
+    transition-duration: 0.4s;
+    border-radius: 5px;
+    background-color: rgba(37, 176, 240, 0.9);
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    font-family: Montserrat, sans-serif;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.show-button:hover {
+    background-color: rgb(29, 108, 255);
+    color: white;
+}
+
+.guaid-button-text {
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+.guaid-button-i {
+    font-size: 30px;
+}
+
+.guaid-button {
+    width: auto;
+    height: auto;
+    font-size: 10px;
 }
