@@ -612,7 +612,7 @@ func signup(c *gin.Context) {
             }
 
             /*****************insert to database***************/
-            //id, account, password, car_number
+            //id, account, password, car_number, email, class
             stmtIns, err := db.Prepare("INSERT INTO user_account VALUES(NULL, ?, ?, ?, ?, 1)");
             if err != nil {
                 panic(err.Error());
