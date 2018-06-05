@@ -834,7 +834,7 @@ func get_session(c *gin.Context) {
     } else {                            //have a session
         signin_status = v.(bool);
 
-        if signin_status {                  //the state is signin
+        if signin_status {              //the state is signin
             v = session.Get("account");
             account = v.(string);
             v = session.Get("class");
@@ -843,7 +843,7 @@ func get_session(c *gin.Context) {
             c.JSON(http.StatusOK, gin.H {
                 "signin_status": signin_status,
                 "account": account,
-                "calss": class,
+                "class": class,
             });
         } else {                        //the state is not signin
             c.JSON(http.StatusOK, gin.H {
@@ -851,8 +851,6 @@ func get_session(c *gin.Context) {
             });
         }
     }
-
-
 }
 
 
